@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pakketten — Manthano</title>
+<meta name="description" content="Kies jouw bijlespakket. Losse les €65, Pakket 4 lessen €230, Pakket 8 lessen €400. Betalen via iDEAL, creditcard of PayPal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<style>
+/* ── PACKAGES PAGE ── */
+.pack-section{padding:72px 48px;max-width:1000px;margin:0 auto}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+.p-card{background:var(--white);border:2.5px solid var(--ink);border-radius:var(--radius);padding:28px;box-shadow:5px 5px 0 var(--ink);position:relative;transition:transform .15s,box-shadow .15s}
+.p-card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.p-card.best{background:var(--sky);transform:translateY(-8px)}
+.p-card.best:hover{transform:translate(-2px,calc(-8px - 2px));box-shadow:7px 7px 0 var(--ink)}
+.p-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--sun);color:var(--ink);border:2px solid var(--ink);border-radius:50px;font-size:10px;font-weight:900;padding:4px 14px;box-shadow:2px 2px 0 var(--ink);white-space:nowrap}
+.p-tier{font-size:11px;font-weight:900;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.p-tier.wh{color:rgba(255,255,255,.7)}
+.p-price{font-size:50px;font-weight:900;color:var(--ink);line-height:1;margin-bottom:2px}
+.p-price.wh{color:var(--white)}
+.p-per{font-size:13px;font-weight:700;color:var(--ink3);margin-bottom:4px}
+.p-per.wh{color:rgba(255,255,255,.65)}
+.p-saving{display:inline-block;background:var(--mint);color:var(--ink);border:1.5px solid var(--ink);border-radius:50px;font-size:11px;font-weight:900;padding:3px 12px;margin-bottom:18px;box-shadow:1.5px 1.5px 0 var(--ink)}
+.p-saving.wh{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.5);color:var(--white)}
+.p-divider{border:none;border-top:2px dashed var(--bdr);margin:0 0 16px}
+.p-divider.dk{border-color:rgba(255,255,255,.25)}
+.p-feats{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
+.p-feats li{font-size:13px;color:var(--ink2);display:flex;gap:8px;align-items:flex-start;font-weight:700}
+.p-feats li.wh{color:rgba(255,255,255,.9)}
+.chk{color:var(--mint2);flex-shrink:0}
+.chk.wh{color:var(--mint)}
+.pls{color:var(--coral);flex-shrink:0}
+.cta-btn{display:block;padding:14px;border-radius:50px;font-size:14px;font-weight:900;text-align:center;cursor:pointer;width:100%;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);transition:transform .15s,box-shadow .15s;text-decoration:none;font-family:'Nunito',sans-serif}
+.cta-btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.cta-coral{background:var(--coral);color:var(--white)}
+.cta-white{background:var(--white);color:var(--ink)}
+.cta-mint{background:var(--mint);color:var(--ink)}
+
+/* ── UPSELL ── */
+.upsell{margin-top:24px;background:var(--white);border:2.5px solid var(--ink);border-radius:18px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;box-shadow:4px 4px 0 var(--ink)}
+.upsell-icon{font-size:28px}
+.upsell-t{font-size:16px;font-weight:900;color:var(--ink)}
+.upsell-s{font-size:13px;font-weight:600;color:var(--ink3)}
+.upsell-p{font-size:30px;font-weight:900;color:var(--ink)}
+.upsell-btn{background:var(--sun);color:var(--ink);border:2px solid var(--ink);border-radius:50px;padding:10px 22px;font-size:13px;font-weight:900;cursor:pointer;box-shadow:3px 3px 0 var(--ink);white-space:nowrap;transition:transform .15s;text-decoration:none;font-family:'Nunito',sans-serif;display:inline-block}
+.upsell-btn:hover{transform:translate(-1px,-1px)}
+
+/* ── FAQ ── */
+.faq-section{background:var(--sun);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);padding:72px 48px}
+.faq-inner{max-width:700px;margin:0 auto}
+.faq-item{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;margin-bottom:12px;box-shadow:4px 4px 0 var(--ink);overflow:hidden}
+.faq-q{width:100%;background:none;border:none;padding:18px 22px;text-align:left;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.faq-q span{font-size:18px;transition:transform .2s;flex-shrink:0}
+.faq-q.open span{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 22px}
+.faq-a.open{max-height:300px;padding:0 22px 18px}
+.faq-a p{font-size:14px;color:var(--ink2);line-height:1.75;font-weight:600}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:500;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border:3px solid var(--ink);border-radius:24px;padding:36px;box-shadow:8px 8px 0 var(--ink);max-width:500px;width:100%;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:14px;right:14px;background:var(--bg);border:2px solid var(--ink);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;font-weight:900;line-height:1;flex-shrink:0}
+.modal-title{font-size:22px;font-weight:900;color:var(--ink);margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--ink3);font-weight:600;margin-bottom:22px}
+.selected-pkg-badge{background:var(--sky);color:var(--white);border:2px solid var(--ink);border-radius:12px;padding:10px 16px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;font-weight:800}
+.selected-pkg-badge .pkg-price{font-size:20px;font-weight:900}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .pack-section,.faq-section{padding-left:32px;padding-right:32px}
+  .price-grid{grid-template-columns:1fr 1fr;gap:16px}
+  .p-card.best{transform:none;order:-1;grid-column:1/-1;max-width:400px;margin:0 auto;width:100%}
+  .p-card.best:hover{transform:translate(-2px,-2px)}
+}
+@media(max-width:768px){
+  .pack-section,.faq-section{padding-left:20px;padding-right:20px}
+  .price-grid{grid-template-columns:1fr}
+  .p-card.best{grid-column:auto;max-width:none}
+  .upsell{flex-direction:column;align-items:flex-start}
+  .upsell-btn{width:100%;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav aria-label="Hoofdnavigatie">
+  <a href="/" class="logo-wrap" aria-label="Manthano — ga naar home">
+    <span class="logo-fb">Manthano</span>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="/#over">Over Simone</a></li>
+    <li><a href="/diensten.html">Diensten</a></li>
+    <li><a href="/pakketten.html">Pakketten</a></li>
+    <li><a href="/#resultaten">Reviews</a></li>
+    <li><a href="/agenda.html">Inplannen</a></li>
+  </ul>
+  <a href="/#contact" class="nav-cta">Gratis kennismaken ✨</a>
+  <button class="hamburger" id="burger" aria-label="Menu openen" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<nav class="mobile-menu" id="mob-menu" aria-label="Mobiel menu">
+  <a href="/#over">Over Simone</a>
+  <a href="/diensten.html">Diensten</a>
+  <a href="/pakketten.html">Pakketten</a>
+  <a href="/#resultaten">Reviews</a>
+  <a href="/agenda.html">Inplannen</a>
+  <a href="/#contact" class="mob-cta">Gratis kennismaken ✨</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero" style="background:var(--sun)">
+  <div class="page-hero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span>Pakketten</nav>
+    <div class="tag" style="background:var(--white)">💰 Tarieven</div>
+    <h1>Kies jouw pakket</h1>
+    <p>Alle lessen zijn <strong>1 uur</strong> · Geldig 3 maanden · 100% online via Zoom · Betaal veilig met iDEAL</p>
+  </div>
+</div>
+
+<!-- PACKAGES -->
+<section class="pack-section" id="pakketten">
+  <div class="price-grid">
+
+    <!-- Losse les -->
+    <div class="p-card" data-slug="losse-les" data-name="Losse les" data-price="6500" data-display="€65">
+      <div class="p-tier">Losse les</div>
+      <div class="p-price">€65</div>
+      <div class="p-per">per uur</div>
+      <div class="p-saving">Flexibel</div>
+      <hr class="p-divider">
+      <ul class="p-feats">
+        <li><span class="chk">✓</span>1 uur online via Zoom</li>
+        <li><span class="chk">✓</span>Persoonlijke aanpak</li>
+        <li><span class="chk">✓</span>Geen abonnement nodig</li>
+        <li><span class="chk">✓</span>Geldig 3 maanden</li>
+      </ul>
+      <button class="cta-btn cta-white choose-pkg">Kiezen</button>
+    </div>
+
+    <!-- Pakket 4 lessen - BEST -->
+    <div class="p-card best" data-slug="pakket-4" data-name="Pakket 4 lessen" data-price="23000" data-display="€230">
+      <div class="p-badge">🌟 MEEST GEKOZEN</div>
+      <div class="p-tier wh">Pakket 4 lessen</div>
+      <div class="p-price wh">€57,50</div>
+      <div class="p-per wh">per uur · totaal €230</div>
+      <div class="p-saving wh">Bespaar 12%</div>
+      <hr class="p-divider dk">
+      <ul class="p-feats">
+        <li class="wh"><span class="chk wh">✓</span>4 lessen van 1 uur</li>
+        <li class="wh"><span class="chk wh">✓</span>Geldig 3 maanden</li>
+        <li class="wh"><span class="chk wh">✓</span>Voortgangsrapportage</li>
+        <li class="wh"><span class="chk wh">✓</span>Zelf lessen inplannen</li>
+        <li class="wh"><span class="pls">+</span>Studieplanner met korting</li>
+      </ul>
+      <button class="cta-btn cta-coral choose-pkg">Pakket kiezen 🎯</button>
+    </div>
+
+    <!-- Pakket 8 lessen -->
+    <div class="p-card" data-slug="pakket-8" data-name="Pakket 8 lessen" data-price="40000" data-display="€400">
+      <div class="p-tier">Pakket 8 lessen</div>
+      <div class="p-price">€50</div>
+      <div class="p-per">per uur · totaal €400</div>
+      <div class="p-saving">Bespaar 23%</div>
+      <hr class="p-divider">
+      <ul class="p-feats">
+        <li><span class="chk">✓</span>8 lessen van 1 uur</li>
+        <li><span class="chk">✓</span>Geldig 3 maanden</li>
+        <li><span class="chk">✓</span>Wekelijks voortgangsgesprek</li>
+        <li><span class="chk">✓</span>Zelf lessen inplannen</li>
+        <li><span class="pls">+</span>Studieplanner <strong>gratis!</strong></li>
+      </ul>
+      <button class="cta-btn cta-mint choose-pkg">Pakket kiezen</button>
+    </div>
+  </div>
+
+  <!-- Studieplanner upsell -->
+  <div class="upsell" id="studieplanner">
+    <div style="display:flex;align-items:center;gap:16px">
+      <span class="upsell-icon" aria-hidden="true">📋</span>
+      <div>
+        <div class="upsell-t">Digitale studieplanner</div>
+        <div class="upsell-s">Overzichtelijk je schooljaar plannen · Direct te downloaden</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <span class="upsell-p">€12,50</span>
+      <button class="upsell-btn" id="buy-planner">Kopen 📥</button>
+    </div>
+  </div>
+
+  <!-- Trust note -->
+  <p style="text-align:center;margin-top:28px;font-size:13px;font-weight:700;color:var(--ink3)">
+    🔒 Veilig betalen via Mollie · iDEAL, creditcard &amp; PayPal · Na betaling direct je lessen inplannen
+  </p>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="faq-inner">
+    <div class="section-heading">
+      <div class="section-tag" style="background:var(--white)">❓ Veelgestelde vragen</div>
+      <h2>Goed om te weten</h2>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">Hoe werkt het na betaling? <span>+</span></button>
+      <div class="faq-a">
+        <p>Na betaling ontvang je een bevestigingsmail met een persoonlijke link. Hiermee kun je direct je lessen inplannen in de agenda. Kies zelf een datum en tijdstip dat jou uitkomt.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">Hoe lang zijn de lessen geldig? <span>+</span></button>
+      <div class="faq-a">
+        <p>Alle pakketten zijn 3 maanden geldig vanaf de aankoopdatum. Heb je nog lessen over na 3 maanden? Neem dan contact op — we zoeken altijd een oplossing.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">Kan ik een les verzetten? <span>+</span></button>
+      <div class="faq-a">
+        <p>Ja, tot 24 uur van tevoren kun je een geplande les kosteloos annuleren en een nieuw moment kiezen. Lessen die later worden geannuleerd worden als gebruikt beschouwd.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">Via welke betalingsmethoden kan ik betalen? <span>+</span></button>
+      <div class="faq-a">
+        <p>Je betaalt veilig via Mollie. Beschikbare methoden: iDEAL, creditcard (Visa/Mastercard), PayPal en Bancontact. De betaling wordt beveiligd verwerkt — Manthano ziet je bankgegevens nooit.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">Voor welke niveaus is bijles beschikbaar? <span>+</span></button>
+      <div class="faq-a">
+        <p>Simone geeft bijles aan VMBO, HAVO, VWO en MBO leerlingen. Twijfel je of het bij jou past? Vraag een gratis kennismaking aan — geen verplichtingen.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">Wat als ik niet tevreden ben? <span>+</span></button>
+      <div class="faq-a">
+        <p>Niet tevreden na de eerste les? Dan betaal je niks extra en zoeken we samen naar een oplossing. Simone staat voor kwaliteit — jouw tevredenheid staat voorop.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="foot-logo">Manthano</div>
+        <p>Persoonlijke online Engelse bijles en studievaardigheden door Simone. 100% online, door heel Nederland.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Diensten</h4>
+        <a href="/diensten.html">Engels bijles</a>
+        <a href="/diensten.html#studievaardigheden">Studievaardigheden</a>
+        <a href="/pakketten.html#studieplanner">Studieplanner</a>
+      </div>
+      <div class="foot-col">
+        <h4>Pakketten</h4>
+        <a href="/pakketten.html">Alle pakketten</a>
+        <a href="/pakketten.html?pakket=losse-les">Losse les</a>
+        <a href="/pakketten.html?pakket=pakket-4">4 lessen</a>
+        <a href="/pakketten.html?pakket=pakket-8">8 lessen</a>
+      </div>
+      <div class="foot-col">
+        <h4>Info</h4>
+        <a href="/agenda.html">Inplannen</a>
+        <a href="/mijn-lessen.html">Mijn lessen</a>
+        <a href="/#contact">Contact</a>
+        <a href="/admin/">Admin</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div class="foot-copy">© 2025 Manthano · KVK: XXXXXXXX</div>
+      <div class="foot-legal">
+        <a href="/algemene-voorwaarden.html">Algemene voorwaarden</a>
+        <a href="/privacybeleid.html">Privacybeleid</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- CHECKOUT MODAL (pakket) -->
+<div class="modal-overlay" id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <button class="modal-close" id="modal-close" aria-label="Sluiten">✕</button>
+    <div class="modal-title" id="modal-title">Bestelling afronden</div>
+    <div class="modal-sub">Vul je gegevens in — je wordt doorgestuurd naar de betaalpagina</div>
+
+    <div class="selected-pkg-badge" id="selected-pkg-badge">
+      <span id="selected-pkg-name">Pakket</span>
+      <span class="pkg-price" id="selected-pkg-price"></span>
+    </div>
+
+    <div id="checkout-alert" class="alert" role="alert"></div>
+
+    <form id="checkout-form" novalidate>
+      <input type="hidden" id="pkg-slug" value="">
+      <div class="form-group">
+        <label class="form-label" for="c-name">Naam *</label>
+        <input type="text" id="c-name" class="form-input" placeholder="Jouw naam" required autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="c-email">E-mailadres *</label>
+        <input type="email" id="c-email" class="form-input" placeholder="jouw@email.nl" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="c-phone">Telefoonnummer</label>
+        <input type="tel" id="c-phone" class="form-input" placeholder="+31 6 12345678" autocomplete="tel">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="c-level">Niveau</label>
+        <select id="c-level" class="form-input">
+          <option value="">Kies je niveau</option>
+          <option>VMBO</option><option>HAVO</option><option>VWO</option><option>MBO</option><option>Anders</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="c-notes">Extra info (optioneel)</label>
+        <textarea id="c-notes" class="form-input" rows="2" placeholder="Bijv. welke onderdelen wil je oefenen?"></textarea>
+      </div>
+      <button type="submit" class="btn-main btn-full" id="checkout-submit" style="background:var(--coral);color:var(--white)">
+        Naar betalen →
+      </button>
+      <p class="form-note" style="text-align:center;margin-top:10px">🔒 Veilig betalen · 100% vrijblijvend annuleerbaar</p>
+    </form>
+  </div>
+</div>
+
+<!-- STUDIEPLANNER MODAL -->
+<div class="modal-overlay" id="planner-modal" role="dialog" aria-modal="true" aria-labelledby="planner-modal-title">
+  <div class="modal">
+    <button class="modal-close" id="planner-modal-close" aria-label="Sluiten">✕</button>
+    <div class="modal-title" id="planner-modal-title">Digitale studieplanner</div>
+    <div class="modal-sub">Direct te downloaden na betaling · €12,50</div>
+    <div id="planner-alert" class="alert" role="alert"></div>
+    <form id="planner-form" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="p-name">Naam *</label>
+        <input type="text" id="p-name" class="form-input" placeholder="Jouw naam" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="p-email">E-mailadres *</label>
+        <input type="email" id="p-email" class="form-input" placeholder="jouw@email.nl" required>
+      </div>
+      <button type="submit" class="btn-main btn-full" id="planner-submit" style="background:var(--sun);color:var(--ink)">
+        Betalen — €12,50 →
+      </button>
+      <p class="form-note" style="text-align:center;margin-top:10px">🔒 Veilig betalen via iDEAL</p>
+    </form>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+(function () {
+  // ── Pre-select from URL param
+  const params = new URLSearchParams(window.location.search);
+  const preselect = params.get('pakket');
+
+  // ── FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const answer = btn.nextElementSibling;
+      const isOpen = answer.classList.contains('open');
+      btn.classList.toggle('open', !isOpen);
+      answer.classList.toggle('open', !isOpen);
+      btn.setAttribute('aria-expanded', !isOpen);
+    });
+  });
+
+  // ── Modal helpers
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Close on backdrop click
+  ['checkout-modal', 'planner-modal'].forEach(id => {
+    document.getElementById(id).addEventListener('click', e => {
+      if (e.target === e.currentTarget) closeModal(id);
+    });
+  });
+
+  document.getElementById('modal-close').addEventListener('click', () => closeModal('checkout-modal'));
+  document.getElementById('planner-modal-close').addEventListener('click', () => closeModal('planner-modal'));
+
+  // ── Open checkout modal for package
+  document.querySelectorAll('.choose-pkg').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.p-card');
+      const slug    = card.dataset.slug;
+      const name    = card.dataset.name;
+      const display = card.dataset.display;
+
+      document.getElementById('pkg-slug').value     = slug;
+      document.getElementById('selected-pkg-name').textContent  = name;
+      document.getElementById('selected-pkg-price').textContent = display;
+      document.getElementById('checkout-alert').className = 'alert';
+      document.getElementById('checkout-form').reset();
+      document.getElementById('pkg-slug').value = slug; // restore after reset
+
+      openModal('checkout-modal');
+    });
+  });
+
+  // Pre-select package if URL param is set
+  if (preselect) {
+    const card = document.querySelector(`.p-card[data-slug="${preselect}"]`);
+    if (card) {
+      const btn = card.querySelector('.choose-pkg');
+      if (btn) btn.click();
+    }
+  }
+
+  // ── Checkout form submit
+  document.getElementById('checkout-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn   = document.getElementById('checkout-submit');
+    const alert = document.getElementById('checkout-alert');
+
+    const slug  = document.getElementById('pkg-slug').value;
+    const name  = document.getElementById('c-name').value.trim();
+    const email = document.getElementById('c-email').value.trim();
+
+    if (!name || !email) {
+      showAlert(alert, 'Vul je naam en e-mailadres in.', 'error');
+      return;
+    }
+
+    setLoading(btn, true);
+    alert.className = 'alert';
+
+    try {
+      const res = await fetch('/api/payments/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          packageSlug:   slug,
+          customerName:  name,
+          customerEmail: email,
+          customerPhone: document.getElementById('c-phone').value.trim(),
+          customerLevel: document.getElementById('c-level').value,
+          notes:         document.getElementById('c-notes').value.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Onbekende fout');
+      window.location.href = data.checkoutUrl;
+    } catch (err) {
+      setLoading(btn, false);
+      showAlert(alert, 'Fout: ' + err.message, 'error');
+    }
+  });
+
+  // ── Studieplanner
+  document.getElementById('buy-planner').addEventListener('click', () => {
+    document.getElementById('planner-alert').className = 'alert';
+    document.getElementById('planner-form').reset();
+    openModal('planner-modal');
+  });
+
+  document.getElementById('planner-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn   = document.getElementById('planner-submit');
+    const alert = document.getElementById('planner-alert');
+
+    const name  = document.getElementById('p-name').value.trim();
+    const email = document.getElementById('p-email').value.trim();
+    if (!name || !email) {
+      showAlert(alert, 'Vul je naam en e-mailadres in.', 'error');
+      return;
+    }
+
+    setLoading(btn, true);
+    alert.className = 'alert';
+
+    try {
+      const res = await fetch('/api/payments/create-digital', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productSlug: 'studieplanner', customerName: name, customerEmail: email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Onbekende fout');
+      window.location.href = data.checkoutUrl;
+    } catch (err) {
+      setLoading(btn, false);
+      showAlert(alert, 'Fout: ' + err.message, 'error');
+    }
+  });
+})();
+</script>
+</body>
+</html>

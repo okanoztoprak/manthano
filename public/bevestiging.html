@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bevestiging — Manthano</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<style>
+/* ── BEVESTIGING ── */
+.conf-wrap{padding:80px 48px;max-width:640px;margin:0 auto;text-align:center}
+
+.conf-card{background:var(--white);border:3px solid var(--ink);border-radius:var(--radius);padding:48px 40px;box-shadow:8px 8px 0 var(--ink);position:relative;overflow:hidden}
+.conf-card::before{content:'';position:absolute;top:0;left:0;right:0;height:8px}
+.conf-card.success::before{background:var(--mint)}
+.conf-card.pending::before{background:var(--sun)}
+.conf-card.error::before{background:var(--coral)}
+
+.conf-icon{font-size:72px;margin-bottom:20px;line-height:1}
+.conf-title{font-size:32px;font-weight:900;margin-bottom:12px}
+.conf-sub{font-size:16px;color:var(--ink2);font-weight:600;line-height:1.7;margin-bottom:32px}
+
+.conf-detail-box{background:var(--bg);border:2px solid var(--bdr);border-radius:14px;padding:18px 22px;margin-bottom:28px;text-align:left}
+.conf-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed var(--bdr);font-size:14px;font-weight:700;color:var(--ink2)}
+.conf-row:last-child{border-bottom:none}
+.conf-row strong{color:var(--ink)}
+
+.conf-actions{display:flex;flex-direction:column;gap:12px;align-items:center}
+.conf-btn-p{display:block;width:100%;padding:16px;background:var(--coral);color:var(--white);border:2.5px solid var(--ink);border-radius:50px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform .15s,box-shadow .15s;text-decoration:none;text-align:center}
+.conf-btn-p:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.conf-btn-s{display:block;width:100%;padding:14px;background:var(--white);color:var(--ink);border:2.5px solid var(--ink);border-radius:50px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:transform .15s;text-decoration:none;text-align:center}
+.conf-btn-s:hover{transform:translate(-1px,-1px)}
+
+/* Pending animation */
+.pulse-ring{width:80px;height:80px;border-radius:50%;border:4px solid var(--sun);animation:pulse 1.5s ease-in-out infinite;margin:0 auto 20px}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.12);opacity:1}}
+
+/* Confetti (CSS only) */
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:hidden}
+.confetti-piece{position:absolute;top:-20px;width:12px;height:12px;border-radius:3px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+@media(max-width:768px){
+  .conf-wrap{padding:40px 20px}
+  .conf-card{padding:36px 24px}
+  .conf-title{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav aria-label="Hoofdnavigatie">
+  <a href="/" class="logo-wrap"><span class="logo-fb">Manthano</span></a>
+  <ul class="nav-links" role="list">
+    <li><a href="/#over">Over Simone</a></li>
+    <li><a href="/diensten.html">Diensten</a></li>
+    <li><a href="/pakketten.html">Pakketten</a></li>
+    <li><a href="/#resultaten">Reviews</a></li>
+    <li><a href="/agenda.html">Inplannen</a></li>
+  </ul>
+  <a href="/#contact" class="nav-cta">Gratis kennismaken ✨</a>
+  <button class="hamburger" id="burger" aria-label="Menu openen" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<nav class="mobile-menu" id="mob-menu" aria-label="Mobiel menu">
+  <a href="/#over">Over Simone</a>
+  <a href="/diensten.html">Diensten</a>
+  <a href="/pakketten.html">Pakketten</a>
+  <a href="/#resultaten">Reviews</a>
+  <a href="/agenda.html">Inplannen</a>
+  <a href="/#contact" class="mob-cta">Gratis kennismaken ✨</a>
+</nav>
+
+<!-- Confetti container (filled by JS on success) -->
+<div class="confetti-wrap" id="confetti-wrap" aria-hidden="true"></div>
+
+<div class="conf-wrap" id="conf-wrap">
+  <!-- Pending state while loading -->
+  <div class="conf-card pending">
+    <div class="pulse-ring"></div>
+    <div class="conf-title">Betaling controleren…</div>
+    <div class="conf-sub">Even geduld, we controleren je betaling.</div>
+  </div>
+</div>
+
+<!-- FOOTER (minimal) -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="foot-logo">Manthano</div>
+        <p>Persoonlijke online Engelse bijles door Simone.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Links</h4>
+        <a href="/">Home</a>
+        <a href="/pakketten.html">Pakketten</a>
+        <a href="/#contact">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h4>Mijn account</h4>
+        <a href="/agenda.html">Inplannen</a>
+        <a href="/mijn-lessen.html">Mijn lessen</a>
+      </div>
+      <div class="foot-col">
+        <h4>Info</h4>
+        <a href="/algemene-voorwaarden.html">Algemene voorwaarden</a>
+        <a href="/privacybeleid.html">Privacybeleid</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div class="foot-copy">© 2025 Manthano</div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script>
+(function () {
+  const wrap   = document.getElementById('conf-wrap');
+  const params = new URLSearchParams(window.location.search);
+  const token  = params.get('token');
+  const type   = params.get('type') || 'lesson'; // 'lesson' | 'digital'
+
+  if (!token) {
+    renderError('Geen betaaltoken gevonden. Controleer de link in je e-mail.');
+    return;
+  }
+
+  // Poll with backoff: 1s, 2s, 4s, 8s, 16s (max 5 tries)
+  let attempt = 0;
+  const maxAttempts = 6;
+
+  function poll() {
+    attempt++;
+    checkStatus();
+  }
+
+  async function checkStatus() {
+    try {
+      const res  = await fetch('/api/payments/status/' + token);
+      const data = await res.json();
+
+      if (!res.ok) {
+        renderError(data.error || 'Bestelling niet gevonden.');
+        return;
+      }
+
+      if (data.status === 'paid') {
+        renderSuccess(data);
+        return;
+      }
+
+      if (data.status === 'pending' || data.status === 'open') {
+        if (attempt < maxAttempts) {
+          const delay = Math.min(1000 * Math.pow(2, attempt - 1), 10000);
+          setTimeout(poll, delay);
+        } else {
+          renderPending();
+        }
+        return;
+      }
+
+      // failed / cancelled / expired
+      renderFailed(data.status);
+
+    } catch (err) {
+      if (attempt < maxAttempts) {
+        setTimeout(poll, 3000);
+      } else {
+        renderError('Kon de betalingsstatus niet ophalen. Probeer de pagina te vernieuwen.');
+      }
+    }
+  }
+
+  poll();
+
+  // ── SUCCESS ──────────────────────────────────
+  function renderSuccess(data) {
+    spawnConfetti();
+
+    const isDigital = type === 'digital';
+
+    let detailsHtml = '';
+    if (data.packageName) {
+      detailsHtml = `
+        <div class="conf-detail-box">
+          <div class="conf-row"><span>Pakket</span><strong>${escHtml(data.packageName)}</strong></div>
+          <div class="conf-row"><span>Status</span><strong style="color:var(--mint2)">✓ Betaald</strong></div>
+          <div class="conf-row"><span>Toegangscode</span><strong style="font-size:12px;word-break:break-all">${escHtml(token)}</strong></div>
+        </div>
+      `;
+    }
+
+    const actionsHtml = isDigital
+      ? `<div class="conf-actions">
+          <a href="/" class="conf-btn-p">Terug naar home 🏠</a>
+          <p style="font-size:13px;color:var(--ink3);font-weight:700;margin-top:4px">Je download-link ontvang je per e-mail.</p>
+        </div>`
+      : `<div class="conf-actions">
+          <a href="/agenda.html?token=${encodeURIComponent(token)}" class="conf-btn-p">📅 Plan nu je eerste les in!</a>
+          <a href="/mijn-lessen.html?token=${encodeURIComponent(token)}" class="conf-btn-s">Mijn lessen bekijken</a>
+        </div>`;
+
+    wrap.innerHTML = `
+      <div class="conf-card success">
+        <div class="conf-icon">🎉</div>
+        <div class="conf-title">Betaling geslaagd!</div>
+        <div class="conf-sub">Super, je pakket is actief. Je ontvangt ook een bevestigingsmail.
+        ${isDigital ? ' Je download-link staat in de mail.' : ' Plan hieronder direct je eerste les in.'}</div>
+        ${detailsHtml}
+        ${actionsHtml}
+        <p style="font-size:12px;color:var(--ink3);font-weight:700;margin-top:20px">
+          Bewaar je toegangscode! Je hebt hem nodig om lessen in te plannen en te bekijken.
+        </p>
+      </div>
+    `;
+  }
+
+  // ── PENDING (timeout) ─────────────────────────
+  function renderPending() {
+    wrap.innerHTML = `
+      <div class="conf-card pending">
+        <div class="pulse-ring"></div>
+        <div class="conf-title">Betaling wordt verwerkt</div>
+        <div class="conf-sub">Je betaling is ontvangen maar wordt nog verwerkt door je bank. Dit duurt meestal maar een paar minuten.<br><br>Je ontvangt een bevestigingsmail zodra alles klaar is.</div>
+        <div class="conf-actions">
+          <button class="conf-btn-p" onclick="window.location.reload()">🔄 Pagina vernieuwen</button>
+          <a href="/" class="conf-btn-s">Terug naar home</a>
+        </div>
+        <p style="font-size:12px;color:var(--ink3);font-weight:700;margin-top:20px">
+          Token: <code style="font-size:11px;word-break:break-all">${escHtml(token)}</code><br>
+          Bewaar dit — je hebt het nodig om in te loggen.
+        </p>
+      </div>
+    `;
+  }
+
+  // ── FAILED ────────────────────────────────────
+  function renderFailed(status) {
+    wrap.innerHTML = `
+      <div class="conf-card error">
+        <div class="conf-icon">😕</div>
+        <div class="conf-title">Betaling niet geslaagd</div>
+        <div class="conf-sub">Je betaling heeft de status <strong>${escHtml(status)}</strong>. Je bent niet in rekening gebracht.<br>Probeer het opnieuw of kies een andere betaalmethode.</div>
+        <div class="conf-actions">
+          <a href="/pakketten.html" class="conf-btn-p">Opnieuw proberen →</a>
+          <a href="/#contact" class="conf-btn-s">Contact opnemen</a>
+        </div>
+      </div>
+    `;
+  }
+
+  // ── ERROR ─────────────────────────────────────
+  function renderError(msg) {
+    wrap.innerHTML = `
+      <div class="conf-card error">
+        <div class="conf-icon">❌</div>
+        <div class="conf-title">Er ging iets mis</div>
+        <div class="conf-sub">${escHtml(msg)}</div>
+        <div class="conf-actions">
+          <a href="/pakketten.html" class="conf-btn-p">Terug naar pakketten</a>
+          <a href="/#contact" class="conf-btn-s">Contact opnemen</a>
+        </div>
+      </div>
+    `;
+  }
+
+  // ── CONFETTI ──────────────────────────────────
+  function spawnConfetti() {
+    const colors = ['#FFD166','#06D6A0','#118AB2','#FF6B6B','#C77DFF','#FFBE33'];
+    const container = document.getElementById('confetti-wrap');
+    for (let i = 0; i < 60; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left      = Math.random() * 100 + 'vw';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.width      = (8 + Math.random() * 8) + 'px';
+      el.style.height     = (8 + Math.random() * 8) + 'px';
+      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
+      el.style.animationDuration  = (1.5 + Math.random() * 2.5) + 's';
+      el.style.animationDelay     = (Math.random() * 1.5) + 's';
+      container.appendChild(el);
+    }
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+})();
+</script>
+</body>
+</html>

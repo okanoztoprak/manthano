@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(mkdir -p /tmp/fx)",
+      "Bash(chmod +x /tmp/fx/xcodebuild)",
+      "Bash(xcrun --show-sdk-path)",
+      "Bash(npm rebuild *)",
+      "Bash(PORT=3001 node server.js)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/css/style.css)",
+      "Bash(ls better_sqlite3.node)",
+      "Bash(ls node_modules/better-sqlite3/build/Release/better_sqlite3.node)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}

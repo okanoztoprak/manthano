@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mijn lessen — Manthano</title>
+<meta name="description" content="Bekijk je geboekte lessen en plan nieuwe in.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<style>
+/* ── MIJN LESSEN ── */
+.lessons-wrap{padding:64px 48px;max-width:900px;margin:0 auto}
+
+/* Token gate */
+.token-gate{background:var(--white);border:2.5px solid var(--ink);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow);max-width:480px;margin:0 auto;text-align:center}
+.token-gate h3{font-size:22px;font-weight:900;margin-bottom:10px}
+.token-gate p{font-size:14px;color:var(--ink2);font-weight:600;margin-bottom:22px;line-height:1.7}
+
+/* Package header */
+.pkg-header{background:var(--sky);border:2.5px solid var(--ink);border-radius:var(--radius);padding:28px 32px;box-shadow:var(--shadow);margin-bottom:28px;color:var(--white)}
+.pkg-header h2{font-size:26px;font-weight:900;margin-bottom:14px;color:var(--white)}
+.pkg-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:2px solid rgba(255,255,255,.3);border-radius:14px;overflow:hidden;margin-bottom:20px}
+.pkg-stat{padding:16px 12px;text-align:center;border-right:2px solid rgba(255,255,255,.2)}
+.pkg-stat:last-child{border-right:none}
+.pkg-stat-n{font-size:26px;font-weight:900}
+.pkg-stat-l{font-size:11px;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+.pkg-actions{display:flex;gap:12px;flex-wrap:wrap}
+.pkg-action-btn{background:var(--white);color:var(--ink);border:2px solid var(--ink);border-radius:50px;padding:11px 22px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:900;cursor:pointer;box-shadow:3px 3px 0 rgba(0,0,0,.2);text-decoration:none;display:inline-block;transition:transform .15s}
+.pkg-action-btn:hover{transform:translate(-1px,-1px)}
+.pkg-action-btn.primary{background:var(--coral)}
+
+/* Customer info */
+.cust-card{background:var(--white);border:2.5px solid var(--ink);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow);margin-bottom:28px;display:flex;align-items:center;gap:18px}
+.cust-avatar{width:52px;height:52px;border-radius:50%;background:var(--lilac);border:2.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;flex-shrink:0}
+.cust-name{font-size:17px;font-weight:900}
+.cust-meta{font-size:13px;color:var(--ink3);font-weight:700;margin-top:2px}
+
+/* Lessons list */
+.section-title{font-size:18px;font-weight:900;color:var(--ink);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.section-title .count{background:var(--sun);border:2px solid var(--ink);border-radius:50px;font-size:11px;font-weight:900;padding:2px 10px}
+
+.lesson-card{background:var(--white);border:2.5px solid var(--ink);border-radius:var(--radius);padding:20px 24px;box-shadow:4px 4px 0 var(--ink);margin-bottom:14px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center}
+.lesson-date-col{text-align:center;padding-right:16px;border-right:2px dashed var(--bdr)}
+.lesson-day{font-size:28px;font-weight:900;line-height:1}
+.lesson-month{font-size:11px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px}
+.lesson-info{padding-left:0}
+.lesson-time{font-size:16px;font-weight:900;margin-bottom:4px}
+.lesson-pkg{font-size:12px;color:var(--ink3);font-weight:700}
+.lesson-notes{font-size:12px;color:var(--ink2);font-style:italic;margin-top:4px}
+.lesson-zoom{display:inline-flex;align-items:center;gap:6px;margin-top:8px;background:var(--sky);color:var(--white);border:1.5px solid var(--ink);border-radius:50px;padding:5px 12px;font-size:12px;font-weight:800;text-decoration:none}
+.status-badge{font-size:11px;font-weight:900;padding:5px 12px;border-radius:50px;border:2px solid var(--ink);white-space:nowrap}
+.s-confirmed{background:var(--mint);color:var(--ink)}
+.s-completed{background:var(--bg);color:var(--ink3)}
+.s-cancelled{background:var(--coral);color:var(--white)}
+
+.lesson-card.upcoming{border-left:5px solid var(--mint)}
+.lesson-card.past{opacity:.7}
+
+.no-lessons{background:var(--bg);border:2px dashed var(--bdr);border-radius:var(--radius);padding:32px;text-align:center;color:var(--ink3);font-weight:700;font-size:14px}
+
+@media(max-width:768px){
+  .lessons-wrap{padding:40px 20px}
+  .pkg-stats{grid-template-columns:repeat(2,1fr)}
+  .pkg-stat{border-right:2px solid rgba(255,255,255,.2);border-bottom:2px solid rgba(255,255,255,.2)}
+  .pkg-stat:nth-child(2){border-right:none}
+  .pkg-stat:nth-child(3){border-bottom:none}
+  .pkg-stat:nth-child(4){border-right:none;border-bottom:none}
+  .lesson-card{grid-template-columns:auto 1fr;grid-template-rows:auto auto}
+  .status-badge{grid-column:2}
+  .cust-card{flex-direction:column;text-align:center;gap:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav aria-label="Hoofdnavigatie">
+  <a href="/" class="logo-wrap"><span class="logo-fb">Manthano</span></a>
+  <ul class="nav-links" role="list">
+    <li><a href="/#over">Over Simone</a></li>
+    <li><a href="/diensten.html">Diensten</a></li>
+    <li><a href="/pakketten.html">Pakketten</a></li>
+    <li><a href="/#resultaten">Reviews</a></li>
+    <li><a href="/agenda.html">Inplannen</a></li>
+  </ul>
+  <a href="/#contact" class="nav-cta">Gratis kennismaken ✨</a>
+  <button class="hamburger" id="burger" aria-label="Menu openen" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<nav class="mobile-menu" id="mob-menu" aria-label="Mobiel menu">
+  <a href="/#over">Over Simone</a>
+  <a href="/diensten.html">Diensten</a>
+  <a href="/pakketten.html">Pakketten</a>
+  <a href="/#resultaten">Reviews</a>
+  <a href="/agenda.html">Inplannen</a>
+  <a href="/#contact" class="mob-cta">Gratis kennismaken ✨</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero" style="background:var(--mint)">
+  <div class="page-hero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span>Mijn lessen</nav>
+    <div class="tag" style="background:var(--white)">📚 Overzicht</div>
+    <h1>Mijn lessen</h1>
+    <p>Bekijk je geboekte lessen, resterende sessies en plan nieuwe momenten in.</p>
+  </div>
+</div>
+
+<div class="lessons-wrap" id="lessons-wrap">
+  <div style="text-align:center;padding:40px 0">
+    <span class="spinner" style="width:32px;height:32px;border-width:4px"></span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="foot-logo">Manthano</div>
+        <p>Persoonlijke online Engelse bijles door Simone. 100% online.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Diensten</h4>
+        <a href="/diensten.html">Engels bijles</a>
+        <a href="/diensten.html#studievaardigheden">Studievaardigheden</a>
+      </div>
+      <div class="foot-col">
+        <h4>Pakketten</h4>
+        <a href="/pakketten.html">Alle pakketten</a>
+      </div>
+      <div class="foot-col">
+        <h4>Info</h4>
+        <a href="/agenda.html">Inplannen</a>
+        <a href="/#contact">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div class="foot-copy">© 2025 Manthano</div>
+      <div class="foot-legal">
+        <a href="/algemene-voorwaarden.html">Algemene voorwaarden</a>
+        <a href="/privacybeleid.html">Privacybeleid</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script>
+(function () {
+  const wrap = document.getElementById('lessons-wrap');
+  const params = new URLSearchParams(window.location.search);
+  let token = params.get('token');
+
+  if (!token) {
+    renderTokenGate();
+  } else {
+    loadLessons();
+  }
+
+  function renderTokenGate() {
+    wrap.innerHTML = `
+      <div class="token-gate">
+        <div style="font-size:40px;margin-bottom:12px">🔑</div>
+        <h3>Voer je toegangscode in</h3>
+        <p>Je persoonlijke code staat in je bevestigingsmail. Hiermee kun je je lessen bekijken en nieuwe inplannen.</p>
+        <div id="gate-alert" class="alert" role="alert"></div>
+        <div class="form-group">
+          <label class="form-label" for="token-input">Toegangscode</label>
+          <input type="text" id="token-input" class="form-input" placeholder="Plak je code hier…">
+        </div>
+        <button class="btn-main btn-full" id="token-submit">Lessen bekijken →</button>
+        <p style="margin-top:16px;font-size:12px;color:var(--ink3);font-weight:700">
+          Nog geen pakket? <a href="/pakketten.html" style="color:var(--sky)">Koop hier een pakket</a>
+        </p>
+      </div>
+    `;
+    document.getElementById('token-submit').addEventListener('click', () => {
+      const val = document.getElementById('token-input').value.trim();
+      if (!val) return;
+      token = val;
+      const url = new URL(window.location.href);
+      url.searchParams.set('token', val);
+      window.history.replaceState({}, '', url);
+      loadLessons();
+    });
+  }
+
+  async function loadLessons() {
+    wrap.innerHTML = `<div style="text-align:center;padding:40px 0"><span class="spinner" style="width:32px;height:32px;border-width:4px"></span></div>`;
+    try {
+      const res  = await fetch('/api/bookings/my-lessons/' + token);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Code niet gevonden');
+      renderDashboard(data);
+    } catch (err) {
+      wrap.innerHTML = `
+        <div class="token-gate">
+          <div style="font-size:40px;margin-bottom:12px">❌</div>
+          <h3>Niet gevonden</h3>
+          <p>${err.message}</p>
+          <button class="btn-main" onclick="location.href='/mijn-lessen.html'">Opnieuw</button>
+        </div>`;
+    }
+  }
+
+  function renderDashboard(data) {
+    const { order, customer, bookings } = data;
+    const now = new Date();
+
+    const upcoming = bookings.filter(b => b.status !== 'cancelled' && new Date(b.date + 'T' + b.slot_time) >= now);
+    const past     = bookings.filter(b => b.status === 'cancelled' || new Date(b.date + 'T' + b.slot_time) < now);
+
+    const expiresDate = new Date(order.expiresAt).toLocaleDateString('nl-NL', {day:'numeric',month:'long',year:'numeric'});
+    const paidDate    = order.paidAt ? new Date(order.paidAt).toLocaleDateString('nl-NL', {day:'numeric',month:'long',year:'numeric'}) : '—';
+    const initials    = customer.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+
+    let html = `
+      <!-- Customer card -->
+      <div class="cust-card">
+        <div class="cust-avatar">${initials}</div>
+        <div>
+          <div class="cust-name">${escHtml(customer.name)}</div>
+          <div class="cust-meta">${escHtml(customer.email)}${customer.level ? ' · ' + escHtml(customer.level) : ''}</div>
+        </div>
+      </div>
+
+      <!-- Package header -->
+      <div class="pkg-header">
+        <h2>${escHtml(order.packageName)}</h2>
+        <div class="pkg-stats">
+          <div class="pkg-stat"><div class="pkg-stat-n">${order.lessonsTotal}</div><div class="pkg-stat-l">Totaal</div></div>
+          <div class="pkg-stat"><div class="pkg-stat-n">${order.lessonsUsed}</div><div class="pkg-stat-l">Gebruikt</div></div>
+          <div class="pkg-stat"><div class="pkg-stat-n" style="color:var(--sun)">${order.lessonsRemaining}</div><div class="pkg-stat-l">Resterend</div></div>
+          <div class="pkg-stat"><div class="pkg-stat-n" style="font-size:14px;padding-top:4px">${expiresDate}</div><div class="pkg-stat-l">Geldig tot</div></div>
+        </div>
+        <div class="pkg-actions">
+          ${order.lessonsRemaining > 0
+            ? `<a href="/agenda.html?token=${token}" class="pkg-action-btn primary">📅 Volgende les inplannen</a>`
+            : `<a href="/pakketten.html" class="pkg-action-btn primary">Nieuw pakket kopen</a>`
+          }
+          <a href="/agenda.html?token=${token}" class="pkg-action-btn">Agenda bekijken</a>
+        </div>
+      </div>
+    `;
+
+    // Upcoming lessons
+    html += `<div class="section-title">📅 Aankomende lessen <span class="count">${upcoming.length}</span></div>`;
+    if (upcoming.length === 0) {
+      html += `<div class="no-lessons">Geen aankomende lessen ingepland. ${order.lessonsRemaining > 0 ? `<a href="/agenda.html?token=${token}">Plan er een in →</a>` : ''}</div>`;
+    } else {
+      upcoming.forEach(b => { html += renderLessonCard(b, 'upcoming'); });
+    }
+
+    // Past lessons
+    if (past.length > 0) {
+      html += `<div class="section-title" style="margin-top:36px">🕐 Eerdere lessen <span class="count">${past.length}</span></div>`;
+      past.forEach(b => { html += renderLessonCard(b, 'past'); });
+    }
+
+    wrap.innerHTML = html;
+  }
+
+  function renderLessonCard(b, type) {
+    const d = new Date(b.date + 'T12:00:00');
+    const day   = d.getDate();
+    const month = d.toLocaleDateString('nl-NL', { month: 'short' });
+    const weekday = d.toLocaleDateString('nl-NL', { weekday: 'long' });
+
+    const statusMap = { confirmed: ['s-confirmed','Bevestigd'], completed: ['s-completed','Afgerond'], cancelled: ['s-cancelled','Geannuleerd'] };
+    const [cls, label] = statusMap[b.status] || ['s-confirmed','Onbekend'];
+
+    const zoomHtml = b.zoom_link
+      ? `<a href="${escHtml(b.zoom_link)}" class="lesson-zoom" target="_blank" rel="noopener">🎥 Zoom-link openen</a>`
+      : `<span style="font-size:12px;color:var(--ink3);font-weight:700">Zoom-link volgt nog</span>`;
+
+    return `
+      <div class="lesson-card ${type}">
+        <div class="lesson-date-col">
+          <div class="lesson-day">${day}</div>
+          <div class="lesson-month">${month}</div>
+        </div>
+        <div class="lesson-info">
+          <div class="lesson-time">${weekday} · ${b.slot_time}</div>
+          <div class="lesson-pkg">${b.date}</div>
+          ${b.notes ? `<div class="lesson-notes">"${escHtml(b.notes)}"</div>` : ''}
+          <div style="margin-top:8px">${type === 'upcoming' ? zoomHtml : ''}</div>
+        </div>
+        <div><span class="status-badge ${cls}">${label}</span></div>
+      </div>
+    `;
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+})();
+</script>
+</body>
+</html>

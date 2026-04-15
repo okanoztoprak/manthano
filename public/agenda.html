@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les inplannen — Manthano</title>
+<meta name="description" content="Plan jouw Engelse bijles in bij Simone. Kies zelf een datum en tijdstip.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<style>
+/* ── AGENDA ── */
+.agenda-wrap{padding:64px 48px;max-width:900px;margin:0 auto}
+
+/* Token gate */
+.token-gate{background:var(--white);border:2.5px solid var(--ink);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow);max-width:480px;margin:0 auto;text-align:center}
+.token-gate h3{font-size:22px;font-weight:900;margin-bottom:10px}
+.token-gate p{font-size:14px;color:var(--ink2);font-weight:600;margin-bottom:22px;line-height:1.7}
+
+/* Calendar */
+.cal-outer{display:grid;grid-template-columns:1fr 280px;gap:28px;align-items:start}
+.cal-card{background:var(--white);border:2.5px solid var(--ink);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.cal-nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.cal-btn-nav{background:var(--bg);border:2px solid var(--ink);border-radius:10px;padding:7px 14px;cursor:pointer;font-size:13px;color:var(--ink);font-weight:800;transition:background .15s;font-family:'Nunito',sans-serif}
+.cal-btn-nav:hover{background:var(--sun)}
+.cal-month{font-size:17px;font-weight:900;color:var(--ink)}
+.cal-hdr{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center;margin-bottom:6px}
+.cal-hdr span{font-size:11px;color:var(--ink3);padding:4px;font-weight:800}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.day-btn{padding:9px 2px;border-radius:9px;font-size:13px;font-weight:800;border:2px solid transparent;background:transparent;color:var(--ink);cursor:default;transition:all .15s;width:100%;font-family:'Nunito',sans-serif;line-height:1}
+.day-btn.available{cursor:pointer;background:var(--mint);border-color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.day-btn.available:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+.day-btn.picked{background:var(--sky);color:var(--white);border-color:var(--ink)}
+.day-btn.off{color:#ccc}
+.day-btn.today{font-weight:900}
+
+/* Slots panel */
+.slots-panel{background:var(--white);border:2.5px solid var(--ink);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.slots-title{font-size:15px;font-weight:900;color:var(--ink);margin-bottom:6px}
+.slots-date{font-size:13px;color:var(--ink3);font-weight:700;margin-bottom:18px}
+.slot-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.slot-btn{background:var(--bg);border:2px solid var(--ink);border-radius:12px;padding:12px 16px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--ink);cursor:pointer;transition:all .15s;text-align:left;display:flex;align-items:center;justify-content:space-between}
+.slot-btn:hover{background:var(--sun);transform:translate(-1px,-1px);box-shadow:2px 2px 0 var(--ink)}
+.slot-btn.selected{background:var(--sky);color:var(--white);border-color:var(--ink)}
+.slot-available{font-size:11px;font-weight:700;color:var(--ink3)}
+.slot-btn.selected .slot-available{color:rgba(255,255,255,.75)}
+.slots-empty{font-size:14px;color:var(--ink3);font-weight:700;text-align:center;padding:20px 0}
+
+/* Notes */
+.notes-group{margin-bottom:18px}
+.book-confirm{display:block;width:100%;padding:14px;background:var(--coral);color:var(--white);border:2px solid var(--ink);border-radius:50px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:transform .15s,box-shadow .15s;text-align:center}
+.book-confirm:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.book-confirm:disabled{opacity:.5;cursor:default;transform:none;box-shadow:3px 3px 0 var(--ink)}
+
+/* Order summary */
+.order-summary{background:var(--mint);border:2.5px solid var(--ink);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:24px}
+.order-summary h4{font-size:15px;font-weight:900;margin-bottom:10px}
+.order-row{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.order-row strong{color:var(--ink)}
+.order-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.order-pill{font-size:11px;font-weight:900;padding:3px 12px;border-radius:50px;border:1.5px solid var(--ink)}
+
+/* Success screen */
+.success-box{background:var(--mint);border:3px solid var(--ink);border-radius:var(--radius);padding:36px;box-shadow:8px 8px 0 var(--ink);text-align:center;max-width:500px;margin:0 auto}
+.success-icon{font-size:56px;margin-bottom:16px}
+.success-box h2{font-size:28px;font-weight:900;margin-bottom:10px}
+.success-box p{font-size:15px;color:var(--ink2);font-weight:600;margin-bottom:22px;line-height:1.7}
+
+@media(max-width:768px){
+  .agenda-wrap{padding:40px 20px}
+  .cal-outer{grid-template-columns:1fr}
+  .cal-hdr span{font-size:10px;padding:2px}
+  .day-btn{padding:7px 2px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav aria-label="Hoofdnavigatie">
+  <a href="/" class="logo-wrap"><span class="logo-fb">Manthano</span></a>
+  <ul class="nav-links" role="list">
+    <li><a href="/#over">Over Simone</a></li>
+    <li><a href="/diensten.html">Diensten</a></li>
+    <li><a href="/pakketten.html">Pakketten</a></li>
+    <li><a href="/#resultaten">Reviews</a></li>
+    <li><a href="/agenda.html">Inplannen</a></li>
+  </ul>
+  <a href="/#contact" class="nav-cta">Gratis kennismaken ✨</a>
+  <button class="hamburger" id="burger" aria-label="Menu openen" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<nav class="mobile-menu" id="mob-menu" aria-label="Mobiel menu">
+  <a href="/#over">Over Simone</a>
+  <a href="/diensten.html">Diensten</a>
+  <a href="/pakketten.html">Pakketten</a>
+  <a href="/#resultaten">Reviews</a>
+  <a href="/agenda.html">Inplannen</a>
+  <a href="/#contact" class="mob-cta">Gratis kennismaken ✨</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero" style="background:var(--sky)">
+  <div class="page-hero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb" style="color:rgba(255,255,255,.6)">
+      <a href="/" style="color:rgba(255,255,255,.6)">Home</a><span>›</span>Inplannen
+    </nav>
+    <div class="tag" style="background:var(--white)">📅 Agenda</div>
+    <h1 style="color:var(--white)">Plan je les in</h1>
+    <p style="color:rgba(255,255,255,.85)">Kies zelf wanneer het uitkomt. Beschikbare tijdsloten staan groen gemarkeerd.</p>
+  </div>
+</div>
+
+<div class="agenda-wrap" id="agenda-wrap">
+  <!-- Content wordt hier ingeladen via JS -->
+  <div style="text-align:center;padding:40px 0">
+    <span class="spinner" style="width:32px;height:32px;border-width:4px"></span>
+    <p style="margin-top:12px;font-weight:700;color:var(--ink3)">Laden…</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="foot-logo">Manthano</div>
+        <p>Persoonlijke online Engelse bijles door Simone. 100% online.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Diensten</h4>
+        <a href="/diensten.html">Engels bijles</a>
+        <a href="/diensten.html#studievaardigheden">Studievaardigheden</a>
+      </div>
+      <div class="foot-col">
+        <h4>Pakketten</h4>
+        <a href="/pakketten.html">Alle pakketten</a>
+      </div>
+      <div class="foot-col">
+        <h4>Info</h4>
+        <a href="/mijn-lessen.html">Mijn lessen</a>
+        <a href="/#contact">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div class="foot-copy">© 2025 Manthano</div>
+      <div class="foot-legal">
+        <a href="/algemene-voorwaarden.html">Algemene voorwaarden</a>
+        <a href="/privacybeleid.html">Privacybeleid</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script>
+(function () {
+  const wrap = document.getElementById('agenda-wrap');
+
+  // State
+  let token    = null;
+  let orderInfo = null;
+  let availability = {};   // { 'YYYY-MM-DD': [{time, available}] }
+  let currentYear, currentMonth;
+  let selectedDate = null;
+  let selectedTime = null;
+
+  // ── Init
+  const params = new URLSearchParams(window.location.search);
+  token = params.get('token');
+
+  if (!token) {
+    renderTokenGate();
+  } else {
+    loadOrder();
+  }
+
+  // ────────────────────────────────────────────
+  // TOKEN GATE
+  // ────────────────────────────────────────────
+  function renderTokenGate() {
+    wrap.innerHTML = `
+      <div class="token-gate">
+        <div style="font-size:40px;margin-bottom:12px">🔑</div>
+        <h3>Voer je persoonlijke code in</h3>
+        <p>Na betaling ontvang je een bevestigingsmail met je persoonlijke toegangscode. Voer die hier in om lessen in te plannen.</p>
+        <div id="gate-alert" class="alert" role="alert"></div>
+        <div class="form-group">
+          <label class="form-label" for="token-input">Toegangscode</label>
+          <input type="text" id="token-input" class="form-input" placeholder="Plak je code hier…" style="font-size:13px">
+        </div>
+        <button class="btn-main btn-full" id="token-submit">Verder →</button>
+        <p style="margin-top:16px;font-size:12px;color:var(--ink3);font-weight:700">
+          Nog geen pakket? <a href="/pakketten.html" style="color:var(--sky)">Koop hier een pakket</a>
+        </p>
+      </div>
+    `;
+    document.getElementById('token-submit').addEventListener('click', () => {
+      const val = document.getElementById('token-input').value.trim();
+      if (!val) return;
+      token = val;
+      const url = new URL(window.location.href);
+      url.searchParams.set('token', val);
+      window.history.replaceState({}, '', url);
+      loadOrder();
+    });
+  }
+
+  // ────────────────────────────────────────────
+  // LOAD ORDER INFO
+  // ────────────────────────────────────────────
+  async function loadOrder() {
+    wrap.innerHTML = `<div style="text-align:center;padding:40px 0"><span class="spinner" style="width:32px;height:32px;border-width:4px"></span></div>`;
+    try {
+      const res = await fetch('/api/bookings/my-lessons/' + token);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Code niet gevonden');
+      if (data.order.status !== 'paid') throw new Error('Je betaling is nog niet verwerkt. Probeer het over een paar minuten opnieuw.');
+      if (data.order.lessonsRemaining <= 0) {
+        wrap.innerHTML = `
+          <div class="token-gate">
+            <div style="font-size:40px;margin-bottom:12px">✅</div>
+            <h3>Alle lessen zijn geboekt!</h3>
+            <p>Je hebt alle lessen uit je pakket ingepland. Bekijk ze via <a href="/mijn-lessen.html?token=${token}" style="color:var(--sky)">Mijn lessen</a>.<br>
+            Wil je meer lessen? <a href="/pakketten.html" style="color:var(--coral)">Koop een nieuw pakket</a>.</p>
+          </div>`;
+        return;
+      }
+      orderInfo = data.order;
+      const now = new Date();
+      currentYear  = now.getFullYear();
+      currentMonth = now.getMonth();
+      await loadAvailability();
+      renderCalendarView();
+    } catch (err) {
+      wrap.innerHTML = `
+        <div class="token-gate">
+          <div style="font-size:40px;margin-bottom:12px">❌</div>
+          <h3>Code niet gevonden</h3>
+          <p>${err.message}</p>
+          <button class="btn-main" onclick="window.location.href='/agenda.html'">Opnieuw proberen</button>
+        </div>`;
+    }
+  }
+
+  // ────────────────────────────────────────────
+  // LOAD AVAILABILITY
+  // ────────────────────────────────────────────
+  async function loadAvailability() {
+    const monthStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
+    const res = await fetch('/api/bookings/availability?month=' + monthStr);
+    availability = await res.json();
+  }
+
+  // ────────────────────────────────────────────
+  // RENDER CALENDAR VIEW
+  // ────────────────────────────────────────────
+  function renderCalendarView() {
+    const remaining = orderInfo.lessonsRemaining;
+    const expires   = new Date(orderInfo.expiresAt).toLocaleDateString('nl-NL', {day:'numeric',month:'long',year:'numeric'});
+
+    wrap.innerHTML = `
+      <div class="order-summary" id="order-summary">
+        <h4>📦 ${orderInfo.packageName}</h4>
+        <div class="order-row"><span>Lessen resterend</span><strong>${remaining}</strong></div>
+        <div class="order-row"><span>Geldig tot</span><strong>${expires}</strong></div>
+        <div class="order-pills">
+          <span class="order-pill" style="background:var(--mint)">✓ Betaald</span>
+          <span class="order-pill" style="background:var(--white)"><a href="/mijn-lessen.html?token=${token}" style="color:var(--ink);text-decoration:none">Mijn lessen bekijken →</a></span>
+        </div>
+      </div>
+      <div id="booking-alert" class="alert" role="alert" style="margin-bottom:16px"></div>
+      <div class="cal-outer" id="cal-outer">
+        <div class="cal-card" id="cal-card"></div>
+        <div class="slots-panel" id="slots-panel">
+          <div class="slots-empty">← Klik op een groene dag om tijdsloten te zien</div>
+        </div>
+      </div>
+    `;
+    renderCalendarGrid();
+  }
+
+  // ────────────────────────────────────────────
+  // RENDER CALENDAR GRID
+  // ────────────────────────────────────────────
+  function renderCalendarGrid() {
+    const cal = document.getElementById('cal-card');
+    const monthNames = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'];
+    const dayNames   = ['Ma','Di','Wo','Do','Vr','Za','Zo'];
+
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const firstDow    = new Date(currentYear, currentMonth, 1).getDay(); // 0=Sun
+    const offset      = (firstDow + 6) % 7; // Monday-first
+    const today       = new Date();
+
+    let html = `
+      <div class="cal-nav-row">
+        <button class="cal-btn-nav" id="cal-prev">← Vorige</button>
+        <span class="cal-month">${monthNames[currentMonth]} ${currentYear}</span>
+        <button class="cal-btn-nav" id="cal-next">Volgende →</button>
+      </div>
+      <div class="cal-hdr">${dayNames.map(d=>`<span>${d}</span>`).join('')}</div>
+      <div class="cal-grid" id="cal-grid">
+    `;
+
+    // Empty cells
+    for (let i = 0; i < offset; i++) html += `<div></div>`;
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr   = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const hasSlots  = availability[dateStr] && availability[dateStr].length > 0;
+      const isToday   = (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
+      const isPast    = new Date(dateStr) < new Date(today.toDateString());
+      const isPicked  = dateStr === selectedDate;
+
+      let cls = 'day-btn';
+      if (isPast) cls += ' off';
+      else if (isPicked) cls += ' picked';
+      else if (hasSlots) cls += ' available';
+
+      html += `<button class="${cls}" data-date="${dateStr}" ${isPast ? 'disabled' : ''} aria-label="${d} ${monthNames[currentMonth]}">${d}${isToday ? '<br><span style="font-size:8px">•</span>' : ''}</button>`;
+    }
+
+    html += `</div>`;
+    cal.innerHTML = html;
+
+    // Nav buttons
+    document.getElementById('cal-prev').addEventListener('click', async () => {
+      currentMonth--;
+      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+      selectedDate = null; selectedTime = null;
+      await loadAvailability();
+      renderCalendarGrid();
+      renderSlotsPanel();
+    });
+    document.getElementById('cal-next').addEventListener('click', async () => {
+      currentMonth++;
+      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+      selectedDate = null; selectedTime = null;
+      await loadAvailability();
+      renderCalendarGrid();
+      renderSlotsPanel();
+    });
+
+    // Day click
+    document.getElementById('cal-grid').addEventListener('click', e => {
+      const btn = e.target.closest('.day-btn');
+      if (!btn || !btn.dataset.date || btn.disabled) return;
+      if (!availability[btn.dataset.date]) return;
+      selectedDate = btn.dataset.date;
+      selectedTime = null;
+      renderCalendarGrid(); // re-render to update 'picked' class
+      renderSlotsPanel();
+    });
+  }
+
+  // ────────────────────────────────────────────
+  // RENDER SLOTS PANEL
+  // ────────────────────────────────────────────
+  function renderSlotsPanel() {
+    const panel = document.getElementById('slots-panel');
+    if (!selectedDate) {
+      panel.innerHTML = `<div class="slots-empty">← Klik op een groene dag om tijdsloten te zien</div>`;
+      return;
+    }
+
+    const slots = availability[selectedDate] || [];
+    const [y, m, d] = selectedDate.split('-');
+    const dateLabel = new Date(selectedDate).toLocaleDateString('nl-NL', {weekday:'long',day:'numeric',month:'long'});
+
+    let slotsHtml = slots.map(s => `
+      <button class="slot-btn ${selectedTime === s.time ? 'selected' : ''}" data-time="${s.time}">
+        <span>🕐 ${s.time}</span>
+        <span class="slot-available">${s.available > 1 ? s.available + ' plekken' : '1 plek'} vrij</span>
+      </button>
+    `).join('');
+
+    panel.innerHTML = `
+      <div class="slots-title">Beschikbare tijden</div>
+      <div class="slots-date">${dateLabel}</div>
+      <div class="slot-list" id="slot-list">${slotsHtml}</div>
+      <div class="notes-group">
+        <label class="form-label" for="booking-notes">Notities (optioneel)</label>
+        <input type="text" id="booking-notes" class="form-input" placeholder="Bijv. we oefenen voor het mondeling">
+      </div>
+      <button class="book-confirm" id="book-confirm" ${!selectedTime ? 'disabled' : ''}>
+        ${selectedTime ? `Les boeken — ${selectedTime} ✓` : 'Selecteer een tijdslot'}
+      </button>
+    `;
+
+    // Slot selection
+    document.getElementById('slot-list').addEventListener('click', e => {
+      const btn = e.target.closest('.slot-btn');
+      if (!btn) return;
+      selectedTime = btn.dataset.time;
+      renderSlotsPanel();
+    });
+
+    // Book button
+    document.getElementById('book-confirm').addEventListener('click', bookLesson);
+  }
+
+  // ────────────────────────────────────────────
+  // BOOK LESSON
+  // ────────────────────────────────────────────
+  async function bookLesson() {
+    const btn   = document.getElementById('book-confirm');
+    const alert = document.getElementById('booking-alert');
+    const notes = document.getElementById('booking-notes')?.value.trim() || '';
+
+    setLoading(btn, true, 'Les boeken…');
+    alert.className = 'alert';
+
+    try {
+      const res = await fetch('/api/bookings/book', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, date: selectedDate, slotTime: selectedTime, notes }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Onbekende fout');
+
+      const dateLabel = new Date(selectedDate).toLocaleDateString('nl-NL', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+      wrap.innerHTML = `
+        <div class="success-box">
+          <div class="success-icon">🎉</div>
+          <h2>Les ingepland!</h2>
+          <p>Je les op <strong>${dateLabel} om ${selectedTime}</strong> is bevestigd. Je ontvangt een bevestigingsmail met de Zoom-link zodra Simone die toevoegt.</p>
+          <a href="/mijn-lessen.html?token=${token}" class="btn-main" style="margin-bottom:14px">Bekijk al mijn lessen</a>
+          <br>
+          ${orderInfo.lessonsRemaining - 1 > 0 ? `<a href="/agenda.html?token=${token}" class="btn-sec" style="margin-top:10px" onclick="window.location.reload()">Nog een les inplannen</a>` : ''}
+        </div>
+      `;
+    } catch (err) {
+      setLoading(btn, false, `Les boeken — ${selectedTime} ✓`);
+      showAlert(alert, 'Fout: ' + err.message, 'error');
+    }
+  }
+})();
+</script>
+</body>
+</html>

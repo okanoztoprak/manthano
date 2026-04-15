@@ -1,0 +1,12 @@
+# Omgevingsvariabelen — NOOIT uploaden
+.env
+
+# Database
+db/*.sqlite
+db/*.db
+
+# Dependencies
+node_modules/
+
+# OS bestanden
+.DS_Store

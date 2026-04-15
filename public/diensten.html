@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diensten — Manthano</title>
+<meta name="description" content="Persoonlijke Engels bijles en studievaardigheidstraining door Simone. Voor VMBO, HAVO, VWO en MBO. 100% online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<style>
+/* ── DIENSTEN PAGE ── */
+.dienst-section{padding:80px 48px;max-width:1000px;margin:0 auto}
+.dienst-section + .dienst-section{padding-top:0}
+
+/* Service hero card */
+.svc-hero{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-bottom:64px}
+.svc-hero.flip{direction:rtl}
+.svc-hero.flip > *{direction:ltr}
+.svc-visual{background:var(--sky);border:3px solid var(--ink);border-radius:var(--radius);padding:40px 32px;box-shadow:8px 8px 0 var(--ink);position:relative;overflow:hidden}
+.svc-visual.coral{background:var(--coral)}
+.svc-visual.mint{background:var(--mint)}
+.svc-visual-icon{font-size:64px;text-align:center;margin-bottom:20px}
+.svc-visual-title{font-size:22px;font-weight:900;color:var(--white);text-align:center;margin-bottom:16px}
+.svc-chips-wrap{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.svc-chip-w{font-size:12px;font-weight:800;padding:5px 14px;border-radius:50px;border:2px solid rgba(255,255,255,.6);color:var(--white);background:rgba(255,255,255,.15)}
+
+.svc-tag{display:inline-block;font-size:11px;font-weight:900;padding:5px 14px;border-radius:8px;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);margin-bottom:16px}
+.svc-title-big{font-size:34px;font-weight:900;line-height:1.15;margin-bottom:16px}
+.svc-body{font-size:15px;color:var(--ink2);line-height:1.8;font-weight:600;margin-bottom:16px}
+.svc-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin:20px 0 28px}
+.svc-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;font-weight:700;color:var(--ink2)}
+.svc-list .ico{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;border:1.5px solid var(--ink)}
+
+/* Levels strip */
+.levels-strip{background:var(--sun);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);padding:48px}
+.levels-inner{max-width:1000px;margin:0 auto}
+.levels-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
+.level-card{background:var(--white);border:2.5px solid var(--ink);border-radius:var(--radius);padding:24px;box-shadow:4px 4px 0 var(--ink);text-align:center}
+.level-icon{font-size:32px;margin-bottom:10px}
+.level-name{font-size:18px;font-weight:900;margin-bottom:8px}
+.level-body{font-size:13px;color:var(--ink2);font-weight:600;line-height:1.65}
+
+/* Process section */
+.process-section{background:var(--lilac);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);padding:72px 48px;position:relative;overflow:hidden}
+.process-inner{max-width:1000px;margin:0 auto;position:relative;z-index:1}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:40px;position:relative}
+.process-steps::before{content:'';position:absolute;top:28px;left:12.5%;right:12.5%;height:3px;background:var(--ink);z-index:0}
+.step-col{text-align:center;padding:0 12px;position:relative;z-index:1}
+.step-num{width:56px;height:56px;border-radius:50%;border:3px solid var(--ink);background:var(--white);box-shadow:3px 3px 0 var(--ink);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;margin:0 auto 16px}
+.step-title{font-size:14px;font-weight:900;margin-bottom:6px}
+.step-body{font-size:12px;color:var(--ink2);font-weight:700;line-height:1.55}
+
+/* CTA section */
+.cta-section{padding:80px 48px;max-width:1000px;margin:0 auto;text-align:center}
+.cta-box{background:var(--coral);border:3px solid var(--ink);border-radius:var(--radius);padding:52px 40px;box-shadow:8px 8px 0 var(--ink);position:relative;overflow:hidden}
+.cta-box h2{color:var(--white);margin-bottom:16px}
+.cta-box p{font-size:16px;color:rgba(255,255,255,.9);font-weight:600;line-height:1.7;max-width:500px;margin:0 auto 32px}
+.cta-box-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* Quote */
+.quote-strip{background:var(--mint);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);padding:40px 48px}
+.quote-inner{max-width:700px;margin:0 auto;display:flex;align-items:center;gap:24px}
+.q-mark{font-family:'Caveat',cursive;font-size:90px;line-height:.7;color:rgba(0,0,0,.12);flex-shrink:0}
+.q-text{font-family:'Caveat',cursive;font-size:26px;font-weight:700;color:var(--ink);line-height:1.35;flex:1}
+.q-attr{font-size:13px;font-weight:800;color:var(--ink2);margin-top:8px}
+
+@media(max-width:1024px){
+  .dienst-section,.levels-strip,.process-section,.cta-section,.quote-strip{padding-left:32px;padding-right:32px}
+  .levels-grid{grid-template-columns:1fr 1fr}
+  .process-steps{grid-template-columns:1fr 1fr;gap:32px}
+  .process-steps::before{display:none}
+}
+@media(max-width:768px){
+  .dienst-section,.levels-strip,.process-section,.cta-section,.quote-strip{padding-left:20px;padding-right:20px}
+  .svc-hero{grid-template-columns:1fr}
+  .svc-hero.flip{direction:ltr}
+  .svc-title-big{font-size:28px}
+  .levels-grid{grid-template-columns:1fr 1fr}
+  .process-steps{grid-template-columns:1fr}
+  .cta-box{padding:36px 24px}
+  .cta-box-btns{flex-direction:column;align-items:center}
+  .quote-inner{flex-direction:column;gap:8px}
+  .q-mark{font-size:60px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav aria-label="Hoofdnavigatie">
+  <a href="/" class="logo-wrap"><span class="logo-fb">Manthano</span></a>
+  <ul class="nav-links" role="list">
+    <li><a href="/#over">Over Simone</a></li>
+    <li><a href="/diensten.html">Diensten</a></li>
+    <li><a href="/pakketten.html">Pakketten</a></li>
+    <li><a href="/#resultaten">Reviews</a></li>
+    <li><a href="/agenda.html">Inplannen</a></li>
+  </ul>
+  <a href="/#contact" class="nav-cta">Gratis kennismaken ✨</a>
+  <button class="hamburger" id="burger" aria-label="Menu openen" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<nav class="mobile-menu" id="mob-menu" aria-label="Mobiel menu">
+  <a href="/#over">Over Simone</a>
+  <a href="/diensten.html">Diensten</a>
+  <a href="/pakketten.html">Pakketten</a>
+  <a href="/#resultaten">Reviews</a>
+  <a href="/agenda.html">Inplannen</a>
+  <a href="/#contact" class="mob-cta">Gratis kennismaken ✨</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero" style="background:var(--lilac)">
+  <div class="page-hero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span>Diensten</nav>
+    <div class="tag" style="background:var(--white)">📖 Wat ik doe</div>
+    <h1>Twee dingen,<br>heel goed</h1>
+    <p>Geen tien vakken. Simone richt zich op precies de twee gebieden waar studenten het meeste baat bij hebben.</p>
+  </div>
+</div>
+
+<!-- DIENST 1: Engels bijles -->
+<section class="dienst-section" id="engels">
+  <div class="svc-hero">
+    <div class="svc-visual">
+      <div class="svc-visual-icon">📖</div>
+      <div class="svc-visual-title">Engels bijles</div>
+      <div class="svc-chips-wrap">
+        <span class="svc-chip-w">Grammatica</span>
+        <span class="svc-chip-w">Schrijven</span>
+        <span class="svc-chip-w">Spreken</span>
+        <span class="svc-chip-w">Luisteren</span>
+        <span class="svc-chip-w">Woordenschat</span>
+        <span class="svc-chip-w">Examen</span>
+      </div>
+    </div>
+    <div>
+      <div class="svc-tag" style="background:var(--sky);color:var(--white)">Engels bijles</div>
+      <div class="svc-title-big">Van een 4<br>naar een <span class="squiggle">8</span></div>
+      <p class="svc-body">Simone werkt altijd vanuit <strong>jouw niveau en jouw doelen</strong>. Geen standaardprogramma, maar precies de aanpak die jij nodig hebt. Of je nu grammatica wilt verbeteren, beter wilt leren schrijven of je mondeling wilt oefenen — het werkt.</p>
+      <p class="svc-body">Lessen via Zoom, maximaal 1 uur. Je plant zelf in wanneer het uitkomt.</p>
+      <ul class="svc-list">
+        <li><div class="ico" style="background:var(--sky);color:var(--white)">✓</div>Grammatica en woordenschat gericht opbouwen</li>
+        <li><div class="ico" style="background:var(--sky);color:var(--white)">✓</div>Schrijven: essays, samenvattingen, e-mails</li>
+        <li><div class="ico" style="background:var(--sky);color:var(--white)">✓</div>Spreken en luistervaardigheid</li>
+        <li><div class="ico" style="background:var(--sky);color:var(--white)">✓</div>Examenvoorbereiding (SE, CE, mondeling)</li>
+        <li><div class="ico" style="background:var(--sky);color:var(--white)">✓</div>VMBO, HAVO, VWO en MBO</li>
+      </ul>
+      <a href="/pakketten.html" class="btn-main btn-sky">Bekijk pakketten →</a>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE STRIP -->
+<blockquote class="quote-strip">
+  <div class="quote-inner">
+    <div class="q-mark" aria-hidden="true">"</div>
+    <div>
+      <p class="q-text">"Van een 4 naar een 8 voor mijn mondeling. Ik kon het zelf bijna niet geloven!"</p>
+      <cite class="q-attr">— Lieke, 4e klas HAVO</cite>
+    </div>
+  </div>
+</blockquote>
+
+<!-- DIENST 2: Studievaardigheden -->
+<section class="dienst-section" id="studievaardigheden">
+  <div class="svc-hero flip">
+    <div class="svc-visual coral">
+      <div class="svc-visual-icon">🗓️</div>
+      <div class="svc-visual-title">Studievaardigheden</div>
+      <div class="svc-chips-wrap">
+        <span class="svc-chip-w">Weekplanning</span>
+        <span class="svc-chip-w">Leerstrategieën</span>
+        <span class="svc-chip-w">Examenstrategie</span>
+        <span class="svc-chip-w">Concentratie</span>
+        <span class="svc-chip-w">Motivatie</span>
+      </div>
+    </div>
+    <div>
+      <div class="svc-tag" style="background:var(--coral);color:var(--white)">Studievaardigheden</div>
+      <div class="svc-title-big">Slimmer leren,<br>niet <span class="squiggle">harder</span></div>
+      <p class="svc-body">Veel studenten leren wel hard, maar niet effectief. Simone leert je de technieken en gewoontes die écht werken — van een goede weekplanning tot de juiste manier om stof te herhalen.</p>
+      <p class="svc-body">Je merkt het resultaat snel. Minder stress, betere cijfers, meer tijd.</p>
+      <ul class="svc-list">
+        <li><div class="ico" style="background:var(--coral);color:var(--white)">✓</div>Persoonlijke weekplanning maken die werkt</li>
+        <li><div class="ico" style="background:var(--coral);color:var(--white)">✓</div>Effectieve leerstrategieën (spaced repetition, retrieval)</li>
+        <li><div class="ico" style="background:var(--coral);color:var(--white)">✓</div>Examenstrategie en tijdmanagement</li>
+        <li><div class="ico" style="background:var(--coral);color:var(--white)">✓</div>Concentratie en afleiding verminderen</li>
+        <li><div class="ico" style="background:var(--coral);color:var(--white)">✓</div>Motivatie en zelfvertrouwen opbouwen</li>
+      </ul>
+      <a href="/pakketten.html" class="btn-main btn-coral" style="background:var(--coral);color:var(--white)">Bekijk pakketten →</a>
+    </div>
+  </div>
+</section>
+
+<!-- LEVELS -->
+<section class="levels-strip">
+  <div class="levels-inner">
+    <div class="section-heading">
+      <div class="section-tag" style="background:var(--white)">🎓 Voor wie?</div>
+      <h2>Voor elk niveau</h2>
+      <p class="section-sub">Of je nu op VMBO of VWO zit — Simone past de aanpak aan op jouw specifieke situatie.</p>
+    </div>
+    <div class="levels-grid">
+      <div class="level-card">
+        <div class="level-icon">📗</div>
+        <div class="level-name">VMBO</div>
+        <p class="level-body">Basis en kader op orde brengen. Gerichte oefening voor de examens. Praktisch en duidelijk.</p>
+      </div>
+      <div class="level-card" style="background:var(--mint)">
+        <div class="level-icon">📘</div>
+        <div class="level-name">HAVO</div>
+        <p class="level-body">Schrijfvaardigheid, grammatica en mondeling. Doorstroom naar hbo goed voorbereiden.</p>
+      </div>
+      <div class="level-card" style="background:var(--sky);color:var(--white)">
+        <div class="level-icon">📙</div>
+        <div class="level-name" style="color:var(--white)">VWO</div>
+        <p class="level-body" style="color:rgba(255,255,255,.85)">Complexe teksten, betogen en academisch Engels. Voorbereiding op universiteit.</p>
+      </div>
+      <div class="level-card" style="background:var(--lilac)">
+        <div class="level-icon">📕</div>
+        <div class="level-name">MBO</div>
+        <p class="level-body">Zakelijk Engels, professionele communicatie en certificaatvoorbereiding.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOE HET WERKT -->
+<section class="process-section">
+  <div class="process-inner">
+    <div class="section-heading">
+      <div class="section-tag" style="background:var(--white)">⚡ Hoe werkt het?</div>
+      <h2>Van aanmelding tot resultaat</h2>
+    </div>
+    <div class="process-steps">
+      <div class="step-col">
+        <div class="step-num" style="background:var(--sun)">1</div>
+        <div class="step-title">Gratis kennismaking</div>
+        <div class="step-body">We bespreken jouw situatie en doelen. Geen verplichtingen, gewoon even kennismaken.</div>
+      </div>
+      <div class="step-col">
+        <div class="step-num" style="background:var(--mint)">2</div>
+        <div class="step-title">Pakket kiezen</div>
+        <div class="step-body">Kies een pakket dat past bij jouw behoefte. Betaal veilig via iDEAL of creditcard.</div>
+      </div>
+      <div class="step-col">
+        <div class="step-num" style="background:var(--coral);color:var(--white)">3</div>
+        <div class="step-title">Les inplannen</div>
+        <div class="step-body">Na betaling plan je zelf via de agenda in wanneer het jou uitkomt. 100% flexibel.</div>
+      </div>
+      <div class="step-col">
+        <div class="step-num" style="background:var(--sky);color:var(--white)">4</div>
+        <div class="step-title">Resultaat boeken</div>
+        <div class="step-body">Elke les werkt aan jouw doelen. 90%+ van de leerlingen haalt een hogere cijfer.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIGITALE STUDIEPLANNER -->
+<section class="dienst-section">
+  <div class="svc-hero">
+    <div class="svc-visual mint">
+      <div class="svc-visual-icon">📋</div>
+      <div class="svc-visual-title">Digitale studieplanner</div>
+      <div style="text-align:center;margin-top:12px">
+        <span style="background:var(--white);color:var(--ink);border:2px solid var(--ink);border-radius:50px;font-size:14px;font-weight:900;padding:6px 18px;display:inline-block;box-shadow:2px 2px 0 var(--ink)">€12,50 — direct downloaden</span>
+      </div>
+    </div>
+    <div>
+      <div class="svc-tag" style="background:var(--mint)">📥 Direct beschikbaar</div>
+      <div class="svc-title-big">Jouw schooljaar<br>op <span class="squiggle">orde</span></div>
+      <p class="svc-body">De digitale studieplanner van Manthano helpt je je schooljaar overzichtelijk te houden. Tentamenweek? Stageplanning? Geen stress meer — gewoon alles op een plek.</p>
+      <ul class="svc-list">
+        <li><div class="ico" style="background:var(--mint)">✓</div>Overzicht van toetsen, deadlines en taken</li>
+        <li><div class="ico" style="background:var(--mint)">✓</div>Weekplanning met tijdblokken</li>
+        <li><div class="ico" style="background:var(--mint)">✓</div>Digitaal — werkt op laptop, tablet en telefoon</li>
+        <li><div class="ico" style="background:var(--mint)">✓</div>Direct na betaling te downloaden</li>
+        <li><div class="ico" style="background:var(--mint)">✓</div>Gratis inbegrepen bij Pakket 8 lessen</li>
+      </ul>
+      <a href="/pakketten.html#studieplanner" class="btn-main" style="background:var(--mint)">Studieplanner kopen — €12,50 📥</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-box">
+    <svg class="doodle" style="top:20px;right:30px;opacity:.08" width="100" height="100" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="5" stroke-dasharray="12 8"/></svg>
+    <h2>Klaar om te beginnen?</h2>
+    <p>Vraag een gratis kennismaking aan — geen verplichtingen. Of kies direct een pakket en plan je eerste les in.</p>
+    <div class="cta-box-btns">
+      <a href="/pakketten.html" class="btn-main">Bekijk pakketten 🎯</a>
+      <a href="/#contact" class="btn-sec">Gratis kennismaken</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="foot-logo">Manthano</div>
+        <p>Persoonlijke online Engelse bijles en studievaardigheden door Simone. 100% online, door heel Nederland.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Diensten</h4>
+        <a href="/diensten.html">Engels bijles</a>
+        <a href="/diensten.html#studievaardigheden">Studievaardigheden</a>
+        <a href="/pakketten.html#studieplanner">Studieplanner</a>
+      </div>
+      <div class="foot-col">
+        <h4>Pakketten</h4>
+        <a href="/pakketten.html">Alle pakketten</a>
+        <a href="/pakketten.html?pakket=losse-les">Losse les</a>
+        <a href="/pakketten.html?pakket=pakket-4">4 lessen</a>
+        <a href="/pakketten.html?pakket=pakket-8">8 lessen</a>
+      </div>
+      <div class="foot-col">
+        <h4>Info</h4>
+        <a href="/agenda.html">Inplannen</a>
+        <a href="/mijn-lessen.html">Mijn lessen</a>
+        <a href="/#contact">Contact</a>
+        <a href="/admin/">Admin</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div class="foot-copy">© 2025 Manthano · KVK: XXXXXXXX</div>
+      <div class="foot-legal">
+        <a href="/algemene-voorwaarden.html">Algemene voorwaarden</a>
+        <a href="/privacybeleid.html">Privacybeleid</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>
