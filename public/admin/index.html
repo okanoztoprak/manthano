@@ -290,32 +290,36 @@ async function loadDashboard() {
 let availYear  = new Date().getFullYear();
 let availMonth = new Date().getMonth() + 1; // 1-12
 
+const MONTH_NAMES = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'];
+const DAY_SHORT   = ['zo','ma','di','wo','do','vr','za'];
+
 function availMonthStr() {
   return `${availYear}-${String(availMonth).padStart(2,'0')}`;
 }
-
-function availPrevMonth() {
-  availMonth--;
-  if (availMonth < 1) { availMonth = 12; availYear--; }
-  loadAvailability();
-}
-function availNextMonth() {
-  availMonth++;
-  if (availMonth > 12) { availMonth = 1; availYear++; }
-  loadAvailability();
-}
+function availPrevMonth() { availMonth--; if (availMonth < 1) { availMonth = 12; availYear--; } loadAvailability(); }
+function availNextMonth() { availMonth++; if (availMonth > 12) { availMonth = 1; availYear++; } loadAvailability(); }
 
 async function loadAvailability() {
   const wrap  = document.getElementById('avail-grid-wrap');
   const label = document.getElementById('avail-month-label');
-  const monthStr = availMonthStr();
-  if (label) {
-    const monthNames = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'];
-    label.textContent = `${monthNames[availMonth-1]} ${availYear}`;
-  }
+  if (label) label.textContent = `${MONTH_NAMES[availMonth-1]} ${availYear}`;
   wrap.innerHTML = '<p style="color:var(--ink3);font-size:13px">Laden…</p>';
 
-  const data = await api('GET', '/api/bookings/admin/availability-all?month=' + monthStr);
+  let data;
+  try {
+    const res = await fetch(`/api/bookings/admin/availability-all?month=${availMonthStr()}`, {
+      headers: { 'Authorization': authHeader() }
+    });
+    if (!res.ok) {
+      const txt = await res.text();
+      throw new Error(`Server fout ${res.status}: ${txt.slice(0,120)}`);
+    }
+    data = await res.json();
+  } catch(e) {
+    wrap.innerHTML = `<p style="color:var(--coral);font-weight:800;font-size:13px">⚠ Fout bij laden: ${e.message}</p>`;
+    return;
+  }
+
   const dates = Object.keys(data).sort();
 
   if (!dates.length) {
@@ -323,55 +327,37 @@ async function loadAvailability() {
     return;
   }
 
-  // Build 7-column grid per week
-  const firstDate   = new Date(dates[0] + 'T12:00:00');
-  const lastDate    = new Date(dates[dates.length-1] + 'T12:00:00');
-  const dayNames    = ['Ma','Di','Wo','Do','Vr','Za','Zo'];
-  const allDaysSet  = new Set(dates);
-
-  // Fill full weeks
-  const startOfWeek = new Date(firstDate);
-  startOfWeek.setDate(firstDate.getDate() - ((firstDate.getDay() + 6) % 7));
-  const endOfWeek = new Date(lastDate);
-  endOfWeek.setDate(lastDate.getDate() + (6 - ((lastDate.getDay() + 6) % 7)));
-
-  let gridHtml = `<div class="avail-grid" style="grid-template-columns:repeat(7,1fr)">
-    ${dayNames.map(d => `<div style="font-size:11px;font-weight:900;color:var(--ink3);text-align:center;padding:4px 0">${d}</div>`).join('')}
-  `;
-
-  const cur = new Date(startOfWeek);
-  while (cur <= endOfWeek) {
-    const ds = cur.toISOString().slice(0,10);
-    const inMonth = cur.getMonth() + 1 === availMonth;
-    const slots   = data[ds];
-
-    if (!inMonth || !slots) {
-      gridHtml += `<div style="min-height:60px;background:transparent"></div>`;
-    } else {
-      const dayLabel = cur.getDate();
-      const slotItems = slots.map(s => `
-        <div class="av-slot ${s.booked > 0 ? 'full' : ''}" style="font-size:10px">
-          <span>${s.time}</span>
-          <button class="av-del" title="Verwijderen" onclick="deleteSlot('${ds}','${s.time}')">✕</button>
-        </div>`).join('');
-      gridHtml += `
-        <div class="avail-day" style="min-height:60px">
-          <div class="av-date">${dayLabel}</div>
-          ${slotItems}
-        </div>`;
-    }
-    cur.setDate(cur.getDate() + 1);
+  // Simple date-by-date table (robust, no timezone issues)
+  let html = '<div style="display:flex;flex-direction:column;gap:8px">';
+  for (const d of dates) {
+    const dt     = new Date(d + 'T12:00:00');
+    const dayLbl = `${DAY_SHORT[dt.getDay()]} ${dt.getDate()} ${MONTH_NAMES[dt.getMonth()].slice(0,3).toLowerCase()}`;
+    const slots  = data[d];
+    const slotHtml = slots.map(s => `
+      <div class="av-slot ${s.booked > 0 ? 'full' : ''}" style="display:inline-flex;align-items:center;gap:4px;margin-right:4px;margin-bottom:4px;font-size:11px">
+        <span>${s.time}${s.booked > 0 ? ' 🔒' : ''}</span>
+        <button class="av-del" title="Verwijderen" onclick="deleteSlot('${d}','${s.time}')">✕</button>
+      </div>`).join('');
+    html += `
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:8px 10px;background:var(--bg);border:1.5px solid var(--bdr);border-radius:10px">
+        <span style="font-size:12px;font-weight:900;color:var(--ink2);min-width:90px;padding-top:2px">${dayLbl}</span>
+        <div style="display:flex;flex-wrap:wrap">${slotHtml}</div>
+      </div>`;
   }
-
-  gridHtml += `</div>`;
-  wrap.innerHTML = gridHtml;
+  html += '</div>';
+  wrap.innerHTML = html;
 }
 
 async function deleteSlot(date, time) {
   if (!confirm(`Slot ${date} ${time} verwijderen?`)) return;
-  await api('DELETE', `/api/bookings/admin/availability/${date}/${encodeURIComponent(time)}`);
-  toast('Slot verwijderd');
-  loadAvailability();
+  try {
+    const res = await fetch(`/api/bookings/admin/availability/${date}/${encodeURIComponent(time)}`, {
+      method: 'DELETE', headers: { 'Authorization': authHeader() }
+    });
+    if (!res.ok) throw new Error(await res.text());
+    toast('Slot verwijderd');
+    loadAvailability();
+  } catch(e) { toast('Fout: ' + e.message, false); }
 }
 
 async function addSingle() {
@@ -379,9 +365,17 @@ async function addSingle() {
   const time = document.getElementById('single-time').value;
   const max  = parseInt(document.getElementById('single-max').value) || 1;
   if (!date || !time) { toast('Datum en tijdstip invullen', false); return; }
-  await api('POST', '/api/bookings/admin/availability', { date, slotTime: time, maxSpots: max, active: true });
-  toast(`Slot ${date} ${time} toegevoegd`);
-  loadAvailability();
+  try {
+    const res = await fetch('/api/bookings/admin/availability', {
+      method: 'POST',
+      headers: { 'Authorization': authHeader(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ date, slotTime: time, maxSpots: max, active: true })
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || `Status ${res.status}`);
+    toast(`Slot ${date} ${time} toegevoegd`);
+    loadAvailability();
+  } catch(e) { toast('Fout: ' + e.message, false); }
 }
 
 async function bulkAdd() {
@@ -390,19 +384,37 @@ async function bulkAdd() {
   const times = document.getElementById('bulk-times').value.split(',').map(t => t.trim()).filter(Boolean);
   const skip  = document.getElementById('skip-weekends').checked;
   if (!start || !end || !times.length) { toast('Vul alle velden in', false); return; }
-  const res = await api('POST', '/api/bookings/admin/bulk-availability', { startDate: start, endDate: end, times, skipWeekends: skip });
-  toast(`${res.slotsCreated} slots toegevoegd`);
-  loadAvailability();
+  try {
+    const res = await fetch('/api/bookings/admin/bulk-availability', {
+      method: 'POST',
+      headers: { 'Authorization': authHeader(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ startDate: start, endDate: end, times, skipWeekends: skip })
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || `Status ${res.status}`);
+    toast(`${json.slotsCreated} slots toegevoegd`);
+    loadAvailability();
+  } catch(e) { toast('Fout: ' + e.message, false); }
 }
 
 async function addNextMonths() {
   const now   = new Date();
-  const start = now.toISOString().slice(0,10);
-  const end3  = new Date(now.getFullYear(), now.getMonth() + 3, now.getDate()).toISOString().slice(0,10);
+  const pad   = n => String(n).padStart(2,'0');
+  const fmt   = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const start = fmt(now);
+  const end3  = new Date(now.getFullYear(), now.getMonth() + 3, now.getDate());
   const times = document.getElementById('bulk-times').value.split(',').map(t => t.trim()).filter(Boolean);
-  const res = await api('POST', '/api/bookings/admin/bulk-availability', { startDate: start, endDate: end3, times, skipWeekends: true });
-  toast(`${res.slotsCreated} slots toegevoegd voor komende 3 maanden`);
-  loadAvailability();
+  try {
+    const res = await fetch('/api/bookings/admin/bulk-availability', {
+      method: 'POST',
+      headers: { 'Authorization': authHeader(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ startDate: start, endDate: fmt(end3), times, skipWeekends: true })
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || `Status ${res.status}`);
+    toast(`${json.slotsCreated} slots toegevoegd voor komende 3 maanden`);
+    loadAvailability();
+  } catch(e) { toast('Fout: ' + e.message, false); }
 }
 
 // ── Bookings ─────────────────────────────────────────────────────────────
