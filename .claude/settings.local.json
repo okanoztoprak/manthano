@@ -17,7 +17,16 @@
       "Bash(git remote *)",
       "Bash(git branch *)",
       "Bash(git push *)",
-      "Bash(node -e \"const { Database } = require\\('node-sqlite3-wasm'\\); const db = new Database\\(':memory:'\\); db.exec\\('CREATE TABLE t \\(id INTEGER\\)'\\); console.log\\('OK'\\);\")"
+      "Bash(node -e \"const { Database } = require\\('node-sqlite3-wasm'\\); const db = new Database\\(':memory:'\\); db.exec\\('CREATE TABLE t \\(id INTEGER\\)'\\); console.log\\('OK'\\);\")",
+      "Bash(node db/seed.js)",
+      "Bash(node -e \"try { const x = require\\('node-sqlite3-wasm'\\); console.log\\('Keys:', Object.keys\\(x\\)\\); } catch\\(e\\) { console.error\\('ERROR:', e.message\\); }\")",
+      "Bash(pkill -f \"node server.js\")",
+      "Bash(node server.js)",
+      "Bash(curl -s http://localhost:3000/api/orders/packages)",
+      "Bash(kill %1)",
+      "Bash(pkill -f \"node server\")",
+      "Bash(pkill -f \"node seed\")",
+      "Bash(node -e ' *)"
     ]
   }
 }
