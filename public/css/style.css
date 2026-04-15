@@ -74,10 +74,10 @@ nav{background:var(--white);border-bottom:2px solid var(--ink);padding:0 48px;di
 .trust-bar{background:var(--sky);border-bottom:3px solid var(--ink);padding:0}
 .trust-scroll{display:flex;width:100%;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
 .trust-scroll::-webkit-scrollbar{display:none}
-.trust-pill{flex:1;min-width:130px;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 12px;border-right:2px solid rgba(255,255,255,.2);text-align:center}
+.trust-pill{flex:1;min-width:130px;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 16px;border-right:2px solid rgba(255,255,255,.2)}
 .trust-pill:last-child{border-right:none}
-.trust-pill-n{font-size:22px;font-weight:900;color:var(--white);white-space:nowrap}
-.trust-pill-l{font-size:11px;color:rgba(255,255,255,.8);font-weight:700;line-height:1.3}
+.trust-pill-n{font-size:20px;font-weight:900;color:var(--white);white-space:nowrap;flex-shrink:0}
+.trust-pill-l{font-size:11px;color:rgba(255,255,255,.85);font-weight:700;line-height:1.25;text-align:left}
 
 /* ── WIGGLY DIVIDER ── */
 .wiggle-div{width:100%;overflow:hidden;line-height:0;margin-top:-1px}
