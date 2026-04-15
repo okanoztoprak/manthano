@@ -13,7 +13,11 @@
       "Bash(ls node_modules/better-sqlite3/build/Release/better_sqlite3.node)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(git remote *)",
+      "Bash(git branch *)",
+      "Bash(git push *)",
+      "Bash(node -e \"const { Database } = require\\('node-sqlite3-wasm'\\); const db = new Database\\(':memory:'\\); db.exec\\('CREATE TABLE t \\(id INTEGER\\)'\\); console.log\\('OK'\\);\")"
     ]
   }
 }
