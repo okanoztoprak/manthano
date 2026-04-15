@@ -306,17 +306,27 @@ async function loadAvailability() {
   wrap.innerHTML = '<p style="color:var(--ink3);font-size:13px">Laden…</p>';
 
   let data;
-  try {
-    const res = await fetch(`/api/bookings/admin/availability-all?month=${availMonthStr()}`, {
-      headers: { 'Authorization': authHeader() }
-    });
-    if (!res.ok) {
-      const txt = await res.text();
-      throw new Error(`Server fout ${res.status}: ${txt.slice(0,120)}`);
-    }
-    data = await res.json();
-  } catch(e) {
-    wrap.innerHTML = `<p style="color:var(--coral);font-weight:800;font-size:13px">⚠ Fout bij laden: ${e.message}</p>`;
+  // Probeer admin endpoint, val terug op publiek endpoint bij fout
+  const endpoints = [
+    `/api/bookings/admin/availability-all?month=${availMonthStr()}`,
+    `/api/bookings/availability?month=${availMonthStr()}`,
+  ];
+  let lastErr = '';
+  for (const url of endpoints) {
+    try {
+      const res = await fetch(url, { headers: { 'Authorization': authHeader(), 'Accept': 'application/json' } });
+      const ct = res.headers.get('content-type') || '';
+      if (!ct.includes('application/json')) {
+        lastErr = `Endpoint ${url} gaf geen JSON terug (${res.status})`;
+        continue;
+      }
+      const json = await res.json();
+      if (json && typeof json === 'object' && !Array.isArray(json)) { data = json; break; }
+      lastErr = `Onverwacht formaat van ${url}`;
+    } catch(e) { lastErr = e.message; }
+  }
+  if (!data) {
+    wrap.innerHTML = `<p style="color:var(--coral);font-weight:800;font-size:13px">⚠ Kon agenda niet laden: ${lastErr}</p>`;
     return;
   }
 

@@ -4,38 +4,21 @@ const fs   = require('fs');
 const DB_PATH = path.join(__dirname, 'manthano.db');
 
 let db = null;
-let _saveTimer = null;
 
-// ── Persist in-memory DB to disk (debounced — max 1x per 500ms) ──────────
+// ── Persist in-memory DB to disk (direct, synchronous) ───────────────────
 function save() {
   if (!db) return;
-  if (_saveTimer) return; // al ingepland
-  _saveTimer = setTimeout(() => {
-    _saveTimer = null;
-    try {
-      const data = db._raw.export();
-      fs.writeFileSync(DB_PATH, Buffer.from(data));
-    } catch (e) {
-      console.error('DB opslaan mislukt:', e.message);
-    }
-  }, 500);
-}
-
-// Geforceerde synchrone save bij afsluiten
-function saveSync() {
-  if (!db) return;
-  if (_saveTimer) { clearTimeout(_saveTimer); _saveTimer = null; }
   try {
     const data = db._raw.export();
     fs.writeFileSync(DB_PATH, Buffer.from(data));
   } catch (e) {
-    console.error('DB opslaan bij afsluiten mislukt:', e.message);
+    console.error('DB opslaan mislukt:', e.message);
   }
 }
 
-process.on('exit',   saveSync);
-process.on('SIGINT',  () => { saveSync(); process.exit(0); });
-process.on('SIGTERM', () => { saveSync(); process.exit(0); });
+process.on('exit',    save);
+process.on('SIGINT',  () => { save(); process.exit(0); });
+process.on('SIGTERM', () => { save(); process.exit(0); });
 
 // ── Convert {slug: 'x'} → {'@slug': 'x'} for named params ───────────────
 function prepareParams(args) {
@@ -233,46 +216,61 @@ async function initDb() {
   return db;
 }
 
+// ── Lokale datum als YYYY-MM-DD (geen UTC-verschuiving) ───────────────────
+function localDate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 // ── Auto-seed op eerste start (als packages tabel leeg is) ───────────────
 function autoSeed() {
   const count = db.prepare('SELECT COUNT(*) AS n FROM packages').get();
   if (count && count.n > 0) return; // al gevuld
 
-  const pkgs = [
-    { slug: 'losse-les',  name: 'Losse les',       lessons: 1, price: 6500,  per_hour: 6500, saving: 'Flexibel',    featured: 0, sort_order: 1 },
-    { slug: 'pakket-4',   name: 'Pakket 4 lessen',  lessons: 4, price: 23000, per_hour: 5750, saving: 'Bespaar 12%', featured: 1, sort_order: 2 },
-    { slug: 'pakket-8',   name: 'Pakket 8 lessen',  lessons: 8, price: 40000, per_hour: 5000, saving: 'Bespaar 23%', featured: 0, sort_order: 3 },
-  ];
-  const insertPkg = db.prepare(`
-    INSERT OR REPLACE INTO packages (slug, name, lessons, price, per_hour, saving, featured, active, sort_order)
-    VALUES (@slug, @name, @lessons, @price, @per_hour, @saving, @featured, 1, @sort_order)
-  `);
-  for (const p of pkgs) insertPkg.run(p);
+  // Alles in één transaction → slechts 1 save naar schijf
+  db._raw.exec('BEGIN');
+  try {
+    const pkgs = [
+      { slug: 'losse-les', name: 'Losse les',        lessons: 1, price: 6500,  per_hour: 6500, saving: 'Flexibel',    featured: 0, sort_order: 1 },
+      { slug: 'pakket-4',  name: 'Pakket 4 lessen',  lessons: 4, price: 23000, per_hour: 5750, saving: 'Bespaar 12%', featured: 1, sort_order: 2 },
+      { slug: 'pakket-8',  name: 'Pakket 8 lessen',  lessons: 8, price: 40000, per_hour: 5000, saving: 'Bespaar 23%', featured: 0, sort_order: 3 },
+    ];
+    const insertPkg = db.prepare(`
+      INSERT OR REPLACE INTO packages (slug, name, lessons, price, per_hour, saving, featured, active, sort_order)
+      VALUES (@slug, @name, @lessons, @price, @per_hour, @saving, @featured, 1, @sort_order)
+    `);
+    for (const p of pkgs) {
+      const s = db._raw.prepare(insertPkg._sql);
+      s.run({'@slug':p.slug,'@name':p.name,'@lessons':p.lessons,'@price':p.price,'@per_hour':p.per_hour,'@saving':p.saving,'@featured':p.featured,'@sort_order':p.sort_order});
+      s.free();
+    }
 
-  db.prepare(`
-    INSERT OR REPLACE INTO digital_products (slug, name, description, price, active)
-    VALUES (@slug, @name, @description, @price, 1)
-  `).run({
-    slug: 'studieplanner',
-    name: 'Digitale studieplanner',
-    description: 'Een handige digitale studieplanner om je schooljaar overzichtelijk te houden. Direct te downloaden na betaling.',
-    price: 1250,
-  });
+    const sdStmt = db._raw.prepare(`INSERT OR REPLACE INTO digital_products (slug, name, description, price, active) VALUES (?,?,?,?,1)`);
+    sdStmt.run(['studieplanner','Digitale studieplanner','Een handige digitale studieplanner om je schooljaar overzichtelijk te houden. Direct te downloaden na betaling.',1250]);
+    sdStmt.free();
 
-  const insertSlot = db.prepare(`
-    INSERT OR IGNORE INTO availability (date, slot_time, max_spots, booked, active)
-    VALUES (?, ?, 1, 0, 1)
-  `);
-  const now = new Date();
-  for (let i = 1; i <= 90; i++) {
-    const d = new Date(now);
-    d.setDate(d.getDate() + i);
-    if (d.getDay() === 0 || d.getDay() === 6) continue;
-    const dateStr = d.toISOString().slice(0, 10);
-    for (const t of ['17:30', '19:00', '20:00']) insertSlot.run(dateStr, t);
+    const insertSlot = db._raw.prepare(`INSERT OR IGNORE INTO availability (date, slot_time, max_spots, booked, active) VALUES (?,?,1,0,1)`);
+    const now = new Date();
+    for (let i = 1; i <= 90; i++) {
+      const d = new Date(now);
+      d.setDate(d.getDate() + i);
+      if (d.getDay() === 0 || d.getDay() === 6) continue;
+      const dateStr = localDate(d);
+      for (const t of ['17:30', '19:00', '20:00']) {
+        insertSlot.run([dateStr, t]);
+      }
+    }
+    insertSlot.free();
+
+    db._raw.exec('COMMIT');
+    save(); // Één keer opslaan naar schijf
+    console.log('Database automatisch gevuld met pakketten en beschikbaarheid.');
+  } catch (e) {
+    db._raw.exec('ROLLBACK');
+    console.error('AutoSeed mislukt:', e.message);
   }
-
-  console.log('Database automatisch gevuld met pakketten en beschikbaarheid.');
 }
 
 function getDb() {

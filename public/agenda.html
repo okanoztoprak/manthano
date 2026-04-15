@@ -270,7 +270,7 @@
     const firstDow    = new Date(currentYear, currentMonth, 1).getDay();
     const offset      = (firstDow + 6) % 7;
     const today       = new Date();
-    const todayStr    = today.toISOString().slice(0,10);
+    const todayStr    = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
 
     let html = `
       <div class="cal-nav-row">
