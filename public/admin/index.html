@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manthano Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#1A1A2E;--ink2:#3D3D5C;--ink3:#7A7A9A;--bg:#FFFBF0;--white:#fff;--sun:#FFD166;--mint:#06D6A0;--sky:#118AB2;--coral:#FF6B6B;--bdr:#EEE8D5;--radius:16px}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5}
+a{text-decoration:none;color:inherit}
+
+/* layout */
+.topbar{background:var(--ink);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar-title{font-size:18px;font-weight:900;color:var(--white)}
+.topbar-sub{font-size:12px;color:rgba(255,255,255,.4);font-weight:700}
+.container{max-width:1100px;margin:0 auto;padding:32px 24px}
+
+/* tabs */
+.tabs{display:flex;gap:4px;background:var(--white);border:2px solid var(--ink);border-radius:12px;padding:4px;margin-bottom:28px;width:fit-content}
+.tab{padding:8px 20px;border-radius:9px;font-size:13px;font-weight:800;cursor:pointer;border:none;background:transparent;color:var(--ink3);font-family:'Nunito',sans-serif;transition:all .15s}
+.tab.active{background:var(--ink);color:var(--white)}
+.panel{display:none}.panel.active{display:block}
+
+/* stat cards */
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px}
+.stat-card{background:var(--white);border:2px solid var(--ink);border-radius:var(--radius);padding:18px 20px;box-shadow:3px 3px 0 var(--ink)}
+.stat-n{font-size:28px;font-weight:900;color:var(--ink)}
+.stat-l{font-size:12px;font-weight:700;color:var(--ink3);margin-top:2px}
+
+/* cards */
+.card{background:var(--white);border:2px solid var(--ink);border-radius:var(--radius);padding:24px;box-shadow:3px 3px 0 var(--ink);margin-bottom:20px}
+.card-title{font-size:15px;font-weight:900;margin-bottom:16px;color:var(--ink)}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;font-size:11px;font-weight:900;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;border-bottom:2px solid var(--bdr)}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--bdr);font-weight:600;color:var(--ink2);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:#fafafa}
+
+/* badges */
+.badge{display:inline-block;font-size:11px;font-weight:900;padding:3px 10px;border-radius:50px;border:1.5px solid}
+.badge-paid{background:#d1fae5;color:#065f46;border-color:#6ee7b7}
+.badge-pending{background:#fef3c7;color:#92400e;border-color:#fcd34d}
+.badge-confirmed{background:#dbeafe;color:#1e40af;border-color:#93c5fd}
+.badge-cancelled{background:#fee2e2;color:#991b1b;border-color:#fca5a5}
+.badge-completed{background:#f3f4f6;color:#374151;border-color:#d1d5db}
+
+/* forms */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-row.cols3{grid-template-columns:1fr 1fr 1fr}
+.form-group{display:flex;flex-direction:column;gap:5px}
+label{font-size:11px;font-weight:900;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px}
+input,select{padding:10px 14px;border:2px solid var(--ink);border-radius:10px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;color:var(--ink);background:var(--bg);outline:none}
+input:focus,select:focus{border-color:var(--sky);background:var(--white)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:50px;font-size:13px;font-weight:900;cursor:pointer;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);font-family:'Nunito',sans-serif;transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+.btn-ink{background:var(--ink);color:var(--white)}
+.btn-sun{background:var(--sun);color:var(--ink)}
+.btn-coral{background:var(--coral);color:var(--white)}
+.btn-mint{background:var(--mint);color:var(--ink)}
+.btn-sm{padding:6px 14px;font-size:12px;box-shadow:1.5px 1.5px 0 var(--ink)}
+.btn-sm:hover{box-shadow:2.5px 2.5px 0 var(--ink)}
+
+/* calendar grid */
+.avail-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px}
+.avail-day{background:var(--bg);border:1.5px solid var(--bdr);border-radius:10px;padding:8px;font-size:11px;font-weight:700;color:var(--ink2)}
+.avail-day .av-date{font-size:12px;font-weight:900;color:var(--ink);margin-bottom:6px}
+.av-slot{display:flex;align-items:center;justify-content:space-between;background:var(--mint);border:1.5px solid var(--ink);border-radius:6px;padding:3px 6px;margin-bottom:3px;font-size:11px;font-weight:800;color:var(--ink)}
+.av-slot.full{background:#fef3c7}
+.av-del{background:none;border:none;cursor:pointer;color:var(--coral);font-weight:900;font-size:13px;line-height:1;padding:0 2px}
+.av-del:hover{color:#c00}
+
+/* toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:var(--white);padding:12px 20px;border-radius:12px;font-size:13px;font-weight:700;z-index:999;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* responsive */
+@media(max-width:900px){.stats-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.stats-grid{grid-template-columns:1fr 1fr}.form-row,.form-row.cols3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="topbar-title">Manthano Admin</div>
+    <div class="topbar-sub" id="topbar-date"></div>
+  </div>
+  <span style="font-size:12px;color:rgba(255,255,255,.3);font-weight:700">Welkom, Simone 👋</span>
+</div>
+
+<div class="container">
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('dashboard')">Dashboard</button>
+    <button class="tab" onclick="showTab('agenda')">Agenda</button>
+    <button class="tab" onclick="showTab('boekingen')">Boekingen</button>
+    <button class="tab" onclick="showTab('bestellingen')">Bestellingen</button>
+  </div>
+
+  <!-- ── DASHBOARD ── -->
+  <div class="panel active" id="panel-dashboard">
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card"><div class="stat-n">—</div><div class="stat-l">Omzet (betaald)</div></div>
+      <div class="stat-card"><div class="stat-n">—</div><div class="stat-l">Bestellingen</div></div>
+      <div class="stat-card"><div class="stat-n">—</div><div class="stat-l">Openstaand</div></div>
+      <div class="stat-card"><div class="stat-n">—</div><div class="stat-l">Studenten</div></div>
+      <div class="stat-card"><div class="stat-n">—</div><div class="stat-l">Lessen gepland</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Recente bestellingen</div>
+      <table class="tbl" id="recent-orders-tbl">
+        <thead><tr><th>Naam</th><th>Pakket</th><th>Bedrag</th><th>Status</th><th>Datum</th></tr></thead>
+        <tbody><tr><td colspan="5" style="color:var(--ink3);text-align:center;padding:20px">Laden…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── AGENDA ── -->
+  <div class="panel" id="panel-agenda">
+
+    <!-- Bulk toevoegen -->
+    <div class="card">
+      <div class="card-title">Beschikbaarheid bulk toevoegen</div>
+      <div class="form-row">
+        <div class="form-group"><label>Startdatum</label><input type="date" id="bulk-start"></div>
+        <div class="form-group"><label>Einddatum</label><input type="date" id="bulk-end"></div>
+      </div>
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Tijdsloten (vul in, komma-gescheiden)</label>
+        <input type="text" id="bulk-times" value="17:30,19:00,20:00" placeholder="17:30,19:00,20:00">
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:13px;font-weight:700;cursor:pointer">
+          <input type="checkbox" id="skip-weekends" checked style="width:auto;padding:0;border:none"> Weekenden overslaan
+        </label>
+        <button class="btn btn-ink" onclick="bulkAdd()">Slots toevoegen</button>
+        <button class="btn btn-sun" onclick="addNextMonths()">+ Komende 3 maanden</button>
+      </div>
+    </div>
+
+    <!-- Losse slot toevoegen -->
+    <div class="card">
+      <div class="card-title">Losse slot toevoegen of verwijderen</div>
+      <div class="form-row cols3">
+        <div class="form-group"><label>Datum</label><input type="date" id="single-date"></div>
+        <div class="form-group"><label>Tijdstip</label><input type="time" id="single-time" value="17:30"></div>
+        <div class="form-group"><label>Max. plekken</label><input type="number" id="single-max" value="1" min="1" max="10"></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-mint" onclick="addSingle()">Slot toevoegen</button>
+        <button class="btn btn-coral" onclick="deleteSingle()">Slot verwijderen</button>
+      </div>
+    </div>
+
+    <!-- Weekoverzicht -->
+    <div class="card">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Beschikbaarheid komende 2 weken</span>
+        <button class="btn btn-sm btn-sun" onclick="loadAvailability()">↻ Vernieuwen</button>
+      </div>
+      <div id="avail-grid-wrap"><p style="color:var(--ink3);font-size:13px">Laden…</p></div>
+    </div>
+  </div>
+
+  <!-- ── BOEKINGEN ── -->
+  <div class="panel" id="panel-boekingen">
+    <div class="card">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Alle boekingen</span>
+        <button class="btn btn-sm btn-sun" onclick="loadBookings()">↻ Vernieuwen</button>
+      </div>
+      <table class="tbl" id="bookings-tbl">
+        <thead><tr><th>Student</th><th>Datum</th><th>Tijd</th><th>Pakket</th><th>Status</th><th>Zoom</th><th>Acties</th></tr></thead>
+        <tbody><tr><td colspan="7" style="color:var(--ink3);text-align:center;padding:20px">Laden…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── BESTELLINGEN ── -->
+  <div class="panel" id="panel-bestellingen">
+    <div class="card">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Alle bestellingen</span>
+        <button class="btn btn-sm btn-sun" onclick="loadOrders()">↻ Vernieuwen</button>
+      </div>
+      <table class="tbl" id="orders-tbl">
+        <thead><tr><th>Naam</th><th>E-mail</th><th>Pakket</th><th>Bedrag</th><th>Status</th><th>Betaald op</th><th>Token</th></tr></thead>
+        <tbody><tr><td colspan="7" style="color:var(--ink3);text-align:center;padding:20px">Laden…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Auth helper ──────────────────────────────────────────────────────────
+function authHeader() {
+  const stored = sessionStorage.getItem('admin_creds');
+  if (stored) return 'Basic ' + stored;
+  const u = prompt('Gebruikersnaam:');
+  const p = prompt('Wachtwoord:');
+  const b64 = btoa(u + ':' + p);
+  sessionStorage.setItem('admin_creds', b64);
+  return 'Basic ' + b64;
+}
+
+async function api(method, path, body) {
+  const opts = { method, headers: { 'Authorization': authHeader(), 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(path, opts);
+  if (res.status === 401) { sessionStorage.removeItem('admin_creds'); location.reload(); }
+  return res.json();
+}
+
+// ── Toast ────────────────────────────────────────────────────────────────
+function toast(msg, ok = true) {
+  const t = document.getElementById('toast');
+  t.textContent = (ok ? '✓ ' : '✗ ') + msg;
+  t.style.background = ok ? '#1A1A2E' : '#FF6B6B';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Tabs ─────────────────────────────────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+  if (name === 'agenda') loadAvailability();
+  if (name === 'boekingen') loadBookings();
+  if (name === 'bestellingen') loadOrders();
+}
+
+// ── Helpers ──────────────────────────────────────────────────────────────
+function euro(cents) { return '€' + (cents / 100).toFixed(2).replace('.', ','); }
+function fmtDate(s) { if (!s) return '—'; return new Date(s).toLocaleDateString('nl-NL', {day:'numeric',month:'short',year:'numeric'}); }
+function statusBadge(s) {
+  const map = { paid:'paid', pending:'pending', confirmed:'confirmed', cancelled:'cancelled', completed:'completed' };
+  const label = { paid:'Betaald', pending:'Open', confirmed:'Gepland', cancelled:'Geannuleerd', completed:'Voltooid', expired:'Verlopen', refunded:'Terugbetaald' };
+  return `<span class="badge badge-${map[s] || 'pending'}">${label[s] || s}</span>`;
+}
+
+// ── Dashboard ────────────────────────────────────────────────────────────
+async function loadDashboard() {
+  const d = await api('GET', '/api/orders/admin/stats');
+  const g = document.getElementById('stats-grid');
+  g.innerHTML = `
+    <div class="stat-card"><div class="stat-n">${euro(d.totalRevenue)}</div><div class="stat-l">Omzet (betaald)</div></div>
+    <div class="stat-card"><div class="stat-n">${d.totalOrders}</div><div class="stat-l">Bestellingen</div></div>
+    <div class="stat-card"><div class="stat-n">${d.pending}</div><div class="stat-l">Openstaand</div></div>
+    <div class="stat-card"><div class="stat-n">${d.totalStudents}</div><div class="stat-l">Studenten</div></div>
+    <div class="stat-card"><div class="stat-n">${d.upcomingLessons}</div><div class="stat-l">Lessen gepland</div></div>
+  `;
+  const tbody = document.querySelector('#recent-orders-tbl tbody');
+  tbody.innerHTML = d.recentOrders.map(o => `
+    <tr>
+      <td><strong>${o.customer_name}</strong><br><span style="font-size:11px;color:var(--ink3)">${o.customer_email}</span></td>
+      <td>${o.package_name}</td>
+      <td>${euro(o.amount_cents)}</td>
+      <td>${statusBadge(o.status)}</td>
+      <td>${fmtDate(o.created_at)}</td>
+    </tr>
+  `).join('') || '<tr><td colspan="5" style="color:var(--ink3);text-align:center;padding:20px">Nog geen bestellingen</td></tr>';
+}
+
+// ── Availability ─────────────────────────────────────────────────────────
+async function loadAvailability() {
+  const wrap = document.getElementById('avail-grid-wrap');
+  wrap.innerHTML = '<p style="color:var(--ink3);font-size:13px">Laden…</p>';
+  const data = await api('GET', '/api/bookings/availability');
+  const dates = Object.keys(data).sort().slice(0, 14);
+  if (!dates.length) { wrap.innerHTML = '<p style="color:var(--ink3);font-size:13px">Geen beschikbare slots in de komende 2 weken.</p>'; return; }
+  wrap.innerHTML = `<div class="avail-grid">${dates.map(d => {
+    const slots = data[d].map(s => `
+      <div class="av-slot ${s.available === 0 ? 'full' : ''}">
+        <span>${s.time}</span>
+        <button class="av-del" title="Verwijderen" onclick="deleteSlot('${d}','${s.time}')">✕</button>
+      </div>`).join('');
+    const dt = new Date(d + 'T12:00:00');
+    const label = dt.toLocaleDateString('nl-NL', {weekday:'short',day:'numeric',month:'short'});
+    return `<div class="avail-day"><div class="av-date">${label}</div>${slots}</div>`;
+  }).join('')}</div>`;
+}
+
+async function deleteSlot(date, time) {
+  if (!confirm(`Slot ${date} ${time} verwijderen?`)) return;
+  await api('DELETE', `/api/bookings/admin/availability/${date}/${encodeURIComponent(time)}`);
+  toast('Slot verwijderd');
+  loadAvailability();
+}
+
+async function addSingle() {
+  const date = document.getElementById('single-date').value;
+  const time = document.getElementById('single-time').value;
+  const max  = parseInt(document.getElementById('single-max').value) || 1;
+  if (!date || !time) { toast('Datum en tijdstip invullen', false); return; }
+  await api('POST', '/api/bookings/admin/availability', { date, slotTime: time, maxSpots: max, active: true });
+  toast(`Slot ${date} ${time} toegevoegd`);
+  loadAvailability();
+}
+
+async function bulkAdd() {
+  const start = document.getElementById('bulk-start').value;
+  const end   = document.getElementById('bulk-end').value;
+  const times = document.getElementById('bulk-times').value.split(',').map(t => t.trim()).filter(Boolean);
+  const skip  = document.getElementById('skip-weekends').checked;
+  if (!start || !end || !times.length) { toast('Vul alle velden in', false); return; }
+  const res = await api('POST', '/api/bookings/admin/bulk-availability', { startDate: start, endDate: end, times, skipWeekends: skip });
+  toast(`${res.slotsCreated} slots toegevoegd`);
+  loadAvailability();
+}
+
+async function addNextMonths() {
+  const now   = new Date();
+  const start = now.toISOString().slice(0,10);
+  const end3  = new Date(now.getFullYear(), now.getMonth() + 3, now.getDate()).toISOString().slice(0,10);
+  const times = document.getElementById('bulk-times').value.split(',').map(t => t.trim()).filter(Boolean);
+  const res = await api('POST', '/api/bookings/admin/bulk-availability', { startDate: start, endDate: end3, times, skipWeekends: true });
+  toast(`${res.slotsCreated} slots toegevoegd voor komende 3 maanden`);
+  loadAvailability();
+}
+
+// ── Bookings ─────────────────────────────────────────────────────────────
+async function loadBookings() {
+  const data = await api('GET', '/api/bookings/admin/all');
+  const tbody = document.querySelector('#bookings-tbl tbody');
+  tbody.innerHTML = data.map(b => `
+    <tr>
+      <td><strong>${b.customer_name}</strong><br><span style="font-size:11px;color:var(--ink3)">${b.customer_email}</span></td>
+      <td>${fmtDate(b.date + 'T12:00:00')}</td>
+      <td>${b.slot_time}</td>
+      <td>${b.package_name}</td>
+      <td>${statusBadge(b.status)}</td>
+      <td>${b.zoom_link ? `<a href="${b.zoom_link}" target="_blank" style="color:var(--sky);font-weight:700">Link</a>` : `<button class="btn btn-sm btn-sun" onclick="addZoom(${b.id})">+ Zoom</button>`}</td>
+      <td>
+        <select onchange="changeBookingStatus(${b.id}, this.value)" style="padding:5px 8px;font-size:12px;border-radius:8px;border:1.5px solid var(--bdr)">
+          <option ${b.status==='confirmed'?'selected':''}>confirmed</option>
+          <option ${b.status==='completed'?'selected':''}>completed</option>
+          <option ${b.status==='cancelled'?'selected':''}>cancelled</option>
+        </select>
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="7" style="color:var(--ink3);text-align:center;padding:20px">Nog geen boekingen</td></tr>';
+}
+
+async function addZoom(id) {
+  const link = prompt('Zoom link:');
+  if (!link) return;
+  await api('PUT', `/api/bookings/admin/booking/${id}/zoom`, { zoomLink: link });
+  toast('Zoom link opgeslagen');
+  loadBookings();
+}
+
+async function changeBookingStatus(id, status) {
+  await api('PUT', `/api/bookings/admin/booking/${id}/status`, { status });
+  toast('Status bijgewerkt');
+}
+
+// ── Orders ────────────────────────────────────────────────────────────────
+async function loadOrders() {
+  const data = await api('GET', '/api/orders/admin/orders');
+  const tbody = document.querySelector('#orders-tbl tbody');
+  tbody.innerHTML = data.orders.map(o => `
+    <tr>
+      <td><strong>${o.customer_name}</strong></td>
+      <td style="font-size:12px">${o.customer_email}</td>
+      <td>${o.package_name}<br><span style="font-size:11px;color:var(--ink3)">${o.lessons_used}/${o.lessons_total} lessen</span></td>
+      <td>${euro(o.amount_cents)}</td>
+      <td>${statusBadge(o.status)}</td>
+      <td>${fmtDate(o.paid_at)}</td>
+      <td><span style="font-size:11px;font-family:monospace;background:var(--bg);padding:2px 6px;border-radius:6px">${o.access_token.slice(0,12)}…</span></td>
+    </tr>
+  `).join('') || '<tr><td colspan="7" style="color:var(--ink3);text-align:center;padding:20px">Nog geen bestellingen</td></tr>';
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('nl-NL', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+// Stel standaard datums in voor bulk
+const today = new Date().toISOString().slice(0,10);
+const in3m  = new Date(new Date().getFullYear(), new Date().getMonth()+3, new Date().getDate()).toISOString().slice(0,10);
+document.getElementById('bulk-start').value = today;
+document.getElementById('bulk-end').value   = in3m;
+document.getElementById('single-date').value = today;
+
+loadDashboard();
+</script>
+</body>
+</html>
