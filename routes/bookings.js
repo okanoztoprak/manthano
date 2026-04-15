@@ -64,7 +64,8 @@ router.post('/book', async (req, res) => {
 
   const bookingUuid = uuidv4();
 
-  const bookTx = db.transaction(() => {
+  db.exec('BEGIN');
+  try {
     db.prepare(`
       INSERT INTO bookings (uuid, order_id, avail_id, date, slot_time, status, notes)
       VALUES (?, ?, ?, ?, ?, 'confirmed', ?)
@@ -72,9 +73,11 @@ router.post('/book', async (req, res) => {
 
     db.prepare('UPDATE availability SET booked = booked + 1 WHERE id = ?').run(slot.id);
     db.prepare('UPDATE orders SET lessons_used = lessons_used + 1, updated_at = datetime(\'now\') WHERE id = ?').run(order.id);
-  });
-
-  bookTx();
+    db.exec('COMMIT');
+  } catch (err) {
+    db.exec('ROLLBACK');
+    throw err;
+  }
 
   const booking = db.prepare('SELECT * FROM bookings WHERE uuid = ?').get(bookingUuid);
   const customer = db.prepare('SELECT * FROM customers WHERE id = ?').get(order.customer_id);
