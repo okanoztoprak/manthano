@@ -10,40 +10,40 @@ function getMollie() {
 }
 
 // POST /api/payments/create  — maak een betaling aan voor een pakket
-router.post('/create', async (req, res) => {
-  const { packageSlug, customerName, customerEmail, customerPhone, customerLevel, notes } = req.body;
-
-  if (!packageSlug || !customerName || !customerEmail) {
-    return res.status(400).json({ error: 'Vereiste velden ontbreken.' });
-  }
-
-  const db = getDb();
-  const pkg = db.prepare('SELECT * FROM packages WHERE slug = ? AND active = 1').get(packageSlug);
-  if (!pkg) return res.status(404).json({ error: 'Pakket niet gevonden.' });
-
-  // Klant opslaan of ophalen
-  let customer = db.prepare('SELECT * FROM customers WHERE email = ?').get(customerEmail);
-  if (!customer) {
-    const info = db.prepare(
-      'INSERT INTO customers (name, email, phone, level, notes) VALUES (?, ?, ?, ?, ?)'
-    ).run(customerName, customerEmail, customerPhone || null, customerLevel || null, notes || null);
-    customer = db.prepare('SELECT * FROM customers WHERE id = ?').get(info.lastInsertRowid);
-  }
-
-  const orderUuid   = uuidv4();
-  const accessToken = uuidv4().replace(/-/g, '');
-  const expiresAt   = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString();
-
-  db.prepare(`
-    INSERT INTO orders (uuid, customer_id, package_id, package_name, lessons_total, amount_cents, access_token, expires_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(orderUuid, customer.id, pkg.id, pkg.name, pkg.lessons, pkg.price, accessToken, expiresAt);
-
-  const order = db.prepare('SELECT * FROM orders WHERE uuid = ?').get(orderUuid);
-
-  const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
-
+router.post('/create', async (req, res, next) => {
   try {
+    const { packageSlug, customerName, customerEmail, customerPhone, customerLevel, notes } = req.body;
+
+    if (!packageSlug || !customerName || !customerEmail) {
+      return res.status(400).json({ error: 'Vereiste velden ontbreken.' });
+    }
+
+    const db = getDb();
+    const pkg = db.prepare('SELECT * FROM packages WHERE slug = ? AND active = 1').get(packageSlug);
+    if (!pkg) return res.status(404).json({ error: 'Pakket niet gevonden.' });
+
+    // Klant opslaan of ophalen
+    let customer = db.prepare('SELECT * FROM customers WHERE email = ?').get(customerEmail);
+    if (!customer) {
+      const info = db.prepare(
+        'INSERT INTO customers (name, email, phone, level, notes) VALUES (?, ?, ?, ?, ?)'
+      ).run(customerName, customerEmail, customerPhone || null, customerLevel || null, notes || null);
+      customer = db.prepare('SELECT * FROM customers WHERE id = ?').get(info.lastInsertRowid);
+    }
+
+    const orderUuid   = uuidv4();
+    const accessToken = uuidv4().replace(/-/g, '');
+    const expiresAt   = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString();
+
+    db.prepare(`
+      INSERT INTO orders (uuid, customer_id, package_id, package_name, lessons_total, amount_cents, access_token, expires_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(orderUuid, customer.id, pkg.id, pkg.name, pkg.lessons, pkg.price, accessToken, expiresAt);
+
+    const order = db.prepare('SELECT * FROM orders WHERE uuid = ?').get(orderUuid);
+
+    const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
+
     const mollie = getMollie();
     const payment = await mollie.payments.create({
       amount:      { currency: 'EUR', value: (pkg.price / 100).toFixed(2) },
@@ -58,8 +58,10 @@ router.post('/create', async (req, res) => {
 
     res.json({ checkoutUrl: payment.links.checkout.href });
   } catch (err) {
-    console.error('Mollie fout:', err);
-    res.status(500).json({ error: 'Betaling aanmaken mislukt.' });
+    console.error('Fout bij betaling aanmaken:', err.message);
+    if (!res.headersSent) {
+      res.status(500).json({ error: err.message || 'Betaling aanmaken mislukt.' });
+    }
   }
 });
 

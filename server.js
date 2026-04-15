@@ -49,6 +49,15 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// ── Globale foutafhandeling: altijd JSON teruggeven voor /api routes
+app.use((err, req, res, next) => {
+  console.error('Server fout:', err.message, err.stack);
+  if (req.path.startsWith('/api/')) {
+    return res.status(500).json({ error: err.message || 'Interne serverfout.' });
+  }
+  next(err);
+});
+
 // ── Init DB en start server
 const { initDb } = require('./db/database');
 
