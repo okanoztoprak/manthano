@@ -15,8 +15,8 @@
     "express": "^4.18.3",
     "express-rate-limit": "^7.2.0",
     "helmet": "^7.1.0",
-    "node-sqlite3-wasm": "^0.8.56",
     "nodemailer": "^6.9.12",
+    "sql.js": "^1.14.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

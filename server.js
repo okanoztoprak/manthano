@@ -49,11 +49,16 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// ── Init DB on start
-require('./db/database').getDb();
+// ── Init DB en start server
+const { initDb } = require('./db/database');
 
-app.listen(PORT, () => {
-  console.log(`\n🚀 Manthano server draait op http://localhost:${PORT}`);
-  console.log(`   Admin: http://localhost:${PORT}/admin/`);
-  console.log(`   Modus: ${process.env.NODE_ENV || 'development'}\n`);
+initDb().then(() => {
+  app.listen(PORT, () => {
+    console.log(`\n🚀 Manthano server draait op http://localhost:${PORT}`);
+    console.log(`   Admin: http://localhost:${PORT}/admin/`);
+    console.log(`   Modus: ${process.env.NODE_ENV || 'development'}\n`);
+  });
+}).catch(err => {
+  console.error('Database initialisatie mislukt:', err);
+  process.exit(1);
 });
