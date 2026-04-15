@@ -86,6 +86,20 @@ class Db {
   prepare(sql) {
     return new Statement(this._raw, sql);
   }
+
+  transaction(fn) {
+    return (...args) => {
+      this.exec('BEGIN');
+      try {
+        const result = fn(...args);
+        this.exec('COMMIT');
+        return result;
+      } catch (err) {
+        this.exec('ROLLBACK');
+        throw err;
+      }
+    };
+  }
 }
 
 // ── Schema ────────────────────────────────────────────────────────────────
