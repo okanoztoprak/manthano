@@ -81,6 +81,7 @@ input:focus,select:focus{border-color:var(--sky);background:var(--white)}
 
 /* responsive */
 @media(max-width:900px){.stats-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.agenda-top-grid{grid-template-columns:1fr!important}}
 @media(max-width:600px){.stats-grid{grid-template-columns:1fr 1fr}.form-row,.form-row.cols3{grid-template-columns:1fr}}
 </style>
 </head>
@@ -126,45 +127,56 @@ input:focus,select:focus{border-color:var(--sky);background:var(--white)}
   <!-- ── AGENDA ── -->
   <div class="panel" id="panel-agenda">
 
-    <!-- Bulk toevoegen -->
-    <div class="card">
-      <div class="card-title">Beschikbaarheid bulk toevoegen</div>
-      <div class="form-row">
-        <div class="form-group"><label>Startdatum</label><input type="date" id="bulk-start"></div>
-        <div class="form-group"><label>Einddatum</label><input type="date" id="bulk-end"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px" class="agenda-top-grid">
+
+      <!-- Bulk toevoegen -->
+      <div class="card" style="margin-bottom:0">
+        <div class="card-title">Bulk beschikbaarheid toevoegen</div>
+        <div class="form-row">
+          <div class="form-group"><label>Startdatum</label><input type="date" id="bulk-start"></div>
+          <div class="form-group"><label>Einddatum</label><input type="date" id="bulk-end"></div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px">
+          <label>Tijdsloten (komma-gescheiden)</label>
+          <input type="text" id="bulk-times" value="17:30,19:00,20:00" placeholder="17:30,19:00,20:00">
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">
+            <input type="checkbox" id="skip-weekends" checked style="width:auto;padding:0;border:none"> Weekenden overslaan
+          </label>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn btn-ink" onclick="bulkAdd()">Toevoegen</button>
+          <button class="btn btn-sun" onclick="addNextMonths()">+ 3 maanden</button>
+        </div>
       </div>
-      <div class="form-group" style="margin-bottom:14px">
-        <label>Tijdsloten (vul in, komma-gescheiden)</label>
-        <input type="text" id="bulk-times" value="17:30,19:00,20:00" placeholder="17:30,19:00,20:00">
-      </div>
-      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-        <label style="display:flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:13px;font-weight:700;cursor:pointer">
-          <input type="checkbox" id="skip-weekends" checked style="width:auto;padding:0;border:none"> Weekenden overslaan
-        </label>
-        <button class="btn btn-ink" onclick="bulkAdd()">Slots toevoegen</button>
-        <button class="btn btn-sun" onclick="addNextMonths()">+ Komende 3 maanden</button>
+
+      <!-- Losse slot -->
+      <div class="card" style="margin-bottom:0">
+        <div class="card-title">Losse slot toevoegen</div>
+        <div class="form-group" style="margin-bottom:12px"><label>Datum</label><input type="date" id="single-date"></div>
+        <div class="form-group" style="margin-bottom:12px"><label>Tijdstip</label><input type="time" id="single-time" value="17:30"></div>
+        <div class="form-group" style="margin-bottom:16px"><label>Max. plekken</label><input type="number" id="single-max" value="1" min="1" max="10"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-mint" onclick="addSingle()">Toevoegen</button>
+          <button class="btn btn-coral" onclick="deleteSingle()">Verwijderen</button>
+        </div>
       </div>
     </div>
 
-    <!-- Losse slot toevoegen -->
+    <!-- Maandkalender -->
     <div class="card">
-      <div class="card-title">Losse slot toevoegen of verwijderen</div>
-      <div class="form-row cols3">
-        <div class="form-group"><label>Datum</label><input type="date" id="single-date"></div>
-        <div class="form-group"><label>Tijdstip</label><input type="time" id="single-time" value="17:30"></div>
-        <div class="form-group"><label>Max. plekken</label><input type="number" id="single-max" value="1" min="1" max="10"></div>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn btn-mint" onclick="addSingle()">Slot toevoegen</button>
-        <button class="btn btn-coral" onclick="deleteSingle()">Slot verwijderen</button>
-      </div>
-    </div>
-
-    <!-- Weekoverzicht -->
-    <div class="card">
-      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
-        <span>Beschikbaarheid komende 2 weken</span>
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="btn btn-sm" id="avail-prev" onclick="availPrevMonth()">← Vorige</button>
+          <span id="avail-month-label" style="font-size:15px;font-weight:900;min-width:160px;text-align:center"></span>
+          <button class="btn btn-sm" id="avail-next" onclick="availNextMonth()">Volgende →</button>
+        </div>
         <button class="btn btn-sm btn-sun" onclick="loadAvailability()">↻ Vernieuwen</button>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:14px;font-size:12px;font-weight:700;color:var(--ink3);flex-wrap:wrap;margin-bottom:12px">
+        <span><span style="display:inline-block;width:12px;height:12px;background:var(--mint);border:1px solid var(--ink);border-radius:3px;vertical-align:middle;margin-right:4px"></span>Vrij</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#fef3c7;border:1px solid var(--ink);border-radius:3px;vertical-align:middle;margin-right:4px"></span>Geboekt</span>
       </div>
       <div id="avail-grid-wrap"><p style="color:var(--ink3);font-size:13px">Laden…</p></div>
     </div>
@@ -275,22 +287,84 @@ async function loadDashboard() {
 }
 
 // ── Availability ─────────────────────────────────────────────────────────
+let availYear  = new Date().getFullYear();
+let availMonth = new Date().getMonth() + 1; // 1-12
+
+function availMonthStr() {
+  return `${availYear}-${String(availMonth).padStart(2,'0')}`;
+}
+
+function availPrevMonth() {
+  availMonth--;
+  if (availMonth < 1) { availMonth = 12; availYear--; }
+  loadAvailability();
+}
+function availNextMonth() {
+  availMonth++;
+  if (availMonth > 12) { availMonth = 1; availYear++; }
+  loadAvailability();
+}
+
 async function loadAvailability() {
-  const wrap = document.getElementById('avail-grid-wrap');
+  const wrap  = document.getElementById('avail-grid-wrap');
+  const label = document.getElementById('avail-month-label');
+  const monthStr = availMonthStr();
+  if (label) {
+    const monthNames = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'];
+    label.textContent = `${monthNames[availMonth-1]} ${availYear}`;
+  }
   wrap.innerHTML = '<p style="color:var(--ink3);font-size:13px">Laden…</p>';
-  const data = await api('GET', '/api/bookings/availability');
-  const dates = Object.keys(data).sort().slice(0, 14);
-  if (!dates.length) { wrap.innerHTML = '<p style="color:var(--ink3);font-size:13px">Geen beschikbare slots in de komende 2 weken.</p>'; return; }
-  wrap.innerHTML = `<div class="avail-grid">${dates.map(d => {
-    const slots = data[d].map(s => `
-      <div class="av-slot ${s.available === 0 ? 'full' : ''}">
-        <span>${s.time}</span>
-        <button class="av-del" title="Verwijderen" onclick="deleteSlot('${d}','${s.time}')">✕</button>
-      </div>`).join('');
-    const dt = new Date(d + 'T12:00:00');
-    const label = dt.toLocaleDateString('nl-NL', {weekday:'short',day:'numeric',month:'short'});
-    return `<div class="avail-day"><div class="av-date">${label}</div>${slots}</div>`;
-  }).join('')}</div>`;
+
+  const data = await api('GET', '/api/bookings/admin/availability-all?month=' + monthStr);
+  const dates = Object.keys(data).sort();
+
+  if (!dates.length) {
+    wrap.innerHTML = '<p style="color:var(--ink3);font-size:13px">Geen slots in deze maand. Voeg ze toe via de knoppen hierboven.</p>';
+    return;
+  }
+
+  // Build 7-column grid per week
+  const firstDate   = new Date(dates[0] + 'T12:00:00');
+  const lastDate    = new Date(dates[dates.length-1] + 'T12:00:00');
+  const dayNames    = ['Ma','Di','Wo','Do','Vr','Za','Zo'];
+  const allDaysSet  = new Set(dates);
+
+  // Fill full weeks
+  const startOfWeek = new Date(firstDate);
+  startOfWeek.setDate(firstDate.getDate() - ((firstDate.getDay() + 6) % 7));
+  const endOfWeek = new Date(lastDate);
+  endOfWeek.setDate(lastDate.getDate() + (6 - ((lastDate.getDay() + 6) % 7)));
+
+  let gridHtml = `<div class="avail-grid" style="grid-template-columns:repeat(7,1fr)">
+    ${dayNames.map(d => `<div style="font-size:11px;font-weight:900;color:var(--ink3);text-align:center;padding:4px 0">${d}</div>`).join('')}
+  `;
+
+  const cur = new Date(startOfWeek);
+  while (cur <= endOfWeek) {
+    const ds = cur.toISOString().slice(0,10);
+    const inMonth = cur.getMonth() + 1 === availMonth;
+    const slots   = data[ds];
+
+    if (!inMonth || !slots) {
+      gridHtml += `<div style="min-height:60px;background:transparent"></div>`;
+    } else {
+      const dayLabel = cur.getDate();
+      const slotItems = slots.map(s => `
+        <div class="av-slot ${s.booked > 0 ? 'full' : ''}" style="font-size:10px">
+          <span>${s.time}</span>
+          <button class="av-del" title="Verwijderen" onclick="deleteSlot('${ds}','${s.time}')">✕</button>
+        </div>`).join('');
+      gridHtml += `
+        <div class="avail-day" style="min-height:60px">
+          <div class="av-date">${dayLabel}</div>
+          ${slotItems}
+        </div>`;
+    }
+    cur.setDate(cur.getDate() + 1);
+  }
+
+  gridHtml += `</div>`;
+  wrap.innerHTML = gridHtml;
 }
 
 async function deleteSlot(date, time) {

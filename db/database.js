@@ -4,13 +4,38 @@ const fs   = require('fs');
 const DB_PATH = path.join(__dirname, 'manthano.db');
 
 let db = null;
+let _saveTimer = null;
 
-// ── Persist in-memory DB to disk ──────────────────────────────────────────
+// ── Persist in-memory DB to disk (debounced — max 1x per 500ms) ──────────
 function save() {
   if (!db) return;
-  const data = db._raw.export();
-  fs.writeFileSync(DB_PATH, Buffer.from(data));
+  if (_saveTimer) return; // al ingepland
+  _saveTimer = setTimeout(() => {
+    _saveTimer = null;
+    try {
+      const data = db._raw.export();
+      fs.writeFileSync(DB_PATH, Buffer.from(data));
+    } catch (e) {
+      console.error('DB opslaan mislukt:', e.message);
+    }
+  }, 500);
 }
+
+// Geforceerde synchrone save bij afsluiten
+function saveSync() {
+  if (!db) return;
+  if (_saveTimer) { clearTimeout(_saveTimer); _saveTimer = null; }
+  try {
+    const data = db._raw.export();
+    fs.writeFileSync(DB_PATH, Buffer.from(data));
+  } catch (e) {
+    console.error('DB opslaan bij afsluiten mislukt:', e.message);
+  }
+}
+
+process.on('exit',   saveSync);
+process.on('SIGINT',  () => { saveSync(); process.exit(0); });
+process.on('SIGTERM', () => { saveSync(); process.exit(0); });
 
 // ── Convert {slug: 'x'} → {'@slug': 'x'} for named params ───────────────
 function prepareParams(args) {

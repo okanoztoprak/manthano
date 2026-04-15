@@ -116,6 +116,33 @@ router.get('/my-lessons/:token', (req, res) => {
 
 // ── ADMIN ROUTES ──
 
+// GET /api/bookings/admin/availability-all?month=YYYY-MM  — alle slots (ook geboekte)
+router.get('/admin/availability-all', requireAdmin, (req, res) => {
+  const db = getDb();
+  const month = req.query.month;
+  let rows;
+  if (month && /^\d{4}-\d{2}$/.test(month)) {
+    rows = db.prepare(`
+      SELECT id, date, slot_time, max_spots, booked, active
+      FROM availability WHERE date LIKE ? AND active = 1
+      ORDER BY date, slot_time
+    `).all(`${month}%`);
+  } else {
+    rows = db.prepare(`
+      SELECT id, date, slot_time, max_spots, booked, active
+      FROM availability
+      WHERE date >= date('now') AND date <= date('now', '+90 days') AND active = 1
+      ORDER BY date, slot_time
+    `).all();
+  }
+  const grouped = {};
+  for (const r of rows) {
+    if (!grouped[r.date]) grouped[r.date] = [];
+    grouped[r.date].push({ id: r.id, time: r.slot_time, maxSpots: r.max_spots, booked: r.booked, available: r.max_spots - r.booked });
+  }
+  res.json(grouped);
+});
+
 // GET /api/bookings/admin/all
 router.get('/admin/all', requireAdmin, (req, res) => {
   const db = getDb();
