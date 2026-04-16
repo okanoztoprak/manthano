@@ -4,6 +4,8 @@
 # Database
 db/*.sqlite
 db/*.db
+db/*.db-shm
+db/*.db-wal
 
 # Dependencies
 node_modules/
