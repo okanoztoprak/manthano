@@ -1,0 +1,13 @@
+{
+  "name": "Manthano — Bijles & Coaching",
+  "short_name": "Manthano",
+  "description": "Persoonlijke online Engelse bijles door Simone",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#FFFBF0",
+  "theme_color": "#1A1A2E",
+  "icons": [
+    { "src": "/images/logo.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/images/logo.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

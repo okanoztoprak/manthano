@@ -141,6 +141,17 @@ footer{background:var(--ink);padding:48px 48px 32px}
 .price-per{font-size:13px;font-weight:700;color:var(--ink3)}
 .price-saving{display:inline-block;background:var(--mint);color:var(--ink);border:1.5px solid var(--ink);border-radius:50px;font-size:11px;font-weight:900;padding:3px 12px;box-shadow:1.5px 1.5px 0 var(--ink)}
 
+/* ── COOKIE BANNER ── */
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:var(--ink);border-top:3px solid var(--sun);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;transform:translateY(100%);transition:transform .35s ease}
+#cookie-banner.visible{transform:translateY(0)}
+#cookie-banner p{font-size:13px;color:rgba(255,255,255,.85);font-weight:600;line-height:1.6;margin:0;flex:1;min-width:220px}
+#cookie-banner a{color:var(--sun);font-weight:700;text-decoration:underline}
+.cookie-btns{display:flex;gap:10px;flex-shrink:0}
+.cookie-accept{background:var(--mint);color:var(--ink);border:2px solid var(--white);border-radius:50px;padding:9px 22px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:900;cursor:pointer}
+.cookie-decline{background:transparent;color:rgba(255,255,255,.6);border:2px solid rgba(255,255,255,.25);border-radius:50px;padding:9px 18px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+.cookie-accept:hover{background:var(--mint2)}
+.cookie-decline:hover{color:var(--white);border-color:rgba(255,255,255,.5)}
+
 /* ── DOODLE DECORATIONS ── */
 .doodle{position:absolute;pointer-events:none;z-index:0}
 .blob{position:absolute;pointer-events:none;z-index:0;opacity:.12}

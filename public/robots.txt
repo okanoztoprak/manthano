@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /bevestiging.html
+Disallow: /mijn-lessen.html
+Disallow: /api/
+
+Sitemap: https://manthano.nl/sitemap.xml

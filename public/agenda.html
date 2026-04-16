@@ -3,12 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Les inplannen — Manthano</title>
+<title>Les inplannen · Manthano</title>
 <meta name="description" content="Plan jouw Engelse bijles in bij Simone. Kies zelf een datum en tijdstip.">
+<link rel="canonical" href="https://manthano.nl/agenda.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Les inplannen · Manthano">
+<meta property="og:description" content="Plan je bijles in bij Simone. Kies zelf een datum en tijdstip. 100% online via Zoom.">
+<meta property="og:url" content="https://manthano.nl/agenda.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="manifest" href="/manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=3">
+<link rel="stylesheet" href="/css/style.css?v=4">
 <style>
 .ag-wrap{max-width:820px;margin:0 auto;padding:48px 24px 80px}
 .ag-card{background:#fff;border:2.5px solid var(--ink);border-radius:18px;padding:28px;box-shadow:4px 4px 0 var(--ink);margin-bottom:20px}
@@ -71,7 +78,10 @@
 <body>
 
 <nav aria-label="Hoofdnavigatie">
-  <a href="/" class="logo-wrap"><span class="logo-fb">Manthano</span></a>
+  <a href="/" class="logo-wrap">
+    <img src="/images/logo.png" alt="Manthano" onerror="this.style.display='none';document.getElementById('logo-fb').style.display='inline'">
+    <span class="logo-fb" id="logo-fb" style="display:none">Manthano</span>
+  </a>
   <ul class="nav-links" role="list">
     <li><a href="/#over">Over Simone</a></li>
     <li><a href="/diensten.html">Diensten</a></li>
@@ -140,6 +150,14 @@
     </div>
   </div>
 </footer>
+
+<div id="cookie-banner" role="region" aria-label="Cookie melding">
+  <p>Deze website gebruikt functionele cookies voor een goede werking. Geen tracking, geen advertenties. Lees meer in ons <a href="/privacybeleid.html">privacybeleid</a>.</p>
+  <div class="cookie-btns">
+    <button class="cookie-accept" id="cookie-accept">Prima</button>
+    <button class="cookie-decline" id="cookie-decline">Sluiten</button>
+  </div>
+</div>
 
 <script src="/js/main.js"></script>
 <script>
@@ -278,7 +296,7 @@ function render() {
     }
 
     slotPicker = '<div class="ag-card" id="ag-slot-card">'
-      + '<div class="ag-card-title">Stap 2 — Kies een tijdstip · ' + dl + '</div>'
+      + '<div class="ag-card-title">Stap 2: Kies een tijdstip · ' + dl + '</div>'
       + slotBtns
       + '</div>';
   }
@@ -303,13 +321,13 @@ function render() {
       : '';
 
     bookForm = '<div class="ag-card" id="ag-book-card">'
-      + '<div class="ag-card-title">Stap 3 — Bevestig je boeking</div>'
+      + '<div class="ag-card-title">Stap 3: Bevestig je boeking</div>'
       + '<div id="ag-book-msg"></div>'
       + orderLine
       + tokenField
       + '<label class="ag-label" for="ag-notes">Notities (optioneel)</label>'
       + '<input type="text" id="ag-notes" class="ag-input" placeholder="Bijv. voorbereiding mondeling…">'
-      + '<button class="ag-book-btn" id="ag-book-btn" onclick="doBook()">✓ Bevestig boeking — ' + pickedTime + '</button>'
+      + '<button class="ag-book-btn" id="ag-book-btn" onclick="doBook()">✓ Bevestig boeking ' + pickedTime + '</button>'
       + hintBox
       + '</div>';
   }
@@ -407,7 +425,7 @@ async function doBook() {
       + '</div>';
   } catch(e) {
     btn.disabled = false;
-    btn.textContent = '✓ Bevestig boeking — ' + pickedTime;
+    btn.textContent = '✓ Bevestig boeking ' + pickedTime;
     msgEl.innerHTML = '<div class="ag-err">' + e.message + '</div>';
   }
 }

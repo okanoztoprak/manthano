@@ -53,6 +53,22 @@ function setLoading(btn, loading, text) {
   }
 }
 
+// ── Cookie banner
+(function () {
+  if (localStorage.getItem('cookie_ok')) return;
+  const banner = document.getElementById('cookie-banner');
+  if (!banner) return;
+  requestAnimationFrame(() => banner.classList.add('visible'));
+  document.getElementById('cookie-accept')?.addEventListener('click', () => {
+    localStorage.setItem('cookie_ok', '1');
+    banner.classList.remove('visible');
+  });
+  document.getElementById('cookie-decline')?.addEventListener('click', () => {
+    localStorage.setItem('cookie_ok', '0');
+    banner.classList.remove('visible');
+  });
+})();
+
 // ── Smooth scroll voor hash-links
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {

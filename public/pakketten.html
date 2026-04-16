@@ -3,12 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pakketten — Manthano</title>
+<title>Pakketten · Manthano</title>
 <meta name="description" content="Kies jouw bijlespakket. Losse les €65, Pakket 4 lessen €230, Pakket 8 lessen €400. Betalen via iDEAL, creditcard of PayPal.">
+<link rel="canonical" href="https://manthano.nl/pakketten.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pakketten · Manthano">
+<meta property="og:description" content="Kies jouw bijlespakket bij Manthano. Losse les, 4 of 8 lessen. Veilig betalen via iDEAL.">
+<meta property="og:url" content="https://manthano.nl/pakketten.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="manifest" href="/manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=3">
+<link rel="stylesheet" href="/css/style.css?v=4">
 <style>
 /* ── PACKAGES PAGE ── */
 .pack-section{padding:72px 48px;max-width:1000px;margin:0 auto}
@@ -90,8 +97,9 @@
 
 <!-- NAV -->
 <nav aria-label="Hoofdnavigatie">
-  <a href="/" class="logo-wrap" aria-label="Manthano — ga naar home">
-    <span class="logo-fb">Manthano</span>
+  <a href="/" class="logo-wrap">
+    <img src="/images/logo.png" alt="Manthano" onerror="this.style.display='none';document.getElementById('logo-fb').style.display='inline'">
+    <span class="logo-fb" id="logo-fb" style="display:none">Manthano</span>
   </a>
   <ul class="nav-links" role="list">
     <li><a href="/#over">Over Simone</a></li>
@@ -217,7 +225,7 @@
     <div class="faq-item">
       <button class="faq-q" aria-expanded="false">Hoe lang zijn de lessen geldig? <span>+</span></button>
       <div class="faq-a">
-        <p>Alle pakketten zijn 3 maanden geldig vanaf de aankoopdatum. Heb je nog lessen over na 3 maanden? Neem dan contact op — we zoeken altijd een oplossing.</p>
+        <p>Alle pakketten zijn 3 maanden geldig vanaf de aankoopdatum. Heb je nog lessen over na 3 maanden? Neem dan contact op, we zoeken altijd een oplossing.</p>
       </div>
     </div>
 
@@ -231,21 +239,21 @@
     <div class="faq-item">
       <button class="faq-q" aria-expanded="false">Via welke betalingsmethoden kan ik betalen? <span>+</span></button>
       <div class="faq-a">
-        <p>Je betaalt veilig via Mollie. Beschikbare methoden: iDEAL, creditcard (Visa/Mastercard), PayPal en Bancontact. De betaling wordt beveiligd verwerkt — Manthano ziet je bankgegevens nooit.</p>
+        <p>Je betaalt veilig via Mollie. Beschikbare methoden: iDEAL, creditcard (Visa/Mastercard), PayPal en Bancontact. De betaling wordt beveiligd verwerkt. Manthano ziet je bankgegevens nooit.</p>
       </div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" aria-expanded="false">Voor welke niveaus is bijles beschikbaar? <span>+</span></button>
       <div class="faq-a">
-        <p>Simone geeft bijles aan VMBO, HAVO, VWO en MBO leerlingen. Twijfel je of het bij jou past? Vraag een gratis kennismaking aan — geen verplichtingen.</p>
+        <p>Simone geeft bijles aan VMBO, HAVO, VWO en MBO leerlingen. Twijfel je of het bij jou past? Vraag een gratis kennismaking aan, geen verplichtingen.</p>
       </div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" aria-expanded="false">Wat als ik niet tevreden ben? <span>+</span></button>
       <div class="faq-a">
-        <p>Niet tevreden na de eerste les? Dan betaal je niks extra en zoeken we samen naar een oplossing. Simone staat voor kwaliteit — jouw tevredenheid staat voorop.</p>
+        <p>Niet tevreden na de eerste les? Dan betaal je niks extra en zoeken we samen naar een oplossing. Simone staat voor kwaliteit. Jouw tevredenheid staat voorop.</p>
       </div>
     </div>
   </div>
@@ -295,7 +303,7 @@
   <div class="modal">
     <button class="modal-close" id="modal-close" aria-label="Sluiten">✕</button>
     <div class="modal-title" id="modal-title">Bestelling afronden</div>
-    <div class="modal-sub">Vul je gegevens in — je wordt doorgestuurd naar de betaalpagina</div>
+    <div class="modal-sub">Vul je gegevens in, je wordt doorgestuurd naar de betaalpagina</div>
 
     <div class="selected-pkg-badge" id="selected-pkg-badge">
       <span id="selected-pkg-name">Pakket</span>
@@ -354,10 +362,18 @@
         <input type="email" id="p-email" class="form-input" placeholder="jouw@email.nl" required>
       </div>
       <button type="submit" class="btn-main btn-full" id="planner-submit" style="background:var(--sun);color:var(--ink)">
-        Betalen — €12,50 →
+        Betalen · €12,50 →
       </button>
       <p class="form-note" style="text-align:center;margin-top:10px">🔒 Veilig betalen via iDEAL</p>
     </form>
+  </div>
+</div>
+
+<div id="cookie-banner" role="region" aria-label="Cookie melding">
+  <p>Deze website gebruikt functionele cookies voor een goede werking. Geen tracking, geen advertenties. Lees meer in ons <a href="/privacybeleid.html">privacybeleid</a>.</p>
+  <div class="cookie-btns">
+    <button class="cookie-accept" id="cookie-accept">Prima</button>
+    <button class="cookie-decline" id="cookie-decline">Sluiten</button>
   </div>
 </div>
 

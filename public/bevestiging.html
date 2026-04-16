@@ -3,12 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bevestiging — Manthano</title>
+<title>Bevestiging · Manthano</title>
 <meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="manifest" href="/manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=3">
+<link rel="stylesheet" href="/css/style.css?v=4">
 <style>
 /* ── BEVESTIGING ── */
 .conf-wrap{padding:80px 48px;max-width:640px;margin:0 auto;text-align:center}
@@ -54,7 +56,10 @@
 
 <!-- NAV -->
 <nav aria-label="Hoofdnavigatie">
-  <a href="/" class="logo-wrap"><span class="logo-fb">Manthano</span></a>
+  <a href="/" class="logo-wrap">
+    <img src="/images/logo.png" alt="Manthano" onerror="this.style.display='none';document.getElementById('logo-fb').style.display='inline'">
+    <span class="logo-fb" id="logo-fb" style="display:none">Manthano</span>
+  </a>
   <ul class="nav-links" role="list">
     <li><a href="/#over">Over Simone</a></li>
     <li><a href="/diensten.html">Diensten</a></li>
@@ -116,6 +121,14 @@
     </div>
   </div>
 </footer>
+
+<div id="cookie-banner" role="region" aria-label="Cookie melding">
+  <p>Deze website gebruikt functionele cookies voor een goede werking. Geen tracking, geen advertenties. Lees meer in ons <a href="/privacybeleid.html">privacybeleid</a>.</p>
+  <div class="cookie-btns">
+    <button class="cookie-accept" id="cookie-accept">Prima</button>
+    <button class="cookie-decline" id="cookie-decline">Sluiten</button>
+  </div>
+</div>
 
 <script src="/js/main.js"></script>
 <script>
@@ -233,7 +246,7 @@
         </div>
         <p style="font-size:12px;color:var(--ink3);font-weight:700;margin-top:20px">
           Token: <code style="font-size:11px;word-break:break-all">${escHtml(token)}</code><br>
-          Bewaar dit — je hebt het nodig om in te loggen.
+          Bewaar dit, je hebt het nodig om in te loggen.
         </p>
       </div>
     `;
