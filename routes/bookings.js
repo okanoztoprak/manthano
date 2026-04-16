@@ -193,14 +193,16 @@ router.post('/admin/bulk-availability', requireAdmin, (req, res) => {
     VALUES (?, ?, 1, 0, 1)
   `);
 
+  const localDateStr = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+
   const insertMany = db.transaction(() => {
-    let d = new Date(startDate);
-    const end = new Date(endDate);
+    let d = new Date(startDate + 'T12:00:00'); // noon to avoid DST shifts
+    const end = new Date(endDate + 'T12:00:00');
     let count = 0;
     while (d <= end) {
       const dow = d.getDay();
       if (!skipWeekends || (dow !== 0 && dow !== 6)) {
-        const dateStr = d.toISOString().slice(0, 10);
+        const dateStr = localDateStr(d);
         for (const t of times) {
           insert.run(dateStr, t);
           count++;

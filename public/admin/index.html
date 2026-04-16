@@ -11,36 +11,30 @@
 body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5}
 a{text-decoration:none;color:inherit}
 
-/* layout */
 .topbar{background:var(--ink);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .topbar-title{font-size:18px;font-weight:900;color:var(--white)}
 .topbar-sub{font-size:12px;color:rgba(255,255,255,.4);font-weight:700}
 .container{max-width:1100px;margin:0 auto;padding:32px 24px}
 
-/* tabs */
 .tabs{display:flex;gap:4px;background:var(--white);border:2px solid var(--ink);border-radius:12px;padding:4px;margin-bottom:28px;width:fit-content}
 .tab{padding:8px 20px;border-radius:9px;font-size:13px;font-weight:800;cursor:pointer;border:none;background:transparent;color:var(--ink3);font-family:'Nunito',sans-serif;transition:all .15s}
 .tab.active{background:var(--ink);color:var(--white)}
 .panel{display:none}.panel.active{display:block}
 
-/* stat cards */
 .stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px}
 .stat-card{background:var(--white);border:2px solid var(--ink);border-radius:var(--radius);padding:18px 20px;box-shadow:3px 3px 0 var(--ink)}
 .stat-n{font-size:28px;font-weight:900;color:var(--ink)}
 .stat-l{font-size:12px;font-weight:700;color:var(--ink3);margin-top:2px}
 
-/* cards */
 .card{background:var(--white);border:2px solid var(--ink);border-radius:var(--radius);padding:24px;box-shadow:3px 3px 0 var(--ink);margin-bottom:20px}
 .card-title{font-size:15px;font-weight:900;margin-bottom:16px;color:var(--ink)}
 
-/* table */
 .tbl{width:100%;border-collapse:collapse;font-size:13px}
 .tbl th{text-align:left;font-size:11px;font-weight:900;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;border-bottom:2px solid var(--bdr)}
 .tbl td{padding:10px 12px;border-bottom:1px solid var(--bdr);font-weight:600;color:var(--ink2);vertical-align:middle}
 .tbl tr:last-child td{border-bottom:none}
 .tbl tr:hover td{background:#fafafa}
 
-/* badges */
 .badge{display:inline-block;font-size:11px;font-weight:900;padding:3px 10px;border-radius:50px;border:1.5px solid}
 .badge-paid{background:#d1fae5;color:#065f46;border-color:#6ee7b7}
 .badge-pending{background:#fef3c7;color:#92400e;border-color:#fcd34d}
@@ -48,7 +42,6 @@ a{text-decoration:none;color:inherit}
 .badge-cancelled{background:#fee2e2;color:#991b1b;border-color:#fca5a5}
 .badge-completed{background:#f3f4f6;color:#374151;border-color:#d1d5db}
 
-/* forms */
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 .form-row.cols3{grid-template-columns:1fr 1fr 1fr}
 .form-group{display:flex;flex-direction:column;gap:5px}
@@ -56,7 +49,6 @@ label{font-size:11px;font-weight:900;color:var(--ink3);text-transform:uppercase;
 input,select{padding:10px 14px;border:2px solid var(--ink);border-radius:10px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;color:var(--ink);background:var(--bg);outline:none}
 input:focus,select:focus{border-color:var(--sky);background:var(--white)}
 
-/* buttons */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:50px;font-size:13px;font-weight:900;cursor:pointer;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);font-family:'Nunito',sans-serif;transition:transform .1s,box-shadow .1s}
 .btn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
 .btn-ink{background:var(--ink);color:var(--white)}
@@ -66,23 +58,21 @@ input:focus,select:focus{border-color:var(--sky);background:var(--white)}
 .btn-sm{padding:6px 14px;font-size:12px;box-shadow:1.5px 1.5px 0 var(--ink)}
 .btn-sm:hover{box-shadow:2.5px 2.5px 0 var(--ink)}
 
-/* calendar grid */
-.avail-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px}
-.avail-day{background:var(--bg);border:1.5px solid var(--bdr);border-radius:10px;padding:8px;font-size:11px;font-weight:700;color:var(--ink2)}
-.avail-day .av-date{font-size:12px;font-weight:900;color:var(--ink);margin-bottom:6px}
-.av-slot{display:flex;align-items:center;justify-content:space-between;background:var(--mint);border:1.5px solid var(--ink);border-radius:6px;padding:3px 6px;margin-bottom:3px;font-size:11px;font-weight:800;color:var(--ink)}
-.av-slot.full{background:#fef3c7}
-.av-del{background:none;border:none;cursor:pointer;color:var(--coral);font-weight:900;font-size:13px;line-height:1;padding:0 2px}
+/* Availability list */
+.av-date-row{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;background:var(--bg);border:1.5px solid var(--bdr);border-radius:10px;margin-bottom:6px}
+.av-date-lbl{font-size:12px;font-weight:900;color:var(--ink2);min-width:100px;padding-top:3px}
+.av-chips{display:flex;flex-wrap:wrap;gap:6px}
+.av-chip{display:inline-flex;align-items:center;gap:5px;background:var(--mint);border:1.5px solid var(--ink);border-radius:8px;padding:4px 8px;font-size:11px;font-weight:800;color:var(--ink)}
+.av-chip.full{background:#fef3c7}
+.av-del{background:none;border:none;cursor:pointer;color:var(--coral);font-weight:900;font-size:13px;padding:0;line-height:1}
 .av-del:hover{color:#c00}
 
-/* toast */
 .toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:var(--white);padding:12px 20px;border-radius:12px;font-size:13px;font-weight:700;z-index:999;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;pointer-events:none}
 .toast.show{opacity:1;transform:translateY(0)}
 
-/* responsive */
 @media(max-width:900px){.stats-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:700px){.agenda-top-grid{grid-template-columns:1fr!important}}
-@media(max-width:600px){.stats-grid{grid-template-columns:1fr 1fr}.form-row,.form-row.cols3{grid-template-columns:1fr}}
+@media(max-width:700px){.form-row,.form-row.cols3{grid-template-columns:1fr}}
+@media(max-width:600px){.stats-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -97,7 +87,6 @@ input:focus,select:focus{border-color:var(--sky);background:var(--white)}
 
 <div class="container">
 
-  <!-- TABS -->
   <div class="tabs">
     <button class="tab active" onclick="showTab(this,'dashboard')">Dashboard</button>
     <button class="tab" onclick="showTab(this,'agenda')">Agenda</button>
@@ -114,7 +103,6 @@ input:focus,select:focus{border-color:var(--sky);background:var(--white)}
       <div class="stat-card"><div class="stat-n">—</div><div class="stat-l">Studenten</div></div>
       <div class="stat-card"><div class="stat-n">—</div><div class="stat-l">Lessen gepland</div></div>
     </div>
-
     <div class="card">
       <div class="card-title">Recente bestellingen</div>
       <table class="tbl" id="recent-orders-tbl">
@@ -127,25 +115,25 @@ input:focus,select:focus{border-color:var(--sky);background:var(--white)}
   <!-- ── AGENDA ── -->
   <div class="panel" id="panel-agenda">
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px" class="agenda-top-grid">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
 
       <!-- Bulk toevoegen -->
       <div class="card" style="margin-bottom:0">
-        <div class="card-title">Bulk beschikbaarheid toevoegen</div>
+        <div class="card-title">Bulk beschikbaarheid</div>
         <div class="form-row">
           <div class="form-group"><label>Startdatum</label><input type="date" id="bulk-start"></div>
           <div class="form-group"><label>Einddatum</label><input type="date" id="bulk-end"></div>
         </div>
-        <div class="form-group" style="margin-bottom:14px">
+        <div class="form-group" style="margin-bottom:12px">
           <label>Tijdsloten (komma-gescheiden)</label>
-          <input type="text" id="bulk-times" value="17:30,19:00,20:00" placeholder="17:30,19:00,20:00">
+          <input type="text" id="bulk-times" value="17:30,19:00,20:00">
         </div>
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <label style="display:flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">
+        <div style="margin-bottom:12px">
+          <label style="display:flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:13px;font-weight:700;cursor:pointer">
             <input type="checkbox" id="skip-weekends" checked style="width:auto;padding:0;border:none"> Weekenden overslaan
           </label>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn btn-ink" onclick="bulkAdd()">Toevoegen</button>
           <button class="btn btn-sun" onclick="addNextMonths()">+ 3 maanden</button>
         </div>
@@ -153,7 +141,7 @@ input:focus,select:focus{border-color:var(--sky);background:var(--white)}
 
       <!-- Losse slot -->
       <div class="card" style="margin-bottom:0">
-        <div class="card-title">Losse slot toevoegen</div>
+        <div class="card-title">Losse slot</div>
         <div class="form-group" style="margin-bottom:12px"><label>Datum</label><input type="date" id="single-date"></div>
         <div class="form-group" style="margin-bottom:12px"><label>Tijdstip</label><input type="time" id="single-time" value="17:30"></div>
         <div class="form-group" style="margin-bottom:16px"><label>Max. plekken</label><input type="number" id="single-max" value="1" min="1" max="10"></div>
@@ -164,21 +152,23 @@ input:focus,select:focus{border-color:var(--sky);background:var(--white)}
       </div>
     </div>
 
-    <!-- Maandkalender -->
+    <!-- Beschikbaarheidslijst -->
     <div class="card">
       <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
         <div style="display:flex;align-items:center;gap:10px">
-          <button class="btn btn-sm" id="avail-prev" onclick="availPrevMonth()">← Vorige</button>
-          <span id="avail-month-label" style="font-size:15px;font-weight:900;min-width:160px;text-align:center"></span>
-          <button class="btn btn-sm" id="avail-next" onclick="availNextMonth()">Volgende →</button>
+          <button class="btn btn-sm" onclick="agPrevMonth()">← Vorige</button>
+          <span id="ag-month-lbl" style="font-size:15px;font-weight:900;min-width:160px;text-align:center"></span>
+          <button class="btn btn-sm" onclick="agNextMonth()">Volgende →</button>
         </div>
-        <button class="btn btn-sm btn-sun" onclick="loadAvailability()">↻ Vernieuwen</button>
+        <button class="btn btn-sm btn-sun" onclick="loadAvail()">↻ Vernieuwen</button>
       </div>
-      <div style="margin-top:10px;display:flex;gap:14px;font-size:12px;font-weight:700;color:var(--ink3);flex-wrap:wrap;margin-bottom:12px">
+      <div style="margin:10px 0 14px;display:flex;gap:14px;font-size:12px;font-weight:700;color:var(--ink3);flex-wrap:wrap">
         <span><span style="display:inline-block;width:12px;height:12px;background:var(--mint);border:1px solid var(--ink);border-radius:3px;vertical-align:middle;margin-right:4px"></span>Vrij</span>
         <span><span style="display:inline-block;width:12px;height:12px;background:#fef3c7;border:1px solid var(--ink);border-radius:3px;vertical-align:middle;margin-right:4px"></span>Geboekt</span>
       </div>
-      <div id="avail-grid-wrap"><p style="color:var(--ink3);font-size:13px">Laden…</p></div>
+      <div id="ag-list">
+        <p style="color:var(--ink3);font-size:13px">Klik op "Agenda" om te laden.</p>
+      </div>
     </div>
   </div>
 
@@ -215,295 +205,302 @@ input:focus,select:focus{border-color:var(--sky);background:var(--white)}
 <div class="toast" id="toast"></div>
 
 <script>
-// ── Auth helper ──────────────────────────────────────────────────────────
+/* ── Auth ──────────────────────────────────────────────────────────────── */
 function authHeader() {
-  const stored = sessionStorage.getItem('admin_creds');
+  var stored = sessionStorage.getItem('admin_creds');
   if (stored) return 'Basic ' + stored;
-  const u = prompt('Gebruikersnaam:');
-  const p = prompt('Wachtwoord:');
-  const b64 = btoa(u + ':' + p);
+  var u = prompt('Gebruikersnaam:') || '';
+  var p = prompt('Wachtwoord:') || '';
+  var b64 = btoa(u + ':' + p);
   sessionStorage.setItem('admin_creds', b64);
   return 'Basic ' + b64;
 }
 
 async function api(method, path, body) {
-  const opts = { method, headers: { 'Authorization': authHeader(), 'Content-Type': 'application/json' } };
+  var opts = { method: method, headers: { 'Authorization': authHeader(), 'Content-Type': 'application/json' } };
   if (body) opts.body = JSON.stringify(body);
-  const res = await fetch(path, opts);
-  if (res.status === 401) { sessionStorage.removeItem('admin_creds'); location.reload(); }
+  var res = await fetch(path, opts);
+  if (res.status === 401) { sessionStorage.removeItem('admin_creds'); location.reload(); return; }
+  var ct = res.headers.get('content-type') || '';
+  if (!ct.includes('application/json')) throw new Error('Server stuurde geen JSON terug (status ' + res.status + ')');
   return res.json();
 }
 
-// ── Toast ────────────────────────────────────────────────────────────────
-function toast(msg, ok = true) {
-  const t = document.getElementById('toast');
+/* ── Toast ─────────────────────────────────────────────────────────────── */
+function toast(msg, ok) {
+  if (ok === undefined) ok = true;
+  var t = document.getElementById('toast');
   t.textContent = (ok ? '✓ ' : '✗ ') + msg;
-  t.style.background = ok ? '#1A1A2E' : '#FF6B6B';
+  t.style.background = ok ? 'var(--ink)' : 'var(--coral)';
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  setTimeout(function() { t.classList.remove('show'); }, 3500);
 }
 
-// ── Tabs ─────────────────────────────────────────────────────────────────
+/* ── Tabs ──────────────────────────────────────────────────────────────── */
 function showTab(tabEl, name) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
   tabEl.classList.add('active');
   document.getElementById('panel-' + name).classList.add('active');
-  if (name === 'agenda') loadAvailability();
-  if (name === 'boekingen') loadBookings();
+  if (name === 'agenda')       loadAvail();
+  if (name === 'boekingen')    loadBookings();
   if (name === 'bestellingen') loadOrders();
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────
+/* ── Shared helpers ────────────────────────────────────────────────────── */
 function euro(cents) { return '€' + (cents / 100).toFixed(2).replace('.', ','); }
-function fmtDate(s) { if (!s) return '—'; return new Date(s).toLocaleDateString('nl-NL', {day:'numeric',month:'short',year:'numeric'}); }
+function fmtDate(s) { if (!s) return '—'; return new Date(s.length === 10 ? s + 'T12:00:00' : s).toLocaleDateString('nl-NL', {day:'numeric', month:'short', year:'numeric'}); }
 function statusBadge(s) {
-  const map = { paid:'paid', pending:'pending', confirmed:'confirmed', cancelled:'cancelled', completed:'completed' };
-  const label = { paid:'Betaald', pending:'Open', confirmed:'Gepland', cancelled:'Geannuleerd', completed:'Voltooid', expired:'Verlopen', refunded:'Terugbetaald' };
-  return `<span class="badge badge-${map[s] || 'pending'}">${label[s] || s}</span>`;
+  var map   = { paid:'paid', pending:'pending', confirmed:'confirmed', cancelled:'cancelled', completed:'completed' };
+  var label = { paid:'Betaald', pending:'Open', confirmed:'Gepland', cancelled:'Geannuleerd', completed:'Voltooid', expired:'Verlopen', refunded:'Terugbetaald' };
+  return '<span class="badge badge-' + (map[s] || 'pending') + '">' + (label[s] || s) + '</span>';
 }
 
-// ── Dashboard ────────────────────────────────────────────────────────────
+/* ── Dashboard ─────────────────────────────────────────────────────────── */
 async function loadDashboard() {
-  const d = await api('GET', '/api/orders/admin/stats');
-  const g = document.getElementById('stats-grid');
-  g.innerHTML = `
-    <div class="stat-card"><div class="stat-n">${euro(d.totalRevenue)}</div><div class="stat-l">Omzet (betaald)</div></div>
-    <div class="stat-card"><div class="stat-n">${d.totalOrders}</div><div class="stat-l">Bestellingen</div></div>
-    <div class="stat-card"><div class="stat-n">${d.pending}</div><div class="stat-l">Openstaand</div></div>
-    <div class="stat-card"><div class="stat-n">${d.totalStudents}</div><div class="stat-l">Studenten</div></div>
-    <div class="stat-card"><div class="stat-n">${d.upcomingLessons}</div><div class="stat-l">Lessen gepland</div></div>
-  `;
-  const tbody = document.querySelector('#recent-orders-tbl tbody');
-  tbody.innerHTML = d.recentOrders.map(o => `
-    <tr>
-      <td><strong>${o.customer_name}</strong><br><span style="font-size:11px;color:var(--ink3)">${o.customer_email}</span></td>
-      <td>${o.package_name}</td>
-      <td>${euro(o.amount_cents)}</td>
-      <td>${statusBadge(o.status)}</td>
-      <td>${fmtDate(o.created_at)}</td>
-    </tr>
-  `).join('') || '<tr><td colspan="5" style="color:var(--ink3);text-align:center;padding:20px">Nog geen bestellingen</td></tr>';
-}
-
-// ── Availability ─────────────────────────────────────────────────────────
-let availYear  = new Date().getFullYear();
-let availMonth = new Date().getMonth() + 1; // 1-12
-
-const MONTH_NAMES = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'];
-const DAY_SHORT   = ['zo','ma','di','wo','do','vr','za'];
-
-function availMonthStr() {
-  return `${availYear}-${String(availMonth).padStart(2,'0')}`;
-}
-function availPrevMonth() { availMonth--; if (availMonth < 1) { availMonth = 12; availYear--; } loadAvailability(); }
-function availNextMonth() { availMonth++; if (availMonth > 12) { availMonth = 1; availYear++; } loadAvailability(); }
-
-async function loadAvailability() {
-  const wrap  = document.getElementById('avail-grid-wrap');
-  const label = document.getElementById('avail-month-label');
-  if (label) label.textContent = `${MONTH_NAMES[availMonth-1]} ${availYear}`;
-  wrap.innerHTML = '<p style="color:var(--ink3);font-size:13px">Laden…</p>';
-
-  let data;
-  // Probeer admin endpoint, val terug op publiek endpoint bij fout
-  const endpoints = [
-    `/api/bookings/admin/availability-all?month=${availMonthStr()}`,
-    `/api/bookings/availability?month=${availMonthStr()}`,
-  ];
-  let lastErr = '';
-  for (const url of endpoints) {
-    try {
-      const res = await fetch(url, { headers: { 'Authorization': authHeader(), 'Accept': 'application/json' } });
-      const ct = res.headers.get('content-type') || '';
-      if (!ct.includes('application/json')) {
-        lastErr = `Endpoint ${url} gaf geen JSON terug (${res.status})`;
-        continue;
-      }
-      const json = await res.json();
-      if (json && typeof json === 'object' && !Array.isArray(json)) { data = json; break; }
-      lastErr = `Onverwacht formaat van ${url}`;
-    } catch(e) { lastErr = e.message; }
-  }
-  if (!data) {
-    wrap.innerHTML = `<p style="color:var(--coral);font-weight:800;font-size:13px">⚠ Kon agenda niet laden: ${lastErr}</p>`;
-    return;
-  }
-
-  const dates = Object.keys(data).sort();
-
-  if (!dates.length) {
-    wrap.innerHTML = '<p style="color:var(--ink3);font-size:13px">Geen slots in deze maand. Voeg ze toe via de knoppen hierboven.</p>';
-    return;
-  }
-
-  // Simple date-by-date table (robust, no timezone issues)
-  let html = '<div style="display:flex;flex-direction:column;gap:8px">';
-  for (const d of dates) {
-    const dt     = new Date(d + 'T12:00:00');
-    const dayLbl = `${DAY_SHORT[dt.getDay()]} ${dt.getDate()} ${MONTH_NAMES[dt.getMonth()].slice(0,3).toLowerCase()}`;
-    const slots  = data[d];
-    const slotHtml = slots.map(s => `
-      <div class="av-slot ${s.booked > 0 ? 'full' : ''}" style="display:inline-flex;align-items:center;gap:4px;margin-right:4px;margin-bottom:4px;font-size:11px">
-        <span>${s.time}${s.booked > 0 ? ' 🔒' : ''}</span>
-        <button class="av-del" title="Verwijderen" onclick="deleteSlot('${d}','${s.time}')">✕</button>
-      </div>`).join('');
-    html += `
-      <div style="display:flex;align-items:flex-start;gap:12px;padding:8px 10px;background:var(--bg);border:1.5px solid var(--bdr);border-radius:10px">
-        <span style="font-size:12px;font-weight:900;color:var(--ink2);min-width:90px;padding-top:2px">${dayLbl}</span>
-        <div style="display:flex;flex-wrap:wrap">${slotHtml}</div>
-      </div>`;
-  }
-  html += '</div>';
-  wrap.innerHTML = html;
-}
-
-async function deleteSlot(date, time) {
-  if (!confirm(`Slot ${date} ${time} verwijderen?`)) return;
   try {
-    const res = await fetch(`/api/bookings/admin/availability/${date}/${encodeURIComponent(time)}`, {
+    var d = await api('GET', '/api/orders/admin/stats');
+    document.getElementById('stats-grid').innerHTML =
+        '<div class="stat-card"><div class="stat-n">' + euro(d.totalRevenue)   + '</div><div class="stat-l">Omzet (betaald)</div></div>'
+      + '<div class="stat-card"><div class="stat-n">' + d.totalOrders          + '</div><div class="stat-l">Bestellingen</div></div>'
+      + '<div class="stat-card"><div class="stat-n">' + d.pending              + '</div><div class="stat-l">Openstaand</div></div>'
+      + '<div class="stat-card"><div class="stat-n">' + d.totalStudents        + '</div><div class="stat-l">Studenten</div></div>'
+      + '<div class="stat-card"><div class="stat-n">' + d.upcomingLessons      + '</div><div class="stat-l">Lessen gepland</div></div>';
+    document.querySelector('#recent-orders-tbl tbody').innerHTML = (d.recentOrders || []).map(function(o) {
+      return '<tr>'
+        + '<td><strong>' + o.customer_name + '</strong><br><span style="font-size:11px;color:var(--ink3)">' + o.customer_email + '</span></td>'
+        + '<td>' + o.package_name + '</td>'
+        + '<td>' + euro(o.amount_cents) + '</td>'
+        + '<td>' + statusBadge(o.status) + '</td>'
+        + '<td>' + fmtDate(o.created_at) + '</td>'
+        + '</tr>';
+    }).join('') || '<tr><td colspan="5" style="color:var(--ink3);text-align:center;padding:20px">Nog geen bestellingen</td></tr>';
+  } catch(e) {
+    document.querySelector('#recent-orders-tbl tbody').innerHTML = '<tr><td colspan="5" style="color:var(--coral);text-align:center;padding:20px">⚠ ' + e.message + '</td></tr>';
+  }
+}
+
+/* ── Agenda state ──────────────────────────────────────────────────────── */
+var agYear  = new Date().getFullYear();
+var agMonth = new Date().getMonth() + 1; /* 1-based */
+var MONTH_NAMES = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'];
+var DAY_SHORT   = ['zo','ma','di','wo','do','vr','za'];
+
+function agMonthStr() {
+  return agYear + '-' + String(agMonth).padStart(2, '0');
+}
+
+function agPrevMonth() { agMonth--; if (agMonth < 1) { agMonth = 12; agYear--; } loadAvail(); }
+function agNextMonth() { agMonth++; if (agMonth > 12) { agMonth = 1; agYear++; } loadAvail(); }
+
+/* ── Load & render availability ────────────────────────────────────────── */
+async function loadAvail() {
+  var list  = document.getElementById('ag-list');
+  var label = document.getElementById('ag-month-lbl');
+  if (label) label.textContent = MONTH_NAMES[agMonth - 1] + ' ' + agYear;
+  list.innerHTML = '<p style="color:var(--ink3);font-size:13px">Laden…</p>';
+
+  var data;
+  try {
+    var url = '/api/bookings/admin/availability-all?month=' + agMonthStr();
+    var res = await fetch(url, { headers: { 'Authorization': authHeader(), 'Accept': 'application/json' } });
+    if (res.status === 401) { sessionStorage.removeItem('admin_creds'); location.reload(); return; }
+    var ct = res.headers.get('content-type') || '';
+    if (!ct.includes('application/json')) throw new Error('Endpoint gaf geen JSON terug (status ' + res.status + ')');
+    data = await res.json();
+  } catch(e) {
+    list.innerHTML = '<p style="color:var(--coral);font-weight:800;font-size:13px">⚠ Fout bij laden: ' + e.message + '</p>';
+    return;
+  }
+
+  var dates = Object.keys(data).sort();
+  if (!dates.length) {
+    list.innerHTML = '<p style="color:var(--ink3);font-size:13px">Geen slots in deze maand. Voeg ze toe via de knoppen hierboven.</p>';
+    return;
+  }
+
+  var html = '';
+  for (var i = 0; i < dates.length; i++) {
+    var d   = dates[i];
+    var dt  = new Date(d + 'T12:00:00');
+    var lbl = DAY_SHORT[dt.getDay()] + ' ' + dt.getDate() + ' ' + MONTH_NAMES[dt.getMonth()].slice(0, 3).toLowerCase();
+    var chips = data[d].map(function(s) {
+      return '<span class="av-chip' + (s.booked > 0 ? ' full' : '') + '">'
+        + s.time + (s.booked > 0 ? ' 🔒' : '')
+        + '<button class="av-del" title="Verwijderen" onclick="delSlot(\'' + d + '\',\'' + s.time + '\')">✕</button>'
+        + '</span>';
+    }).join('');
+
+    html += '<div class="av-date-row">'
+      + '<span class="av-date-lbl">' + lbl + '</span>'
+      + '<div class="av-chips">' + chips + '</div>'
+      + '</div>';
+  }
+  list.innerHTML = html;
+}
+
+/* ── Slot actions ──────────────────────────────────────────────────────── */
+async function delSlot(date, time) {
+  if (!confirm('Slot ' + date + ' ' + time + ' verwijderen?')) return;
+  try {
+    var res = await fetch('/api/bookings/admin/availability/' + date + '/' + encodeURIComponent(time), {
       method: 'DELETE', headers: { 'Authorization': authHeader() }
     });
-    if (!res.ok) throw new Error(await res.text());
+    if (!res.ok) { var j = await res.json().catch(function(){return{};}); throw new Error(j.error || 'Status ' + res.status); }
     toast('Slot verwijderd');
-    loadAvailability();
+    loadAvail();
   } catch(e) { toast('Fout: ' + e.message, false); }
 }
 
 async function addSingle() {
-  const date = document.getElementById('single-date').value;
-  const time = document.getElementById('single-time').value;
-  const max  = parseInt(document.getElementById('single-max').value) || 1;
+  var date = document.getElementById('single-date').value;
+  var time = document.getElementById('single-time').value;
+  var max  = parseInt(document.getElementById('single-max').value) || 1;
   if (!date || !time) { toast('Datum en tijdstip invullen', false); return; }
   try {
-    const res = await fetch('/api/bookings/admin/availability', {
+    var res = await fetch('/api/bookings/admin/availability', {
       method: 'POST',
       headers: { 'Authorization': authHeader(), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ date, slotTime: time, maxSpots: max, active: true })
+      body: JSON.stringify({ date: date, slotTime: time, maxSpots: max, active: true })
     });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.error || `Status ${res.status}`);
-    toast(`Slot ${date} ${time} toegevoegd`);
-    loadAvailability();
+    var json = await res.json();
+    if (!res.ok) throw new Error(json.error || 'Status ' + res.status);
+    toast('Slot ' + date + ' ' + time + ' toegevoegd');
+    /* Switch calendar to the month of the added slot */
+    var parts = date.split('-');
+    agYear = parseInt(parts[0]); agMonth = parseInt(parts[1]);
+    loadAvail();
   } catch(e) { toast('Fout: ' + e.message, false); }
 }
 
 async function deleteSingle() {
-  const date = document.getElementById('single-date').value;
-  const time = document.getElementById('single-time').value;
+  var date = document.getElementById('single-date').value;
+  var time = document.getElementById('single-time').value;
   if (!date || !time) { toast('Datum en tijdstip invullen', false); return; }
-  if (!confirm(`Slot ${date} ${time} verwijderen?`)) return;
+  if (!confirm('Slot ' + date + ' ' + time + ' verwijderen?')) return;
   try {
-    const res = await fetch(`/api/bookings/admin/availability/${date}/${encodeURIComponent(time)}`, {
+    var res = await fetch('/api/bookings/admin/availability/' + date + '/' + encodeURIComponent(time), {
       method: 'DELETE', headers: { 'Authorization': authHeader() }
     });
-    if (!res.ok) { const j = await res.json().catch(()=>{}); throw new Error(j?.error || `Status ${res.status}`); }
-    toast(`Slot ${date} ${time} verwijderd`);
-    loadAvailability();
+    if (!res.ok) { var j = await res.json().catch(function(){return{};}); throw new Error(j.error || 'Status ' + res.status); }
+    toast('Slot ' + date + ' ' + time + ' verwijderd');
+    loadAvail();
   } catch(e) { toast('Fout: ' + e.message, false); }
 }
 
 async function bulkAdd() {
-  const start = document.getElementById('bulk-start').value;
-  const end   = document.getElementById('bulk-end').value;
-  const times = document.getElementById('bulk-times').value.split(',').map(t => t.trim()).filter(Boolean);
-  const skip  = document.getElementById('skip-weekends').checked;
+  var start = document.getElementById('bulk-start').value;
+  var end   = document.getElementById('bulk-end').value;
+  var times = document.getElementById('bulk-times').value.split(',').map(function(t){return t.trim();}).filter(Boolean);
+  var skip  = document.getElementById('skip-weekends').checked;
   if (!start || !end || !times.length) { toast('Vul alle velden in', false); return; }
   try {
-    const res = await fetch('/api/bookings/admin/bulk-availability', {
+    var res = await fetch('/api/bookings/admin/bulk-availability', {
       method: 'POST',
       headers: { 'Authorization': authHeader(), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ startDate: start, endDate: end, times, skipWeekends: skip })
+      body: JSON.stringify({ startDate: start, endDate: end, times: times, skipWeekends: skip })
     });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.error || `Status ${res.status}`);
-    toast(`${json.slotsCreated} slots toegevoegd`);
-    loadAvailability();
+    var json = await res.json();
+    if (!res.ok) throw new Error(json.error || 'Status ' + res.status);
+    toast(json.slotsCreated + ' slots toegevoegd');
+    var parts = start.split('-');
+    agYear = parseInt(parts[0]); agMonth = parseInt(parts[1]);
+    loadAvail();
   } catch(e) { toast('Fout: ' + e.message, false); }
 }
 
 async function addNextMonths() {
-  const now   = new Date();
-  const pad   = n => String(n).padStart(2,'0');
-  const fmt   = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-  const start = fmt(now);
-  const end3  = new Date(now.getFullYear(), now.getMonth() + 3, now.getDate());
-  const times = document.getElementById('bulk-times').value.split(',').map(t => t.trim()).filter(Boolean);
+  var now   = new Date();
+  var p     = function(n) { return String(n).padStart(2, '0'); };
+  var fmt   = function(d) { return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()); };
+  var start = fmt(now);
+  var end3  = new Date(now.getFullYear(), now.getMonth() + 3, now.getDate());
+  var times = document.getElementById('bulk-times').value.split(',').map(function(t){return t.trim();}).filter(Boolean);
   try {
-    const res = await fetch('/api/bookings/admin/bulk-availability', {
+    var res = await fetch('/api/bookings/admin/bulk-availability', {
       method: 'POST',
       headers: { 'Authorization': authHeader(), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ startDate: start, endDate: fmt(end3), times, skipWeekends: true })
+      body: JSON.stringify({ startDate: start, endDate: fmt(end3), times: times, skipWeekends: true })
     });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.error || `Status ${res.status}`);
-    toast(`${json.slotsCreated} slots toegevoegd voor komende 3 maanden`);
-    loadAvailability();
+    var json = await res.json();
+    if (!res.ok) throw new Error(json.error || 'Status ' + res.status);
+    toast(json.slotsCreated + ' slots toegevoegd voor komende 3 maanden');
+    agYear = now.getFullYear(); agMonth = now.getMonth() + 1;
+    loadAvail();
   } catch(e) { toast('Fout: ' + e.message, false); }
 }
 
-// ── Bookings ─────────────────────────────────────────────────────────────
+/* ── Bookings ──────────────────────────────────────────────────────────── */
 async function loadBookings() {
-  const data = await api('GET', '/api/bookings/admin/all');
-  const tbody = document.querySelector('#bookings-tbl tbody');
-  tbody.innerHTML = data.map(b => `
-    <tr>
-      <td><strong>${b.customer_name}</strong><br><span style="font-size:11px;color:var(--ink3)">${b.customer_email}</span></td>
-      <td>${fmtDate(b.date + 'T12:00:00')}</td>
-      <td>${b.slot_time}</td>
-      <td>${b.package_name}</td>
-      <td>${statusBadge(b.status)}</td>
-      <td>${b.zoom_link ? `<a href="${b.zoom_link}" target="_blank" style="color:var(--sky);font-weight:700">Link</a>` : `<button class="btn btn-sm btn-sun" onclick="addZoom(${b.id})">+ Zoom</button>`}</td>
-      <td>
-        <select onchange="changeBookingStatus(${b.id}, this.value)" style="padding:5px 8px;font-size:12px;border-radius:8px;border:1.5px solid var(--bdr)">
-          <option ${b.status==='confirmed'?'selected':''}>confirmed</option>
-          <option ${b.status==='completed'?'selected':''}>completed</option>
-          <option ${b.status==='cancelled'?'selected':''}>cancelled</option>
-        </select>
-      </td>
-    </tr>
-  `).join('') || '<tr><td colspan="7" style="color:var(--ink3);text-align:center;padding:20px">Nog geen boekingen</td></tr>';
+  var tbody = document.querySelector('#bookings-tbl tbody');
+  try {
+    var data = await api('GET', '/api/bookings/admin/all');
+    tbody.innerHTML = (data || []).map(function(b) {
+      return '<tr>'
+        + '<td><strong>' + b.customer_name + '</strong><br><span style="font-size:11px;color:var(--ink3)">' + b.customer_email + '</span></td>'
+        + '<td>' + fmtDate(b.date) + '</td>'
+        + '<td>' + b.slot_time + '</td>'
+        + '<td>' + b.package_name + '</td>'
+        + '<td>' + statusBadge(b.status) + '</td>'
+        + '<td>' + (b.zoom_link ? '<a href="' + b.zoom_link + '" target="_blank" style="color:var(--sky);font-weight:700">Link</a>' : '<button class="btn btn-sm btn-sun" onclick="addZoom(' + b.id + ')">+ Zoom</button>') + '</td>'
+        + '<td><select onchange="changeBookingStatus(' + b.id + ',this.value)" style="padding:5px 8px;font-size:12px;border-radius:8px;border:1.5px solid var(--bdr)">'
+        + '<option' + (b.status==='confirmed'?' selected':'') + '>confirmed</option>'
+        + '<option' + (b.status==='completed'?' selected':'') + '>completed</option>'
+        + '<option' + (b.status==='cancelled'?' selected':'') + '>cancelled</option>'
+        + '</select></td>'
+        + '</tr>';
+    }).join('') || '<tr><td colspan="7" style="color:var(--ink3);text-align:center;padding:20px">Nog geen boekingen</td></tr>';
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="7" style="color:var(--coral);text-align:center;padding:20px">⚠ ' + e.message + '</td></tr>';
+  }
 }
 
 async function addZoom(id) {
-  const link = prompt('Zoom link:');
+  var link = prompt('Zoom link:');
   if (!link) return;
-  await api('PUT', `/api/bookings/admin/booking/${id}/zoom`, { zoomLink: link });
-  toast('Zoom link opgeslagen');
-  loadBookings();
+  try { await api('PUT', '/api/bookings/admin/booking/' + id + '/zoom', { zoomLink: link }); toast('Zoom link opgeslagen'); loadBookings(); }
+  catch(e) { toast('Fout: ' + e.message, false); }
 }
 
 async function changeBookingStatus(id, status) {
-  await api('PUT', `/api/bookings/admin/booking/${id}/status`, { status });
-  toast('Status bijgewerkt');
+  try { await api('PUT', '/api/bookings/admin/booking/' + id + '/status', { status: status }); toast('Status bijgewerkt'); }
+  catch(e) { toast('Fout: ' + e.message, false); }
 }
 
-// ── Orders ────────────────────────────────────────────────────────────────
+/* ── Orders ────────────────────────────────────────────────────────────── */
 async function loadOrders() {
-  const data = await api('GET', '/api/orders/admin/orders');
-  const tbody = document.querySelector('#orders-tbl tbody');
-  tbody.innerHTML = data.orders.map(o => `
-    <tr>
-      <td><strong>${o.customer_name}</strong></td>
-      <td style="font-size:12px">${o.customer_email}</td>
-      <td>${o.package_name}<br><span style="font-size:11px;color:var(--ink3)">${o.lessons_used}/${o.lessons_total} lessen</span></td>
-      <td>${euro(o.amount_cents)}</td>
-      <td>${statusBadge(o.status)}</td>
-      <td>${fmtDate(o.paid_at)}</td>
-      <td><span style="font-size:11px;font-family:monospace;background:var(--bg);padding:2px 6px;border-radius:6px">${o.access_token.slice(0,12)}…</span></td>
-    </tr>
-  `).join('') || '<tr><td colspan="7" style="color:var(--ink3);text-align:center;padding:20px">Nog geen bestellingen</td></tr>';
+  var tbody = document.querySelector('#orders-tbl tbody');
+  try {
+    var data = await api('GET', '/api/orders/admin/orders');
+    tbody.innerHTML = (data.orders || []).map(function(o) {
+      return '<tr>'
+        + '<td><strong>' + o.customer_name + '</strong></td>'
+        + '<td style="font-size:12px">' + o.customer_email + '</td>'
+        + '<td>' + o.package_name + '<br><span style="font-size:11px;color:var(--ink3)">' + o.lessons_used + '/' + o.lessons_total + ' lessen</span></td>'
+        + '<td>' + euro(o.amount_cents) + '</td>'
+        + '<td>' + statusBadge(o.status) + '</td>'
+        + '<td>' + fmtDate(o.paid_at) + '</td>'
+        + '<td><span style="font-size:11px;font-family:monospace;background:var(--bg);padding:2px 6px;border-radius:6px">' + o.access_token.slice(0, 12) + '…</span></td>'
+        + '</tr>';
+    }).join('') || '<tr><td colspan="7" style="color:var(--ink3);text-align:center;padding:20px">Nog geen bestellingen</td></tr>';
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="7" style="color:var(--coral);text-align:center;padding:20px">⚠ ' + e.message + '</td></tr>';
+  }
 }
 
-// ── Init ──────────────────────────────────────────────────────────────────
-document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('nl-NL', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+/* ── Init ──────────────────────────────────────────────────────────────── */
+document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('nl-NL', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
 
-// Stel standaard datums in voor bulk
-const today = new Date().toISOString().slice(0,10);
-const in3m  = new Date(new Date().getFullYear(), new Date().getMonth()+3, new Date().getDate()).toISOString().slice(0,10);
-document.getElementById('bulk-start').value = today;
-document.getElementById('bulk-end').value   = in3m;
-document.getElementById('single-date').value = today;
+/* Set default dates */
+(function() {
+  var t   = new Date();
+  var p   = function(n) { return String(n).padStart(2, '0'); };
+  var fmt = function(d) { return d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate()); };
+  var in3 = new Date(t.getFullYear(), t.getMonth() + 3, t.getDate());
+  document.getElementById('bulk-start').value  = fmt(t);
+  document.getElementById('bulk-end').value    = fmt(in3);
+  document.getElementById('single-date').value = fmt(t);
+})();
 
 loadDashboard();
 </script>
