@@ -4,9 +4,10 @@ const helmet     = require('helmet');
 const rateLimit  = require('express-rate-limit');
 const path       = require('path');
 
-const paymentsRouter = require('./routes/payments');
-const bookingsRouter = require('./routes/bookings');
-const ordersRouter   = require('./routes/orders');
+const paymentsRouter   = require('./routes/payments');
+const bookingsRouter   = require('./routes/bookings');
+const ordersRouter     = require('./routes/orders');
+const { requireAdmin } = require('./middleware/auth');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -40,6 +41,9 @@ app.use(express.json());
 app.use('/api/payments', paymentsRouter);
 app.use('/api/bookings', bookingsRouter);
 app.use('/api/orders',   ordersRouter);
+
+// ── Admin (HTTP Basic Auth beschermt de gehele /admin map)
+app.use('/admin', requireAdmin);
 
 // ── Static files
 app.use(express.static(path.join(__dirname, 'public')));
