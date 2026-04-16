@@ -45,19 +45,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=4">
+<link rel="stylesheet" href="/css/style.css?v=5">
 <style>
 /* ── HERO ── */
-.hero{background:var(--sun);border-bottom:3px solid var(--ink);padding:72px 48px 0;overflow:hidden;position:relative;min-height:560px;display:flex;align-items:flex-end}
+.hero{background:linear-gradient(135deg,#0F0F41 0%,#1a3471 55%,#19CCE9 100%);border-bottom:3px solid var(--ink);padding:88px 48px 0;overflow:hidden;position:relative;min-height:720px;display:flex;align-items:flex-end}
 .hero-inner{max-width:1000px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 360px;gap:48px;align-items:flex-end;position:relative;z-index:1}
 .hero-left{min-width:0}
-.hero-label{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:2px solid var(--ink);border-radius:50px;padding:6px 16px;font-size:12px;font-weight:800;color:var(--ink);margin-bottom:18px;box-shadow:2px 2px 0 var(--ink)}
+.hero-label{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.28);border-radius:50px;padding:6px 16px;font-size:12px;font-weight:800;color:var(--white);margin-bottom:18px;backdrop-filter:blur(6px)}
 .hero-label span{font-size:16px}
 .hero-sub{font-size:17px;color:var(--ink2);margin-bottom:15px;margin-top:15px;line-height:1.65;max-width:460px;font-weight:600}
 .hero-note{font-size:12px;color:var(--ink2);font-weight:600;padding-bottom:40px;margin-top:20px}
+/* Hero dark bg text overrides + entrance animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+.hero h1{color:var(--white);animation:fadeInUp .6s .1s ease both}
+.hero-sub{color:rgba(255,255,255,.82);animation:fadeInUp .6s .22s ease both}
+.hero-note{color:rgba(255,255,255,.55);animation:fadeInUp .6s .44s ease both}
+.hero-label{animation:fadeInUp .5s ease both}
+.hero .btn-row{animation:fadeInUp .6s .33s ease both}
+.sim-card{animation:fadeInRight .7s .18s ease both}
 /* SIM CARD */
 .sim-card{background:var(--white);border:3px solid var(--ink);border-radius:24px 24px 0 0;border-bottom:none;padding:28px 28px 0;position:relative;box-shadow:-4px -4px 0 var(--ink)}
-.sim-card::before{content:'👩‍🏫 Dat ben ik!';font-family:'Caveat',cursive;font-size:16px;position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:var(--sun);padding:2px 14px;border:2px solid var(--ink);border-radius:50px;white-space:nowrap;font-weight:700;color:var(--ink)}
+.sim-card::before{content:'👩‍🏫 Dat ben ik!';font-family:'Caveat',cursive;font-size:16px;position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:var(--mint);padding:2px 14px;border:2px solid var(--ink);border-radius:50px;white-space:nowrap;font-weight:700;color:var(--ink)}
 .sim-avatar{width:88px;height:88px;border-radius:50%;background:var(--sky);border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:36px;font-weight:900;margin:0 auto 12px;box-shadow:3px 3px 0 var(--ink)}
 .sim-name{font-size:20px;font-weight:900;text-align:center;color:var(--ink);margin-bottom:2px}
 .sim-role{font-size:12px;font-weight:700;text-align:center;color:var(--ink3);margin-bottom:12px}
@@ -159,7 +168,7 @@
   .price-grid .p-card:last-child{grid-column:1/-1;max-width:340px}
 }
 @media(max-width:768px){
-  .hero{padding:52px 20px 0;min-height:auto}
+  .hero{padding:64px 20px 0;min-height:auto}
   .hero-inner{grid-template-columns:1fr;gap:0}
   h1{font-size:36px}
   .hero-sub{font-size:15px}
@@ -217,9 +226,9 @@
 
 <!-- HERO -->
 <section class="hero" aria-label="Hero">
-  <svg class="doodle" style="top:30px;right:400px;opacity:.15" width="80" height="80" viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="35" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-dasharray="8 6"/></svg>
+  <svg class="doodle" style="top:30px;right:400px;opacity:.15" width="80" height="80" viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="3" stroke-dasharray="8 6"/></svg>
   <svg class="doodle" style="top:80px;left:60px;opacity:.12" width="60" height="60" viewBox="0 0 60 60" aria-hidden="true"><path d="M30 5 L35 25 L55 25 L40 38 L46 58 L30 46 L14 58 L20 38 L5 25 L25 25 Z" fill="#FF6B6B"/></svg>
-  <svg class="doodle" style="bottom:60px;right:44px;opacity:.15" width="50" height="50" viewBox="0 0 50 50" aria-hidden="true"><rect x="8" y="8" width="34" height="34" rx="8" fill="none" stroke="#1A1A2E" stroke-width="3" transform="rotate(15 25 25)"/></svg>
+  <svg class="doodle" style="bottom:60px;right:44px;opacity:.15" width="50" height="50" viewBox="0 0 50 50" aria-hidden="true"><rect x="8" y="8" width="34" height="34" rx="8" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="3" transform="rotate(15 25 25)"/></svg>
   <div class="hero-inner">
     <div class="hero-left">
       <div class="hero-label"><span>📚</span> Engelse bijles &amp; studievaardigheden</div>
@@ -507,6 +516,6 @@
   </div>
 </div>
 
-<script src="/js/main.js"></script>
+<script src="/js/main.js?v=2"></script>
 </body>
 </html>

@@ -80,6 +80,34 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
+// ── Scroll reveal
+(function () {
+  if (!window.IntersectionObserver) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+  document.querySelectorAll(
+    '.card,.svc-card,.rev-card,.p-card,.upsell,' +
+    '.section-heading,.about-wrap>div,.svc-stack>article,' +
+    '.form-card,.c-item,.foot-col'
+  ).forEach((el, i, arr) => {
+    el.classList.add('reveal');
+    // Stagger siblings in the same grid/flex parent
+    const siblings = Array.from(el.parentElement.children).filter(c => c.classList.contains('reveal'));
+    const idx = siblings.indexOf(el);
+    if (idx === 1) el.classList.add('d1');
+    if (idx === 2) el.classList.add('d2');
+    if (idx === 3) el.classList.add('d3');
+    io.observe(el);
+  });
+})();
+
 // ── Contact formulier (homepage)
 (function () {
   const form = document.getElementById('contact-form');

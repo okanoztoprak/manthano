@@ -89,7 +89,7 @@ nav{background:var(--white);border-bottom:1px solid rgba(15,15,65,.08);box-shado
 .section-sub{font-size:15px;color:var(--ink2);font-weight:600;margin-top:10px}
 
 /* ── PAGE HERO (inner pages) ── */
-.page-hero{background:var(--sun);border-bottom:3px solid var(--ink);padding:60px 48px 56px;position:relative;overflow:hidden}
+.page-hero{background:var(--sun);border-bottom:3px solid var(--ink);padding:88px 48px 80px;position:relative;overflow:hidden}
 .page-hero-inner{max-width:1000px;margin:0 auto;position:relative;z-index:1}
 .page-hero .tag{margin-bottom:20px}
 .page-hero h1{margin-bottom:16px}
@@ -136,6 +136,16 @@ footer{background:var(--ink);padding:48px 48px 32px}
 .spinner{display:inline-block;width:20px;height:20px;border:3px solid rgba(0,0,0,.15);border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* ── SCROLL REVEAL ── */
+@keyframes revealUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes revealRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.reveal.from-right{transform:translateX(28px)}
+.reveal.visible{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}
+.reveal.d2{transition-delay:.2s}
+.reveal.d3{transition-delay:.3s}
+
 /* ── PRICE FORMATTING ── */
 .price-big{font-size:46px;font-weight:900;color:var(--ink);line-height:1}
 .price-per{font-size:13px;font-weight:700;color:var(--ink3)}
@@ -168,7 +178,7 @@ footer{background:var(--ink);padding:48px 48px 32px}
   .hamburger{display:flex}
   h1{font-size:36px}
   h2{font-size:28px}
-  .page-hero{padding:48px 20px 44px}
+  .page-hero{padding:60px 20px 56px}
   footer{padding:36px 20px 24px}
   .foot-top{grid-template-columns:1fr;gap:24px}
   .foot-bottom{flex-direction:column;align-items:flex-start}
