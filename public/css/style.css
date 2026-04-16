@@ -7,17 +7,17 @@
   --sun2:#FFBE33;
   --mint:#06D6A0;
   --mint2:#04B888;
-  --sky:#118AB2;
-  --sky2:#0D6E8E;
+  --sky:#19CCE9;
+  --sky2:#0FAAC8;
   --coral:#FF6B6B;
   --coral2:#E85555;
   --lilac:#C77DFF;
-  --bg:#FFFBF0;
-  --ink:#1A1A2E;
+  --bg:#F2F8FC;
+  --ink:#0F0F41;
   --ink2:#3D3D5C;
   --ink3:#7A7A9A;
   --white:#FFFFFF;
-  --bdr:#EEE8D5;
+  --bdr:#D4E4F0;
   --radius:20px;
   --shadow:4px 4px 0 var(--ink);
 }
@@ -31,7 +31,7 @@ h3{font-size:22px;font-weight:900;color:var(--ink);line-height:1.2}
 h1 .squiggle,.squiggle{display:inline;background:var(--coral);color:var(--white);padding:0 8px;border-radius:8px;font-style:italic}
 
 /* ── NAV ── */
-nav{background:var(--white);border-bottom:2px solid var(--ink);padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:68px;position:sticky;top:0;z-index:200}
+nav{background:var(--white);border-bottom:1px solid rgba(15,15,65,.08);box-shadow:0 2px 16px rgba(15,15,65,.06);padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:68px;position:sticky;top:0;z-index:200}
 .logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none}
 .logo-wrap img{height:36px;width:auto}
 .logo-fb{font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:var(--ink)}
@@ -102,8 +102,8 @@ nav{background:var(--white);border-bottom:2px solid var(--ink);padding:0 48px;di
 /* ── FORM ELEMENTS ── */
 .form-group{margin-bottom:16px}
 .form-label{font-size:11px;font-weight:900;color:var(--ink3);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
-.form-input{width:100%;padding:12px 16px;border:2px solid var(--ink);border-radius:12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;background:var(--bg);-webkit-appearance:none}
-.form-input:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(17,138,178,.15);background:var(--white)}
+.form-input{width:100%;padding:12px 16px;border:1.5px solid var(--bdr);border-radius:12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;background:var(--white);-webkit-appearance:none;appearance:none}
+.form-input:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(25,204,233,.18);background:var(--white)}
 textarea.form-input{resize:vertical;min-height:80px}
 select.form-input{cursor:pointer}
 .form-note{font-size:11px;color:var(--ink3);margin-top:8px;font-weight:700}
