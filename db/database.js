@@ -152,21 +152,8 @@ function initSchema() {
 }
 
 // ── AutoSeed ──────────────────────────────────────────────────────────────
-function autoSeed() {
-  const count = db.prepare('SELECT COUNT(*) AS n FROM packages').get();
-  if (count && count.n > 0) return;
-
+function seedAvailability() {
   const runInTx = db.transaction(() => {
-    db.prepare(`INSERT OR REPLACE INTO packages (slug,name,lessons,price,per_hour,saving,featured,active,sort_order) VALUES (@slug,@name,@lessons,@price,@per_hour,@saving,@featured,1,@sort_order)`)
-      .run({ slug:'losse-les', name:'Losse les',       lessons:1, price:6500,  per_hour:6500, saving:'Flexibel',    featured:0, sort_order:1 });
-    db.prepare(`INSERT OR REPLACE INTO packages (slug,name,lessons,price,per_hour,saving,featured,active,sort_order) VALUES (@slug,@name,@lessons,@price,@per_hour,@saving,@featured,1,@sort_order)`)
-      .run({ slug:'pakket-4',  name:'Pakket 4 lessen', lessons:4, price:23000, per_hour:5750, saving:'Bespaar 12%', featured:1, sort_order:2 });
-    db.prepare(`INSERT OR REPLACE INTO packages (slug,name,lessons,price,per_hour,saving,featured,active,sort_order) VALUES (@slug,@name,@lessons,@price,@per_hour,@saving,@featured,1,@sort_order)`)
-      .run({ slug:'pakket-8',  name:'Pakket 8 lessen', lessons:8, price:40000, per_hour:5000, saving:'Bespaar 23%', featured:0, sort_order:3 });
-
-    db.prepare(`INSERT OR REPLACE INTO digital_products (slug,name,description,price,active) VALUES (@slug,@name,@description,@price,1)`)
-      .run({ slug:'studieplanner', name:'Digitale studieplanner', description:'Een handige digitale studieplanner om je schooljaar overzichtelijk te houden. Direct te downloaden na betaling.', price:1250 });
-
     const ins = db.prepare(`INSERT OR IGNORE INTO availability (date,slot_time,max_spots,booked,active) VALUES (?,?,1,0,1)`);
     const now = new Date();
     for (let i = 1; i <= 90; i++) {
@@ -177,12 +164,39 @@ function autoSeed() {
       for (const t of ['17:30','19:00','20:00']) ins.run(ds, t);
     }
   });
+  runInTx();
+}
 
-  try {
-    runInTx();
-    console.log('Database automatisch gevuld met pakketten en beschikbaarheid.');
-  } catch (e) {
-    console.error('AutoSeed mislukt:', e.message);
+function autoSeed() {
+  const pkgCount = db.prepare('SELECT COUNT(*) AS n FROM packages').get();
+  if (!pkgCount || pkgCount.n === 0) {
+    const runInTx = db.transaction(() => {
+      db.prepare(`INSERT OR REPLACE INTO packages (slug,name,lessons,price,per_hour,saving,featured,active,sort_order) VALUES (@slug,@name,@lessons,@price,@per_hour,@saving,@featured,1,@sort_order)`)
+        .run({ slug:'losse-les', name:'Losse les',       lessons:1, price:6500,  per_hour:6500, saving:'Flexibel',    featured:0, sort_order:1 });
+      db.prepare(`INSERT OR REPLACE INTO packages (slug,name,lessons,price,per_hour,saving,featured,active,sort_order) VALUES (@slug,@name,@lessons,@price,@per_hour,@saving,@featured,1,@sort_order)`)
+        .run({ slug:'pakket-4',  name:'Pakket 4 lessen', lessons:4, price:23000, per_hour:5750, saving:'Bespaar 12%', featured:1, sort_order:2 });
+      db.prepare(`INSERT OR REPLACE INTO packages (slug,name,lessons,price,per_hour,saving,featured,active,sort_order) VALUES (@slug,@name,@lessons,@price,@per_hour,@saving,@featured,1,@sort_order)`)
+        .run({ slug:'pakket-8',  name:'Pakket 8 lessen', lessons:8, price:40000, per_hour:5000, saving:'Bespaar 23%', featured:0, sort_order:3 });
+      db.prepare(`INSERT OR REPLACE INTO digital_products (slug,name,description,price,active) VALUES (@slug,@name,@description,@price,1)`)
+        .run({ slug:'studieplanner', name:'Digitale studieplanner', description:'Een handige digitale studieplanner om je schooljaar overzichtelijk te houden. Direct te downloaden na betaling.', price:1250 });
+    });
+    try {
+      runInTx();
+      console.log('Pakketten en producten toegevoegd.');
+    } catch (e) {
+      console.error('Package seed mislukt:', e.message);
+    }
+  }
+
+  // Seed availability als er minder dan 10 toekomstige slots zijn
+  const futureCount = db.prepare(`SELECT COUNT(*) AS n FROM availability WHERE date >= date('now') AND active=1`).get();
+  if (!futureCount || futureCount.n < 10) {
+    try {
+      seedAvailability();
+      console.log('Beschikbaarheid automatisch aangevuld voor de komende 90 dagen.');
+    } catch (e) {
+      console.error('Availability seed mislukt:', e.message);
+    }
   }
 }
 
